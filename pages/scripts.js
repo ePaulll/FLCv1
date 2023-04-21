@@ -68,31 +68,46 @@ $(document).ready(function() {
 });
 
 
-// $(document).ready(function() {
-//     $("#legs-link").click(function() {
-//       $.ajax({
-//         url: "cards.php",
-//         success: function(result) {
-//           $("#main-content").html(result);
-//         }
-//       });
-//     });
-//   });
   
 
 $(document).ready(function() {
-    $('a[href="cards.php"]').click(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: 'cards.php',
-            type: 'GET',
-            success: function(data) {
-                $('#main-content').html(data);
-            },
-            error: function() {
-                alert('Error loading cards.php');
-            }
-        });
+    $("#legs-link").click(function(e) {
+      e.preventDefault();
+      $('#card-container').load('legexercisecards.php');
     });
   });
   
+  $(document).ready(function() {
+    $("#core-link").click(function(e) {
+      e.preventDefault();
+      $('#card-container').load('coreexercisecards.php');
+    });
+  });
+
+  $(document).ready(function() {
+    $("#arms-link").click(function(e) {
+      e.preventDefault();
+      $('#card-container').load('armsexercisecards.php');
+    });
+  });
+  
+  $(document).ready(function() {
+    $("#shoulders-link").click(function(e) {
+      e.preventDefault();
+      $('#card-container').load('shouldersexercisecards.php');
+    });
+  });
+
+  $(document).ready(function() {
+    $("#chest-link").click(function(e) {
+      e.preventDefault();
+      $('#card-container').load('chestexercisecards.php');
+    });
+  });
+
+  $(document).ready(function() {
+    $("#back-link").click(function(e) {
+      e.preventDefault();
+      $('#card-container').load('backexercisecards.php');
+    });
+  });

@@ -26,8 +26,8 @@ $result = $mysqli->query($sql);
       <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title"><?php echo $row['name']; ?></h5>
-            <p class="card-text"><?php echo $row['description']; ?></p>
+            <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
+            <p class="card-text"><?php echo $row['exercise_description']; ?></p>
             <a href="#" class="btn btn-primary">Learn More</a>
           </div>
         </div>

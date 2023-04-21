@@ -8,5 +8,7 @@
 
   .card {
     width: calc(33.33% - 13.33px);
-    /* Use calc() to subtract the gap between the cards from the width */
+ 
   }
+
+      /* Use calc() to subtract the gap between the cards from the width */

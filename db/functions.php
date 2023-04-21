@@ -3,30 +3,6 @@
 session_start();
 include_once 'dbconn.php';
 
-//register ng user
-// if (isset($_POST['registerusr'])) {
-//   $userEmail = $_POST['usrEmail'];
-//   $userName = $_POST['usrName'];
-//   $userPassword1 = $_POST['usrPassword1'];
-//   $userPassword2 = $_POST['usrPassword2'];
-
-//   if ($userPassword1 !== $userPassword2) {
-//     echo "Passwords do not match.";
-//   } else {
-//     $sql = "INSERT INTO tblregister (userEmail, userName, userPassword) VALUES ('$userEmail', '$userName', '$userPassword1')";
-//     if (mysqli_query($conn, $sql)) {
-//       echo "Registration successful. Redirecting to login page...";
-//       header("Location: ../login.php"); 
-//       exit();
-//     } else {
-//       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-//     }
-//   }
-
-//   mysqli_close($conn);
-// }
-
-
 
 //register ng user
 
@@ -113,6 +89,6 @@ function getUserByEmail($user_email) {
 
 
 
-
-
 ?>
+
+

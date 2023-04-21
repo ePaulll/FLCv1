@@ -1,0 +1,80 @@
+.navbar {
+
+    background-color: #19A7CE;
+}
+
+.navbar-brand {
+    font-size: 25px;
+
+}
+
+body {
+    background-color:#F6F1F1;
+}
+
+footer {
+    background-color: #19A7CE;
+    text-align: center;
+    flex-shrink: 0;
+   
+}
+footer p {
+    margin: 0 10px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+
+
+
+/* loginform */
+
+.container {
+    background: rgba( 255, 255, 255, 0.25 );
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+margin-top: 50px;
+
+}
+
+h2 {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.btn {
+  margin-top: 10px;
+  margin-right: 125px;
+ 
+    
+}
+.form-group{
+    margin-top: 15px;
+}
+
+.form-control {
+    width: 60%;
+    margin: 0 auto; 
+}
+
+.registerlink {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 20px;
+}

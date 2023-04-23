@@ -1,6 +1,10 @@
 <?php
 
+
 session_start();
+$user_id = $_SESSION['user_id'];
+$_SESSION['user_id'] = $user_id;
+
 include_once 'dbconn.php';
 
 
@@ -64,8 +68,10 @@ if(isset($_POST['loginusr'])) {
 
   // str8 to dashboard if satisfied ang needs above
   if(!isset($error)) {
-      $_SESSION['user_id'] = $user['id']; // Store the user ID in the session
+      $_SESSION['user_id'] = $user['user_id']; // Store the user ID in the session
+      echo "User ID set in session: " . $_SESSION['user_id'];
       header('Location: ../pages/dashboard.php');
+      // Debugging code
       exit;
   }
 

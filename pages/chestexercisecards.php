@@ -3,7 +3,7 @@
 require('../db/functions.php');
 include_once '../db/dbconn.php';
 
-
+$_SESSION['user_id'] = $user_id;
 $target_body_part_id = 5; // Change this to the ID of the desired body part
 $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
 

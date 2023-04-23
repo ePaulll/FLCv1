@@ -1,7 +1,7 @@
 <?php
 require('../db/functions.php');
 include_once '../db/dbconn.php';
-
+$_SESSION['user_id'] = $user_id;
 ?>
 
 <!doctype html>
@@ -29,7 +29,7 @@ include_once '../db/dbconn.php';
   <div class="container">
  <div class="row"> 
      <div class="col-sm-12 col-md-6 offset-md-3"> 
-       this is for the routine
+        
       </div>
     </div>
   </div> 

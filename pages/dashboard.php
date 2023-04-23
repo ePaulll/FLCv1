@@ -2,7 +2,7 @@
 require('../db/functions.php');
 include_once '../db/dbconn.php';
 
-
+$_SESSION['user_id'] = $user_id;
 
 ?>
 <!doctype html>
@@ -64,16 +64,10 @@ include_once '../db/dbconn.php';
     </nav>
   </header>
   <main>
-  <div class="main-content" id="main-content"></div>
+ 
   
 <body>
-  <!-- <div class="container">
- <div class="row"> 
-     <div class="col-sm-12 col-md-6 offset-md-3"> 
-
-      </div>
-    </div>
-  </div> -->
+<div class="main-content" id="main-content"></div>
 </body>
 
 

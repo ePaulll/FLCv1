@@ -2,6 +2,8 @@
 require('../db/functions.php');
 include_once '../db/dbconn.php';
 
+$_SESSION['user_id'] = $user_id;
+
 ?>
 
 <!doctype html>
@@ -62,7 +64,7 @@ include_once '../db/dbconn.php';
                             <button type="button" class="btn btn-outline-info">Create Routine</button>
                         
                     </nav>
-
+</div>
                     <div class="card-container" id="card-container"></div>
 
 

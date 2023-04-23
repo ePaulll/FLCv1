@@ -4,12 +4,7 @@ require('../db/functions.php');
 require_once '../db/dbconn.php';
 
 
-function fetch_exercises_by_body_part($conn, $target_body_part_id) {
-  $sql = "SELECT * FROM tbl_exercises WHERE body_part_id = $target_body_part_id";
-  $result = $conn->query($sql);
 
-  return $result;
-}
 $target_body_part_id = 3; // Change this to the ID of the desired body part
 $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
 

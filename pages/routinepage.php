@@ -26,10 +26,27 @@ $_SESSION['user_id'] = $user_id;
   <main>
 
 <body>
+  
   <div class="container">
  <div class="row"> 
-     <div class="col-sm-12 col-md-6 offset-md-3"> 
-        
+   
+        Your routines
+
+        <div class="list-group">
+  <label class="list-group-item">
+    <input type="checkbox" name="exercise[]" value="push-up">
+    
+  </label>
+  <label class="list-group-item">
+    <input type="checkbox" name="exercise[]" value="squats">
+   
+  </label>
+  <label class="list-group-item">
+    <input type="checkbox" name="exercise[]" value="crunches">
+  
+  </label>
+</div>
+
       </div>
     </div>
   </div> 

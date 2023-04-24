@@ -3,7 +3,7 @@
 
 session_start();
 $user_id = $_SESSION['user_id'];
-$_SESSION['user_id'] = $user_id;
+$_SESSION['user_id'] = $user_id;  
 
 include_once 'dbconn.php';
 
@@ -100,6 +100,27 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
   $result = $conn->query($sql);
 
   return $result;
+}
+
+
+
+if (isset($_POST['create_routine'])) {
+  $user_id = $_SESSION['user_id'];
+
+  
+  $routine_name = filter_var($_POST['routine_name'], FILTER_SANITIZE_STRING);
+  if (empty($routine_name)) {
+      $error = "Please enter a routine name.";
+  }
+
+  // If input is valid, create routine
+  if (!isset($error)) {
+      $sql = "INSERT INTO tbl_routines (user_id, routine_name) VALUES (?, ?)";
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute([$user_id, $routine_name]);
+      header("Location: routinepage.php");
+      exit;
+  }
 }
 
 ?>

@@ -25,7 +25,6 @@ $_SESSION['user_id'] = $user_id;
 
 
 
-<main>
 
     <body>
         <div class="container">
@@ -60,29 +59,36 @@ $_SESSION['user_id'] = $user_id;
                                 aria-label="Search" name="q">
                             <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
                         </form>
-                        
-                            <button type="button" class="btn btn-outline-info">Create Routine</button>
-                        
+                        <button type="button" id="modalButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">
+  Launch demo modal
+</button>
                     </nav>
-</div>
+                    </div>
                     <div class="card-container" id="card-container"></div>
-
-
                 </div>
-
-
-
             </div>
         </div>
         <!-- </div>  -->
-
+ <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     </body>
-
-
-
-
-</main>
 <footer>
 
 </footer>
@@ -95,6 +101,16 @@ $_SESSION['user_id'] = $user_id;
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('#modalButton').click(function() {
+            $('#exampleModal').modal('show');
+        })
+
+    })
+</script>                            
+
 </body>
 
 </html>

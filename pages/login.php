@@ -1,7 +1,7 @@
 <?php
 require('../db/functions.php');
 include_once '../db/dbconn.php';
-
+ini_set('display_errors', 0);
 
 ?>
 

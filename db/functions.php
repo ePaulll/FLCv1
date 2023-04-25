@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 $user_id = $_SESSION['user_id'];
 $_SESSION['user_id'] = $user_id;  
@@ -104,24 +103,23 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
 
 
 
-if (isset($_POST['create_routine'])) {
+if (isset($_POST['insertroutine'])) {
+  // Get the input data from the form
+  $routinenamevalue = $_POST['routinenamefield'];
   $user_id = $_SESSION['user_id'];
+  // Insert the input data into the database
+  $sql = "INSERT INTO tbl_routines (user_id, routine_name) VALUES ('$user_id','$routinenamevalue')";
+  $result = mysqli_query($conn, $sql);
 
-  
-  $routine_name = filter_var($_POST['routine_name'], FILTER_SANITIZE_STRING);
-  if (empty($routine_name)) {
-      $error = "Please enter a routine name.";
-  }
-
-  // If input is valid, create routine
-  if (!isset($error)) {
-      $sql = "INSERT INTO tbl_routines (user_id, routine_name) VALUES (?, ?)";
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute([$user_id, $routine_name]);
-      header("Location: routinepage.php");
-      exit;
+  if(mysqli_affected_rows($conn) > 0) {
+    echo $result;
+  } else {
+    echo "Data not inserted";
   }
 }
+
+
+
 
 ?>
 

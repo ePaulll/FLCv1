@@ -113,4 +113,54 @@ $(document).ready(function() {
   });
 
 
+
+  $(document).ready(function() {
+    $('#modalButton').click(function() {
+        $('#routinemodal').modal('show');
+    })
+
+})
  
+
+
+// function submitRoutineForm() {
+//   // para makuha form data
+//   var formData = $('#routine-name-form').serialize();
+  
+//   // Send yung form data papunta php gamit ajax
+//   $.ajax({
+//     url: '../db/functions.php',
+//     type: 'POST',
+//     data: formData,
+//     success: function(response) {
+//       // Handle the response from the PHP script
+//       alert("Data inserted successfully!");
+//       $('#routinemodal').modal('hide');
+//     },
+//     error: function(xhr, status, error) {
+//       // Handle errors
+//       alert("Data insertion failed");
+//     }
+//   });
+// }
+
+$(document).ready(function() {
+$('#insertroutine').click(function() {
+  // Get the form data
+  var formData = $('#routine-name-form').serialize();
+  // Send the form data to the PHP script using AJAX
+  $.ajax({
+    url: '../db/functions.php',
+    type: 'POST',
+    data: formData,
+    success: function(response) {
+      // Handle the response from the PHP script
+      alert("Data inserted successfully");
+    },
+    error: function(xhr, status, error) {
+      // Handle errors
+      alert("Data insertion failed");
+    }
+    });
+  });
+});

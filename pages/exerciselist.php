@@ -4,6 +4,8 @@ include_once '../db/dbconn.php';
 
 $_SESSION['user_id'] = $user_id;
 
+
+
 ?>
 
 <!doctype html>
@@ -60,7 +62,7 @@ $_SESSION['user_id'] = $user_id;
                             <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
                         </form>
                         <button type="button" id="modalButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal">
-  Launch demo modal
+  Create Routine
 </button>
                     </nav>
                     </div>
@@ -70,24 +72,26 @@ $_SESSION['user_id'] = $user_id;
         </div>
         <!-- </div>  -->
  <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="routinemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h5 class="modal-title" id="exampleModalLabel">Create Routine</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+      <form id="routine-name-form" name="routine-name-form" method="POST">
+        <input type="text" class="form-control" placeholder="Enter Routine name" id="routinenamefield" name="routinenamefield">
+      
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" id="insertroutine" name="insertroutine">Submit</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
-
     </body>
 <footer>
 
@@ -102,14 +106,7 @@ $_SESSION['user_id'] = $user_id;
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
 </script>
 
-<script>
-    $(document).ready(function() {
-        $('#modalButton').click(function() {
-            $('#exampleModal').modal('show');
-        })
-
-    })
-</script>                            
+                       
 
 </body>
 

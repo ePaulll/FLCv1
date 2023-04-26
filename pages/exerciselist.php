@@ -25,7 +25,7 @@ if (isset($_POST['routineName'])) {
 
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>

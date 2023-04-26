@@ -140,6 +140,11 @@ $(document).ready(function() {
 
 
 // sa add to routine
+
+
+
+
+
 $(document).ready(function() {
   // Handle "Add to Routine" button click
   $('.add-to-routine-btn').click(function() {
@@ -171,3 +176,31 @@ $(document).ready(function() {
   });
 });
 
+
+
+$(document).ready(function() {
+  $("#card-btn").click(function() {
+    $('.modal').appendTo("body");
+  });
+});
+
+
+
+
+// $(document).ready(function() {
+//   // Handle "Add to Routine" button click
+//   $('#card-btn').click(function() {
+//     var exercise_id = $(this).data('exercise-id');
+//     console.log(exercise_id);
+//   });
+  
+//     // Handle "Add to Routine" form submission
+//     $('#add-to-routine-submit-btn').click(function() {
+//       var routine_id = $('#routine-select').val();
+//       console.log(routine_id);
+//     });
+//   });
+
+//   $(document).on('show.bs.modal', '.modal', function () {
+//     $(this).appendTo('body');
+//   });

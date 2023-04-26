@@ -1,10 +1,9 @@
 <?php
-
-session_start();
-$user_id = $_SESSION['user_id'];
-$_SESSION['user_id'] = $user_id;  
-
 include_once 'dbconn.php';
+session_start();
+$user_id = $_SESSION['user_id'];// retrieve the user_id from the session variable
+$_SESSION['user_id'] = $user_id;  // store the user_id in the session variable
+ 
 
 
 //register ng user
@@ -103,20 +102,20 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
 
 
 
-if (isset($_POST['insertroutine'])) {
-  // Get the input data from the form
-  $routinenamevalue = $_POST['routinenamefield'];
+if (isset($_POST['routinenamefield'])) {
+  $routinename = $_POST['routinenamefield'];
   $user_id = $_SESSION['user_id'];
-  // Insert the input data into the database
-  $sql = "INSERT INTO tbl_routines (user_id, routine_name) VALUES ('$user_id','$routinenamevalue')";
+  $sql = "INSERT INTO tbl_routines (user_id, routine_name) 
+          VALUES ('$user_id','$routinename')";
   $result = mysqli_query($conn, $sql);
 
   if(mysqli_affected_rows($conn) > 0) {
-    echo $result;
+    echo "Success!";
   } else {
-    echo "Data not inserted";
+    echo "Error: data not inserted";
   }
 }
+
 
 
 

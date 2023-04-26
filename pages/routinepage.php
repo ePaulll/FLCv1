@@ -2,6 +2,7 @@
 require('../db/functions.php');
 include_once '../db/dbconn.php';
 $_SESSION['user_id'] = $user_id;
+session_start();
 ?>
 
 <!doctype html>

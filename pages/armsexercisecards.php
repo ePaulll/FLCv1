@@ -2,7 +2,7 @@
 <?php
 require('../db/functions.php');
 require_once '../db/dbconn.php';
-
+session_start();
 $_SESSION['user_id'] = $user_id;
 
 $target_body_part_id = 3; // Change this to the ID of the desired body part
@@ -31,17 +31,6 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
 <body>
 
 
-<!-- <div class="card-container">
-    <div class="card">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title"></h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-    
-  </div> -->
 
 
   <div class="card-container">

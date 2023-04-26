@@ -40,3 +40,69 @@ $result = $mysqli->query($sql);
 // Close the connection
 $mysqli->close();
 ?>
+
+
+
+
+
+<div class="modal fade" id="routinemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Routine</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form id="routine-name-form" name="routine-name-form" method="POST" action="../db/functions.php">
+        <input type="text" class="form-control" placeholder="Enter Routine name" id="routinenamefield" name="routinenamefield">
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" id="insertroutine" name="insertroutine">Submit</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+if (isset($_POST['insertroutine'])) {
+
+$routinenamevalue = $_POST['routinenamefield'];
+$user_id = $_SESSION['user_id'];
+
+$sql = "INSERT INTO tbl_routines (user_id, routine_name) VALUES ('$user_id','$routinenamevalue')";
+$result = mysqli_query($conn, $sql);
+
+if(mysqli_affected_rows($conn) > 0) {
+  echo "Routine Successfully created";
+} else {
+  echo "Data not inserted";
+}
+}
+
+
+
+$(document).ready(function() {
+$('#insertroutine').click(function() {
+  // Get the form data
+  var formData = $('#routine-name-form').serialize();
+  // Send the form data to the PHP script using AJAX
+  $.ajax({
+    url: '../db/functions.php',
+    type: 'POST',
+    data: formData,
+    success: function(response) {
+      // Handle the response from the PHP script
+      alert("Data inserted successfully");
+    },
+    error: function(xhr, status, error) {
+      // Handle errors
+      alert("Data insertion failed");
+    }
+    });
+  });
+});

@@ -15,7 +15,7 @@ $(function() {
     });
   }); //click here is clicked = go to register page
 
-
+// lipat page sa navbar
   $(document).ready(function() {
     $('a[href="routinepage.php"]').click(function(event) {
         event.preventDefault();
@@ -69,7 +69,7 @@ $(document).ready(function() {
 
 
   
-
+// lipat ng page sa exercise list
 $(document).ready(function() {
     $("#legs-link").click(function(e) {
       e.preventDefault();
@@ -114,53 +114,60 @@ $(document).ready(function() {
 
 
 
-  $(document).ready(function() {
-    $('#modalButton').click(function() {
-        $('#routinemodal').modal('show');
-    })
 
-})
- 
-
-
-// function submitRoutineForm() {
-//   // para makuha form data
-//   var formData = $('#routine-name-form').serialize();
-  
-//   // Send yung form data papunta php gamit ajax
-//   $.ajax({
-//     url: '../db/functions.php',
-//     type: 'POST',
-//     data: formData,
-//     success: function(response) {
-//       // Handle the response from the PHP script
-//       alert("Data inserted successfully!");
-//       $('#routinemodal').modal('hide');
-//     },
-//     error: function(xhr, status, error) {
-//       // Handle errors
-//       alert("Data insertion failed");
-//     }
-//   });
-// }
-
+// sa pag create ng routine
 $(document).ready(function() {
-$('#insertroutine').click(function() {
-  // Get the form data
-  var formData = $('#routine-name-form').serialize();
-  // Send the form data to the PHP script using AJAX
-  $.ajax({
-    url: '../db/functions.php',
-    type: 'POST',
-    data: formData,
-    success: function(response) {
-      // Handle the response from the PHP script
-      alert("Data inserted successfully");
-    },
-    error: function(xhr, status, error) {
-      // Handle errors
-      alert("Data insertion failed");
-    }
+  $('#createRoutineBtn').click(function() {
+      var formData = $('#routineform').serialize();
+      $.ajax({
+          url: '../db/functions.php', 
+          type: 'POST',
+          data: formData,
+          success: function(response) {
+         
+              console.log(response);
+              $('#routinenamefield').val(''); // clear ng form
+          },
+          error: function(xhr, status, error) {
+              
+              console.log(error);
+          }
+      });
+  });
+});
+
+
+
+
+// sa add to routine
+$(document).ready(function() {
+  // Handle "Add to Routine" button click
+  $('.add-to-routine-btn').click(function() {
+    var exercise_id = $(this).data('exercise-id');
+    
+    // Update the form action to submit to the appropriate PHP script
+    $('#add-to-routine-form').attr('action', '../db/functions.php?exercise_id=' + exercise_id);
+  });
+  
+  // Handle "Add to Routine" form submission
+  $('#add-to-routine-btn').click(function() {
+    var routine_id = $('#routine-select').val();
+    $.ajax({
+      url: $('#add-to-routine-form').attr('action'),
+      type: 'POST',
+      data: {
+        'routine_id': routine_id
+      },
+      success: function(response) {
+        // handle success
+        console.log(response);
+        $('#addToRoutineModal').modal('hide'); // hide the modal
+      },
+      error: function(xhr, status, error) {
+        // handle error
+        console.log(error);
+      }
     });
   });
 });
+

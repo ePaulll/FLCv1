@@ -2,7 +2,7 @@
 <?php
 require('../db/functions.php');
 require_once '../db/dbconn.php';
-
+session_start();
 $_SESSION['user_id'] = $user_id;
 
 $target_body_part_id = 4; // Change this to the ID of the desired body part

@@ -18,9 +18,7 @@ if (isset($_POST['routineName'])) {
     } else {
       echo "Error: data not inserted";
     }
-  } else {
-    echo "Error: form data not received";
-  }
+  } 
   
 
 ?>

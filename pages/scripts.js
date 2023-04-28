@@ -139,47 +139,12 @@ $(document).ready(function() {
 
 
 
-// sa add to routine
 
 
 
-
-
+//fix ng bug modal sa add to routine button
 $(document).ready(function() {
-  // Handle "Add to Routine" button click
-  $('.add-to-routine-btn').click(function() {
-    var exercise_id = $(this).data('exercise-id');
-    
-    // Update the form action to submit to the appropriate PHP script
-    $('#add-to-routine-form').attr('action', '../db/functions.php?exercise_id=' + exercise_id);
-  });
-  
-  // Handle "Add to Routine" form submission
-  $('#add-to-routine-btn').click(function() {
-    var routine_id = $('#routine-select').val();
-    $.ajax({
-      url: $('#add-to-routine-form').attr('action'),
-      type: 'POST',
-      data: {
-        'routine_id': routine_id
-      },
-      success: function(response) {
-        // handle success
-        console.log(response);
-        $('#addToRoutineModal').modal('hide'); // hide the modal
-      },
-      error: function(xhr, status, error) {
-        // handle error
-        console.log(error);
-      }
-    });
-  });
-});
-
-
-
-$(document).ready(function() {
-  $("#card-btn").click(function() {
+  $(".card-btn").click(function() {
     $('.modal').appendTo("body");
   });
 });
@@ -187,20 +152,113 @@ $(document).ready(function() {
 
 
 
+
+
+
+// sa add ng exercise to routine
+
 // $(document).ready(function() {
-//   // Handle "Add to Routine" button click
-//   $('#card-btn').click(function() {
-//     var exercise_id = $(this).data('exercise-id');
-//     console.log(exercise_id);
-//   });
-  
-//     // Handle "Add to Routine" form submission
-//     $('#add-to-routine-submit-btn').click(function() {
-//       var routine_id = $('#routine-select').val();
-//       console.log(routine_id);
-//     });
+//   $('.card-btn').click(function() {
+//     var exerciseId = $(this).data('exercise-id');
+//     console.log('id get success')
+//     // Store the exerciseId in a hidden input field in the form
+//     $('#exercise-id').val(exerciseId);
 //   });
 
-//   $(document).on('show.bs.modal', '.modal', function () {
-//     $(this).appendTo('body');
+//   // Handle form submission using Ajax
+//   $('#add-to-routine-btn').click(function() {
+//     // Get the form data
+//     var routineId = $('#routine-select').val();
+//     var sets = $('#sets-input').val();
+//     var reps = $('#reps-input').val();
+//     var weight = $('#weight-input').val();
+
+//     // Create an object with the form data
+//     var formData = {
+//       'routine-select': routineId,
+//       'exercise-id': $('#exercise-id').val(),
+//       'sets-input': sets,
+//       'reps-input': reps,
+//       'weight-input': weight
+//     };
+
+//     // Perform Ajax request
+//     $.ajax({
+//       url: '../db/functions.php', // Path to your PHP script for inserting data
+//       type: 'POST',
+//       data: formData,
+//       success: function(response) {
+//         // Handle the response from the server
+//         console.log(response);
+//         console.log('success');
+//         // You can perform additional actions here, such as displaying a success message or refreshing the page
+//       },
+//       error: function(xhr, status, error) {
+//         // Handle any errors that occur during the Ajax request
+//         console.error(error);
+//         console.log('failed');
+//         // You can display an error message or perform other error handling actions
+//       }
+//     });
 //   });
+// });
+
+
+$(document).ready(function() {
+  $('.card-btn').click(function() {
+    var exerciseId = $(this).data('exercise-id');
+    console.log('id get success');
+    // Store the exerciseId in a hidden input field in the form
+    $('#exercise-id').val(exerciseId);
+  });
+
+  // Handle form submission using Ajax
+  $('#add-to-routine-btn').click(function() {
+    // Get the form data
+    var routineId = $('#routine-select').val();
+    var sets = $('#sets-input').val();
+    var reps = $('#reps-input').val();
+    var weight = $('#weight-input').val();
+
+    // Create an object with the form data
+    var formData = {
+      'routine-select': routineId,
+      'exercise-id': $('#exercise-id').val(),
+      'sets-input': sets,
+      'reps-input': reps,
+      'weight-input': weight
+    };
+
+    // Perform Ajax request
+    $.ajax({
+      url: '../db/functions.php', // Path to your PHP script for inserting data
+      type: 'POST',
+      data: formData,
+      success: function(response) {
+        // Handle the response from the server
+        console.log(response);
+        console.log('success');
+
+        // Close the modal
+        $('#addToRoutineModal').modal('hide');
+
+        // Clear the form fields
+        $('#routine-select').val('');
+        $('#sets-input').val('');
+        $('#reps-input').val('');
+        $('#weight-input').val('');
+
+        // Remove the gray overlay manually
+        $('.modal-backdrop').remove();
+
+        // You can perform additional actions here, such as displaying a success message or refreshing the page
+      },
+      error: function(xhr, status, error) {
+        // Handle any errors that occur during the Ajax request
+        console.error(error);
+        console.log('failed');
+        // You can display an error message or perform other error handling actions
+      }
+    });
+  });
+});

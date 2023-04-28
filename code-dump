@@ -183,3 +183,41 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
+
+   <!-- Add to Routine Modal --> OG
+
+<!-- <div class="modal fade" id="addToRoutineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose Routine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-to-routine-form" action="">
+                    <div class="mb-3">
+                        <label for="routine-select" class="form-label">Select Routine:</label>
+                        <select class="form-select" id="routine-select">
+                            <?php 
+                                  // Retrieve user's routines from database
+                                  $routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
+                                  $routines_result = mysqli_query($conn, $routines_query);
+                                  
+                                  // Generate an option for each routine
+                                  while ($routine_row = mysqli_fetch_assoc($routines_result)) {
+                                    echo "<option value='" . $routine_row['routine_id'] . "'>" . $routine_row['routine_name'] . "</option>";
+                                  }
+                                ?>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="add-to-routine-btn">Add to Routine</button>
+            </div>
+        </div>
+    </div>
+</div> -->

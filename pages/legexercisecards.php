@@ -38,18 +38,14 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
             <div class="card-body">
                 <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
-                <a href="#" class="btn btn-primary" id="card-btn" data-bs-toggle="modal"
-                    data-bs-target="#addToRoutineModal"> Add to Routine</a>
+                <a href="#" class="btn btn-primary card-btn" id="card-btn" data-bs-toggle="modal"
+                    data-bs-target="#addToRoutineModal"  data-exercise-id="<?php echo $row['exercise_id']; ?>"> Add to Routine</a>
             </div>
         </div>
         <?php } ?>
     </div>
 
 
-
-
-
-    <!-- Add to Routine Modal -->
 
 <div class="modal fade" id="addToRoutineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -59,31 +55,47 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="add-to-routine-form" action="">
+                <form id="add-to-routine-form" action="../db/functions.php" method="POST">
                     <div class="mb-3">
                         <label for="routine-select" class="form-label">Select Routine:</label>
-                        <select class="form-select" id="routine-select">
+                        <select class="form-select" id="routine-select" name="routine-select">
                             <?php 
-                                  // Retrieve user's routines from database
-                                  $routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
-                                  $routines_result = mysqli_query($conn, $routines_query);
-                                  
-                                  // Generate an option for each routine
-                                  while ($routine_row = mysqli_fetch_assoc($routines_result)) {
+                                // Retrieve user's routines from database
+                                $routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
+                                $routines_result = mysqli_query($conn, $routines_query);
+
+                                // Generate an option for each routine
+                                while ($routine_row = mysqli_fetch_assoc($routines_result)) {
                                     echo "<option value='" . $routine_row['routine_id'] . "'>" . $routine_row['routine_name'] . "</option>";
-                                  }
-                                ?>
+                                }
+                            ?>
                         </select>
                     </div>
-                </form>
+                    <div class="mb-3">
+                        <label for="sets-input" class="form-label">Sets:</label>
+                        <input type="number" class="form-control" id="sets-input" name="sets-input" placeholder="Enter how many sets">
+                    </div>
+                    <div class="mb-3">
+                        <label for="reps-input" class="form-label">Reps:</label>
+                        <input type="number" class="form-control" id="reps-input" name="reps-input" placeholder="Enter how many reps for this exercise">
+                    </div>
+                    <div class="mb-3">
+                        <label for="weight-input" class="form-label">Weight:</label>
+                        <input type="number" class="form-control" id="weight-input" name="weight-input" placeholder="Enter weight in kg">
+                    </div>
+                
             </div>
+            <input type="hidden" id="exercise-id" name="exercise-id">
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="add-to-routine-btn">Add to Routine</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success" id="add-to-routine-btn">Confirm</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+
 </body>
 
 

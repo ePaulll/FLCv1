@@ -221,3 +221,147 @@ $(document).ready(function() {
         </div>
     </div>
 </div> -->
+
+
+
+<div class="container">
+            <div class="accordion" id="routineAccordion">
+                <?php
+ // Retrieve user's routines from the database
+$routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
+$routines_result = mysqli_query($conn, $routines_query);
+
+// Check if the query was executed successfully
+if ($routines_result) {
+  echo "<div id='accordion'>";
+
+  while ($routine_row = mysqli_fetch_assoc($routines_result)) {
+    $routine_id = $routine_row['routine_id'];
+    $routine_name = $routine_row['routine_name'];
+
+    // Retrieve exercises for the current routine
+    $exercises_query = "SELECT * FROM tbl_routine_exercises WHERE routine_id = $routine_id";
+    $exercises_result = mysqli_query($conn, $exercises_query);
+
+    // Start the accordion item for the current routine
+    echo "<div class='accordion-item'>";
+    echo "<h2 class='accordion-header' id='heading{$routine_id}'>";
+    echo "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse{$routine_id}' aria-expanded='true' aria-controls='collapse{$routine_id}'>";
+    echo "{$routine_name}";
+    echo "</button>";
+    echo "</h2>";
+    echo "<div id='collapse{$routine_id}' class='accordion-collapse collapse show' aria-labelledby='heading{$routine_id}' data-bs-parent='#accordion'>";
+
+    // Check if there are exercises for the current routine
+    if ($exercises_result && mysqli_num_rows($exercises_result) > 0) {
+      echo "<div class='accordion-body'>";
+      echo "<ul class='list-group'>";
+
+      while ($exercise_row = mysqli_fetch_assoc($exercises_result)) {
+        $exercise_id = $exercise_row['exercise_id'];
+        $exercise_sets = $exercise_row['exercise_sets'];
+        $exercise_reps = $exercise_row['exercise_reps'];
+        $exercise_weight = $exercise_row['exercise_weight'];
+
+        // Retrieve exercise details using exercise_id
+        $exercise_query = "SELECT exercise_name FROM tbl_exercises WHERE exercise_id = $exercise_id";
+        $exercise_result = mysqli_query($conn, $exercise_query);
+
+        if ($exercise_result && mysqli_num_rows($exercise_result) > 0) {
+          $exercise_data = mysqli_fetch_assoc($exercise_result);
+          $exercise_name = $exercise_data['exercise_name'];
+
+          // Display the exercise details
+          echo "<li class='list-group-item'>";
+          echo "<h5>{$exercise_name}</h5>";
+          echo "<p>Sets: {$exercise_sets}</p>";
+          echo "<p>Reps: {$exercise_reps}</p>";
+          echo "<p>Weight: {$exercise_weight}</p>";
+          echo "</li>";
+        } else {
+          echo "<li class='list-group-item'>Exercise details not found</li>";
+        }
+      }
+
+      echo "</ul>";
+      echo "</div>";
+    } else {
+      echo "<div class='accordion-body'>";
+      echo "<p>No exercises found for this routine</p>";
+      echo "</div>";
+    }
+
+    // Close the accordion item for the current routine
+    echo "</div>";
+    echo "</div>";
+  }
+
+  echo "</div>";
+} else {
+  echo "Error executing the query: " . mysqli_error($conn);
+}
+
+  ?>
+            </div>
+
+        </div>
+
+
+        <?php
+// Retrieve user's routines from the database
+$routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
+$routines_result = mysqli_query($conn, $routines_query);
+
+// Check if the query was executed successfully
+if ($routines_result && mysqli_num_rows($routines_result) > 0) {
+    while ($routine_row = mysqli_fetch_assoc($routines_result)) {
+        $routine_id = $routine_row['routine_id'];
+        $routine_name = $routine_row['routine_name'];
+        ?>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><?php echo $routine_name; ?></h5>
+                <ul class="list-group">
+                    <?php
+                    // Retrieve exercises for the current routine
+                    $exercises_query = "SELECT re.*, e.exercise_name 
+                                        FROM tbl_routine_exercises re
+                                        INNER JOIN tbl_exercises e ON re.exercise_id = e.exercise_id
+                                        WHERE re.routine_id = $routine_id";
+                    $exercises_result = mysqli_query($conn, $exercises_query);
+
+
+                    if ($exercises_result && mysqli_num_rows($exercises_result) > 0) {
+                        while ($exercise_row = mysqli_fetch_assoc($exercises_result)) {
+                            $exercise_name = $exercise_row['exercise_name'];
+                            $exercise_sets = $exercise_row['exercise_sets'];
+                            $exercise_reps = $exercise_row['exercise_reps'];
+                            $exercise_weight = $exercise_row['exercise_weight'];
+                            ?>
+
+                            <li class="list-group-item">
+                                <h6 class="mb-1"><?php echo $exercise_name; ?></h6>
+                                <p class="mb-0">Sets: <?php echo $exercise_sets; ?></p>
+                                <p class="mb-0">Reps: <?php echo $exercise_reps; ?></p>
+                                <p class="mb-0">Weight: <?php echo $exercise_weight; ?></p>
+                                <button class="btn btn-primary">Edit</button>
+                                <button class="btn btn-primary">Remove</button>
+                            </li>
+
+                            <?php
+                        }
+                    } else {
+                        echo "<li class='list-group-item'>No exercises found for this routine</li>";
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+
+        <?php
+    }
+} else {
+    echo "<p>No routines found for this user</p>";
+}
+?>

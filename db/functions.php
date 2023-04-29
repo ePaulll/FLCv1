@@ -121,29 +121,6 @@ if (isset($_POST['routinenamefield'])) {
 
 // sa pag add ng exercise sa routine
 
-// Check if the required POST variables are set
-// if (isset($_POST['routine_id'], $_POST['reps-input'], $_POST['weight-input'], $_POST['sets-input'])) {
-//   // Retrieve the data from the AJAX request
-//   $routineId = $_POST['routine_id'];
-//   $reps = $_POST['reps-input'];
-//   $weight = $_POST['weight-input'];
-//   $sets = $_POST['sets-input'];
-
-//   // Perform the database insertion
-//   $sql = "INSERT INTO tbl_routine_exercises (routine_id, exercise_sets, exercise_reps, exercise_weight) 
-//                   VALUES ('$routineId', '$sets', '$reps', '$weight')";
-
-//   if (mysqli_query($conn, $sql)) {
-//     // Data was successfully inserted
-//     echo 'success';
-//   } else {
-//     // There was an error inserting the data
-//     echo 'error inserting data';
-//   }
-// } else {
-//   // Required POST variables are missing
-//   echo 'error variables are missing';
-// }
 
 if (isset($_POST['routine-select'], $_POST['exercise-id'],$_POST['sets-input'], $_POST['reps-input'], $_POST['weight-input'])) {
   // Get the submitted form data
@@ -153,7 +130,7 @@ if (isset($_POST['routine-select'], $_POST['exercise-id'],$_POST['sets-input'], 
   $reps = $_POST['reps-input'];
   $weight = $_POST['weight-input'];
  
-  // Perform your database insertion here
+  
 
   $sql = "INSERT INTO tbl_routine_exercises (routine_id, exercise_id, exercise_sets, exercise_reps, exercise_weight)
           VALUES ('$routineId', '$exerciseId', '$sets', '$reps', '$weight')";

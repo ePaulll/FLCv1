@@ -150,60 +150,7 @@ $(document).ready(function() {
 });
 
 
-
-
-
-
-
-// sa add ng exercise to routine
-
-// $(document).ready(function() {
-//   $('.card-btn').click(function() {
-//     var exerciseId = $(this).data('exercise-id');
-//     console.log('id get success')
-//     // Store the exerciseId in a hidden input field in the form
-//     $('#exercise-id').val(exerciseId);
-//   });
-
-//   // Handle form submission using Ajax
-//   $('#add-to-routine-btn').click(function() {
-//     // Get the form data
-//     var routineId = $('#routine-select').val();
-//     var sets = $('#sets-input').val();
-//     var reps = $('#reps-input').val();
-//     var weight = $('#weight-input').val();
-
-//     // Create an object with the form data
-//     var formData = {
-//       'routine-select': routineId,
-//       'exercise-id': $('#exercise-id').val(),
-//       'sets-input': sets,
-//       'reps-input': reps,
-//       'weight-input': weight
-//     };
-
-//     // Perform Ajax request
-//     $.ajax({
-//       url: '../db/functions.php', // Path to your PHP script for inserting data
-//       type: 'POST',
-//       data: formData,
-//       success: function(response) {
-//         // Handle the response from the server
-//         console.log(response);
-//         console.log('success');
-//         // You can perform additional actions here, such as displaying a success message or refreshing the page
-//       },
-//       error: function(xhr, status, error) {
-//         // Handle any errors that occur during the Ajax request
-//         console.error(error);
-//         console.log('failed');
-//         // You can display an error message or perform other error handling actions
-//       }
-//     });
-//   });
-// });
-
-
+// add exercise to routine
 $(document).ready(function() {
   $('.card-btn').click(function() {
     var exerciseId = $(this).data('exercise-id');
@@ -212,15 +159,15 @@ $(document).ready(function() {
     $('#exercise-id').val(exerciseId);
   });
 
-  // Handle form submission using Ajax
+ 
   $('#add-to-routine-btn').click(function() {
-    // Get the form data
+    
     var routineId = $('#routine-select').val();
     var sets = $('#sets-input').val();
     var reps = $('#reps-input').val();
     var weight = $('#weight-input').val();
 
-    // Create an object with the form data
+    
     var formData = {
       'routine-select': routineId,
       'exercise-id': $('#exercise-id').val(),
@@ -229,17 +176,17 @@ $(document).ready(function() {
       'weight-input': weight
     };
 
-    // Perform Ajax request
+   
     $.ajax({
-      url: '../db/functions.php', // Path to your PHP script for inserting data
+      url: '../db/functions.php', 
       type: 'POST',
       data: formData,
       success: function(response) {
-        // Handle the response from the server
+     
         console.log(response);
         console.log('success');
 
-        // Close the modal
+        
         $('#addToRoutineModal').modal('hide');
 
         // Clear the form fields
@@ -248,17 +195,48 @@ $(document).ready(function() {
         $('#reps-input').val('');
         $('#weight-input').val('');
 
-        // Remove the gray overlay manually
+        // Remove the gray overlay manually dahil nagloloko 
         $('.modal-backdrop').remove();
 
-        // You can perform additional actions here, such as displaying a success message or refreshing the page
+        
       },
       error: function(xhr, status, error) {
-        // Handle any errors that occur during the Ajax request
+        
         console.error(error);
         console.log('failed');
-        // You can display an error message or perform other error handling actions
+        
       }
     });
   });
 });
+
+
+// buttons sa routines
+
+$(document).ready(function() {
+    // Function to initialize modals
+    function initializeModals() {
+        // Add event listener to "Edit" buttons
+        $('.btn-edit').on('click', function() {
+            var exerciseId = $(this).data('exercise-id');
+            $('#editModal-' + exerciseId).modal('show');
+        });
+
+        // Add event listener to "Save" buttons
+        $('.btn-save').on('click', function() {
+            var exerciseId = $(this).data('exercise-id');
+            var sets = $('#sets-' + exerciseId).val();
+            var weight = $('#weight-' + exerciseId).val();
+
+            // Perform your save operation here
+            // ...
+
+            // Close the modal
+            $('#editModal-' + exerciseId).modal('hide');
+        });
+    }
+
+    // Call the function to initialize modals
+    initializeModals();
+});
+

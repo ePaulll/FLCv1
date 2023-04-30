@@ -483,3 +483,180 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
 //     // Call the function to initialize modals
 //     initializeModals();
 // });
+
+
+
+
+
+
+ <!-- <div class="modal fade" id="editModal-<?php echo $exercise_id; ?>" tabindex="-1" role="dialog"
+                aria-labelledby="editModalLabel-<?php echo $exercise_id; ?>" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel-<?php echo $exercise_id; ?>">Edit your records
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <form>
+                                <div class="form-group">
+                                    <label for="sets-<?php echo $exercise_id; ?>">Sets</label>
+                                    <input type="number" class="form-control" id="sets-<?php echo $exercise_id; ?>"
+                                        value="<?php echo $exercise_sets; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reps-<?php echo $exercise_id; ?>">Reps</label>
+                                    <input type="number" class="form-control" id="reps-<?php echo $exercise_id; ?>"
+                                        value="<?php echo $exercise_reps; ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="weight-<?php echo $exercise_id; ?>">Weight</label>
+                                    <input type="number" class="form-control" id="weight-<?php echo $exercise_id; ?>"
+                                        value="<?php echo $exercise_weight; ?>">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success" id="createRoutineBtn" name="createRoutineBtn"
+                                data-bs-dismiss="modal">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div> --> gumagna to 
+
+
+                <!-- <button class="btn btn-primary btn-edit" data-bs-toggle="modal"
+                                data-bs-target="#editModal-<?php echo $exercise_id; ?>">Edit</button> -->
+
+
+                                
+            <!-- <div class="modal fade" id="editModal-<?php echo $exercise_id; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                aria-hidden="true"> -->
+
+
+                 <!-- <button class="btn btn-primary btn-edit" data-bs-toggle="modal" data-bs-target="#editModal" data-exercise-id="<?php echo $exercise_id; ?>">Edit</button> -->
+
+
+
+
+
+
+                 <?php
+// Retrieve user's routines from the database
+$routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
+$routines_result = mysqli_query($conn, $routines_query);
+
+// Check if the query was executed successfully
+if ($routines_result && mysqli_num_rows($routines_result) > 0) {
+    while ($routine_row = mysqli_fetch_assoc($routines_result)) {
+        $routine_id = $routine_row['routine_id'];
+        $routine_name = $routine_row['routine_name'];
+?>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo $routine_name; ?></h5>
+                    <ul class="list-group">
+                        <?php
+                // Retrieve exercises for the current routine
+                $exercises_query = "SELECT * FROM tbl_routine_exercises WHERE routine_id = $routine_id";
+                $exercises_result = mysqli_query($conn, $exercises_query);
+
+                if ($exercises_result && mysqli_num_rows($exercises_result) > 0) {
+                    while ($exercise_row = mysqli_fetch_assoc($exercises_result)) {
+                        $exercise_id = $exercise_row['exercise_id'];
+                        $exercise_sets = $exercise_row['exercise_sets'];
+                        $exercise_reps = $exercise_row['exercise_reps'];
+                        $exercise_weight = $exercise_row['exercise_weight'];
+                        $exercise_name_query = "SELECT exercise_name FROM tbl_exercises WHERE exercise_id = $exercise_id";
+                        $exercise_name_result = mysqli_query($conn, $exercise_name_query);
+                        $exercise_name = "";
+                        if ($exercise_name_result && mysqli_num_rows($exercise_name_result) > 0) {
+                            $exercise_name_row = mysqli_fetch_assoc($exercise_name_result);
+                            $exercise_name = $exercise_name_row['exercise_name'];
+                        }
+                ?>
+
+                        <li class="list-group-item">
+                            <h6 class="mb-1"><?php echo $exercise_name; ?></h6>
+                            <p class="mb-0">Sets: <?php echo $exercise_sets; ?></p>
+                            <p class="mb-0">Reps: <?php echo $exercise_reps; ?></p>
+                            <p class="mb-0">Weight: <?php echo $exercise_weight; ?></p>
+
+
+                            <button class="btn btn-primary btn-edit" data-bs-toggle="modal"
+                                data-bs-target="#editModal-<?php echo $exercise_id; ?>"
+                                data-exercise-id="<?php echo $exercise_id; ?>">Edit</button>
+
+                            <button class="btn btn-primary btn-remove">Remove</button>
+                        </li>
+                        <?php
+                    }
+                } else {
+                    echo "<li class='list-group-item'>No exercises found for this routine</li>";
+                }
+                ?>
+                    </ul>
+
+                </div>
+            </div>
+
+            <!-- Edit Modals -->
+            <?php
+    mysqli_data_seek($exercises_result, 0); // Reset the exercises result pointer
+
+    while ($exercise_row = mysqli_fetch_assoc($exercises_result)) {
+        $exercise_id = $exercise_row['exercise_id'];
+        $exercise_sets = $exercise_row['exercise_sets'];
+        $exercise_reps = $exercise_row['exercise_reps'];
+        $exercise_weight = $exercise_row['exercise_weight'];
+    ?>
+
+            <!-- <div class="modal fade" id="editModal-<?php echo $exercise_id; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                aria-hidden="true"> -->
+            <div class="modal fade" id="editModal-<?php echo $exercise_id; ?>" tabindex="-1" role="dialog"
+                aria-labelledby="editModalLabel-<?php echo $exercise_id; ?>" aria-hidden="true">
+
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit your records</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Populate the modal body with exercise details -->
+                            <form action="../db/functions.php" method="POST">
+                                <div class="form-group">
+                                    <label for="sets">Sets</label>
+                                    <input type="number" class="form-control" id="sets" name="sets">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reps">Reps</label>
+                                    <input type="number" class="form-control" id="reps" name="reps">
+                                </div>
+                                <div class="form-group">
+                                    <label for="weight">Weight</label>
+                                    <input type="number" class="form-control" id="weight" name="weight">
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success" id="updateExerciseBtn"
+                                name="updateExerciseBtn">Update</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <?php
+    }
+}
+}
+?>
+
+

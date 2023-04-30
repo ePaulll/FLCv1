@@ -153,27 +153,27 @@ $(document).ready(function() {
 // add exercise to routine
 $(document).ready(function() {
   $('.card-btn').click(function() {
-    var exerciseId = $(this).data('exercise-id');
+    var exerciseIdforEP = $(this).data('exercise-id');
     console.log('id get success');
     // Store the exerciseId in a hidden input field in the form
-    $('#exercise-id').val(exerciseId);
+    $('#exercise-id').val(exerciseIdforEP);
   });
 
  
   $('#add-to-routine-btn').click(function() {
     
-    var routineId = $('#routine-select').val();
-    var sets = $('#sets-input').val();
-    var reps = $('#reps-input').val();
-    var weight = $('#weight-input').val();
+    var exerciseIdforEP = $('#routine-select').val();
+    var exrInput = $('#sets-input').val();
+    var exrInput = $('#reps-input').val();
+    var exrInput = $('#weight-input').val();
 
     
     var formData = {
-      'routine-select': routineId,
+      'routine-select': exerciseIdforEP,
       'exercise-id': $('#exercise-id').val(),
-      'sets-input': sets,
-      'reps-input': reps,
-      'weight-input': weight
+      'sets-input': exrInput,
+      'reps-input': exrInput,
+      'weight-input': exrInput
     };
 
    
@@ -213,13 +213,180 @@ $(document).ready(function() {
 
 // buttons sa routines
 
+    // $(document).ready(function() {
+    //     // Variables to store the exercise details
+    //     var exerciseId = null;
+    //     var exerciseSets = null;
+    //     var exerciseReps = null;
+    //     var exerciseWeight = null;
+
+    //     // Function to update the exercise details in the modal
+    //     function updateModalContent() {
+    //         $('#editModalLabel').text('Edit your records');
+    //         $('#setsUpdate').val(exerciseSets);
+    //         $('#repsUpdate').val(exerciseReps);
+    //         $('#weightUpdate').val(exerciseWeight);
+    //     }
+
+    //     // Event handler for clicking the "Edit" button
+    //     $('.btn-edit').click(function() {
+    //         exerciseId = $(this).data('exercise-id');
+    //         exerciseSets = $('#setsUpdate-' + exerciseId).val();
+    //         exerciseReps = $('#repsUpdate-' + exerciseId).val();
+    //         exerciseWeight = $('#weightUpdate-' + exerciseId).val();
+
+    //         updateModalContent();
+    //     });
+
+    //     // Event handler for the modal's "Update" button
+    //     $('#updateExerciseBtn').click(function() {
+    //         // Get the updated exercise details from the modal inputs
+    //         var updatedSets = $('#setsUpdate').val();
+    //         var updatedReps = $('#repsUpdate').val();
+    //         var updatedWeight = $('#weightUpdate').val();
+
+    //         // Update the exercise details in the DOM
+    //         $('#setsUpdate-' + exerciseId).val(updatedSets);
+    //         $('#repsUpdate-' + exerciseId).val(updatedReps);
+    //         $('#weightUpdate-' + exerciseId).val(updatedWeight);
+
+    //         // Update the exercise details in the database using AJAX
+    //         $.ajax({
+    //             url: '../db/functions.php',
+    //             method: 'POST',
+    //             data: {
+    //                 exerciseId: exerciseId,
+    //                 sets: updatedSets,
+    //                 reps: updatedReps,
+    //                 weight: updatedWeight
+    //             },
+    //             success: function(response) {
+    //                 // Handle the success response
+    //                 console.log('success');
+    //             },
+    //             error: function(jqXHR, textStatus, errorThrown) {
+    //                 // Handle the error response
+    //                 console.error('failed', errorThrown);
+    //             }
+    //         });
+
+          
+    //     });
+    // });
+    
+
+// Attach event handler after the modal is created in the DOM
 
 
+// $(document).on('click', '.btn-edit', function() {
+//   var exerciseId = $(this).data('exercise-id');
+//   var exerciseSets = $(this).data('exercise-sets');
+//   var exerciseReps = $(this).data('exercise-reps');
+//   var exerciseWeight = $(this).data('exercise-weight');
 
-    $(document).ready(function() {
-      $('.btn-edit').click(function() {
-          var modalId = $(this).data('target');
-          $(modalId).modal('show');
-      });
+//   $('#exerciseId').val(exerciseId);
+//   $('#setsUpdate').val(exerciseSets);
+//   $('#repsUpdate').val(exerciseReps);
+//   $('#weightUpdate').val(exerciseWeight);
+// });
+
+// $(document).ready(function() {
+//   // Handle form submission
+//   $('#updateExerciseForm').submit(function(event) {
+//     event.preventDefault(); // Prevent form from submitting normally
+
+//     // Get form data
+//     var exerciseId = $('#exerciseId').val();
+//     var setrpg = $('#setsUpdate').val();
+//     var repsrpg = $('#repsUpdate').val();
+//     var weightrpg = $('#weightUpdate').val();
+
+//     // Create an object to hold the data
+//     var data = {
+//       exerciseId: exerciseId,
+//       setsUpdate: setrpg,
+//       repsUpdate: repsrpg,
+//       weightUpdate: weightrpg
+//     };
+
+//     // Send an AJAX request to update the exercise data
+//     $.ajax({
+//       url: '../db/functions.php', // Replace with your PHP file that handles the update
+//       type: 'POST',
+//       data: data,
+//       success: function(response) {
+//         var parsedResponse = JSON.parse(response);
+//         if (parsedResponse.success) {
+//           console.log('Exercise data updated successfully');
+//         } else {
+//           console.error('Error updating exercise data');
+//         }
+//       },
+//       error: function(xhr, status, error) {
+//         console.error('AJAX request failed:', status, error);
+//       }
+//     });
+//   });
+// });
+
+
+$(document).ready(function() {
+  // Handle the click event of the edit button
+  $(document).on('click', '.btn-edit', function() {
+    // Get the exercise details from the button's data attributes
+    var routineId = $(this).data('routine-id');
+    var exerciseId = $(this).data('exercise-id');
+    var exerciseSets = $(this).data('exercise-sets');
+    var exerciseReps = $(this).data('exercise-reps');
+    var exerciseWeight = $(this).data('exercise-weight');
+    
+    // Set the exercise details in the modal form
+    $('#routineId').val(routineId);
+    $('#exerciseId').val(exerciseId);
+    $('#setsUpdate').val(exerciseSets);
+    $('#repsUpdate').val(exerciseReps);
+    $('#weightUpdate').val(exerciseWeight);
   });
-  
+
+  // Handle the submit event of the update form
+  $('#updateExerciseBtn').on('submit', function(e) {
+    e.preventDefault();
+
+    // Get the form data
+    var routineId = $('#routine-id').val();
+    var exerciseId = $('#exerciseId').val();
+    var exerciseSets = $('#setsUpdate').val();
+    var exerciseReps = $('#repsUpdate').val();
+    var exerciseWeight = $('#weightUpdate').val();
+
+    // Create an object to hold the data
+    var data = {
+      routineId: routineId,
+      exerciseId: exerciseId,
+      exerciseSets: exerciseSets,
+      exerciseReps: exerciseReps,
+      exerciseWeight: exerciseWeight
+    };
+
+    // Send an AJAX request to update the exercise data
+    $.ajax({
+      url: '../db/functions.php', // Replace with your PHP file that handles the update
+      type: 'POST',
+      data: data,
+      success: function(response) {
+        var parsedResponse = JSON.parse(response);
+        if (parsedResponse.success) {
+          console.log('Exercise data updated successfully');
+          // Optionally, you can reload the page or update the exercise details in the UI
+        } else {
+          console.error('Error updating exercise data');
+        }
+        $('#editModal').modal('hide'); // Hide the modal after the update is complete
+      },
+      error: function(xhr, status, error) {
+        console.error('AJAX request failed:', status, error);
+      }
+    });
+  });
+});
+

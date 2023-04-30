@@ -1,7 +1,7 @@
 <?php
 require('../db/functions.php');
 include_once '../db/dbconn.php';
-session_start();
+
 $_SESSION['user_id'] = $user_id;
 print_r($_SESSION);
 
@@ -95,7 +95,7 @@ if (isset($_POST['routineName'])) {
     </div>
 
     <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog"  role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Create a Routine</h1>

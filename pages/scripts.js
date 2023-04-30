@@ -213,30 +213,13 @@ $(document).ready(function() {
 
 // buttons sa routines
 
-$(document).ready(function() {
-    // Function to initialize modals
-    function initializeModals() {
-        // Add event listener to "Edit" buttons
-        $('.btn-edit').on('click', function() {
-            var exerciseId = $(this).data('exercise-id');
-            $('#editModal-' + exerciseId).modal('show');
-        });
 
-        // Add event listener to "Save" buttons
-        $('.btn-save').on('click', function() {
-            var exerciseId = $(this).data('exercise-id');
-            var sets = $('#sets-' + exerciseId).val();
-            var weight = $('#weight-' + exerciseId).val();
 
-            // Perform your save operation here
-            // ...
 
-            // Close the modal
-            $('#editModal-' + exerciseId).modal('hide');
-        });
-    }
-
-    // Call the function to initialize modals
-    initializeModals();
-});
-
+    $(document).ready(function() {
+      $('.btn-edit').click(function() {
+          var modalId = $(this).data('target');
+          $(modalId).modal('show');
+      });
+  });
+  

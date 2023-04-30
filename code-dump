@@ -365,3 +365,121 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
     echo "<p>No routines found for this user</p>";
 }
 ?>
+
+
+
+
+
+<?php
+// Retrieve user's routines from the database
+$routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
+$routines_result = mysqli_query($conn, $routines_query);
+
+// Check if the query was executed successfully
+if ($routines_result && mysqli_num_rows($routines_result) > 0) {
+    while ($routine_row = mysqli_fetch_assoc($routines_result)) {
+        $routine_id = $routine_row['routine_id'];
+        $routine_name = $routine_row['routine_name'];
+        ?>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><?php echo $routine_name; ?></h5>
+                <ul class="list-group">
+                    <?php
+                    // Retrieve exercises for the current routine
+                    $exercises_query = "SELECT re.*, e.exercise_name 
+                                        FROM tbl_routine_exercises re
+                                        INNER JOIN tbl_exercises e ON re.exercise_id = e.exercise_id
+                                        WHERE re.routine_id = $routine_id";
+                    $exercises_result = mysqli_query($conn, $exercises_query);
+
+
+                    if ($exercises_result && mysqli_num_rows($exercises_result) > 0) {
+                        while ($exercise_row = mysqli_fetch_assoc($exercises_result)) {
+                            $exercise_name = $exercise_row['exercise_name'];
+                            $exercise_sets = $exercise_row['exercise_sets'];
+                            $exercise_reps = $exercise_row['exercise_reps'];
+                            $exercise_weight = $exercise_row['exercise_weight'];
+                            ?>
+
+                            <li class="list-group-item">
+                                <h6 class="mb-1"><?php echo $exercise_name; ?></h6>
+                                <p class="mb-0">Sets: <?php echo $exercise_sets; ?></p>
+                                <p class="mb-0">Reps: <?php echo $exercise_reps; ?></p>
+                                <p class="mb-0">Weight: <?php echo $exercise_weight; ?></p>
+                                <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editModal-<?php echo $exercise_row['exercise_id']; ?>">Edit</button>
+                                <button class="btn btn-primary">Remove</button>
+                            </li>
+
+                            <!-- Edit Modal -->
+                            <div class="modal fade" id="editModal-<?php echo $exercise_row['exercise_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel-<?php echo $exercise_row['exercise_id']; ?>" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel-<?php echo $exercise_row['exercise_id']; ?>">Edit Exercise</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="sets-<?php echo $exercise_row['exercise_id']; ?>">Sets</label>
+                                                    <input type="text" class="form-control" id="sets-<?php echo $exercise_row['exercise_id']; ?>" value="<?php echo $exercise_sets; ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="weight-<?php echo $exercise_row['exercise_id']; ?>">Weight</label>
+                                                    <input type="text" class="form-control" id="weight-<?php echo $exercise_row['exercise_id']; ?>" value="<?php echo $exercise_weight; ?>">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php
+                        }
+                    } else {
+                        echo "<li class='list-group-item'>No exercises found for this routine</li>";
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+
+        <?php
+    }
+} else {
+    echo "<p>No routines found for this user</p>";
+}
+?>
+
+
+// $(document).ready(function() {
+//     // Function to initialize modals
+//     function initializeModals() {
+//         // Add event listener to "Edit" buttons
+//         $('.btn-edit').on('click', function() {
+//             var exerciseId = $(this).data('exercise-id');
+//             $('#editModal-' + exerciseId).modal('show');
+//         });
+
+//         // Add event listener to "Save" buttons
+//         $('.btn-save').on('click', function() {
+//             var exerciseId = $(this).data('exercise-id');
+//             var sets = $('#sets-' + exerciseId).val();
+//             var weight = $('#weight-' + exerciseId).val();
+
+//             // Perform your save operation here
+//             // ...
+
+//             // Close the modal
+//             $('#editModal-' + exerciseId).modal('hide');
+//         });
+//     }
+
+//     // Call the function to initialize modals
+//     initializeModals();
+// });

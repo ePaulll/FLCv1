@@ -20,7 +20,7 @@ print_r($_SESSION);
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/dashboard.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 <script src="scripts.js"></script>
 </head>
 
@@ -43,28 +43,21 @@ print_r($_SESSION);
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#" > <i class="bi bi-house-fill"></i>Home</a>
-               
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="exerciselist.php"><i class="bi bi-person-fill"></i>Profile</a>
-              </li>
-            
-              <li class="nav-item">
-                <a class="nav-link" href="routinepage.php"><i class="bi bi-card-checklist"></i>Routines</a>
+                <a class="nav-link" href="routinepage.php">Routines</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="exerciselist.php"><i class="bi bi-list-ol"></i>Exercise List</a>
+                <a class="nav-link" href="statisticspage.php">Statistics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="exerciselist.php">Exercise List</a>
               </li>
             
-              <li class="nav-item">
-                <a class="nav-link" href="statisticspage.php"><i class="bi bi-bar-chart-line-fill"></i>Statistics</a>
-              </li>
+             
               
-        
-        
             </ul>
            
           </div>
@@ -76,7 +69,14 @@ print_r($_SESSION);
  
   
 <body>
-<div class="main-content" id="main-content"></div>
+
+
+
+
+
+
+
+
 </body>
 
 

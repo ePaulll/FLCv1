@@ -1,7 +1,7 @@
 <?php
 require('../db/functions.php');
 include_once '../db/dbconn.php';
-session_start();
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -29,8 +29,8 @@ session_start();
         <nav class="navbar">
             <div class="container-fluid d-flex justify-content-center">
                 <a class="navbar-brand" href="#">
-                    <img src="" alt="" width="30" height="30" class="d-inline-block align-text-top">
-                    FitLife
+                    <img src="../icons/White logo - no background.png" alt="" width="250" height="50"
+                        class="d-inline-block align-text-top">
                 </a>
 
             </div>
@@ -44,7 +44,7 @@ session_start();
 
                 <div class="container mx-auto">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 offset-md-3">
                             <!-- Right column -->
                             <form action="../db/functions.php" method="POST">
                                 <h2>Register</h2>
@@ -119,6 +119,7 @@ session_start();
 
                             </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>

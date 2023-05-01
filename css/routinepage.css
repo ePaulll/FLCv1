@@ -32,9 +32,7 @@ display: block;
   margin-right: 15px;
 }
 
-.card-body{
-  max-width: 200px;
-}
+
  body.modal-open {
   overflow: auto !important;
 } 

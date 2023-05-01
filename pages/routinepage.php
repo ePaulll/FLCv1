@@ -53,7 +53,7 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
 
             <div class="card border-info mb-3">
                 
-                <div class="card-body" style="overflow-y: auto; max-height: 650px; max-width 300px;">
+                <div class="card-body" style="overflow-y: auto; max-height: 650px; max-width: 500px;">
                     <h5 class="card-title" style="text-align:center;"><?php echo $routine_name; ?></h5>
                     <ul class="list-group">
                         <?php

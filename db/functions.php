@@ -216,6 +216,7 @@ if (isset($_POST['exerciseId']) && isset($_POST['routineId'])) {
 }
 
 // Return the JSON response
+echo json_encode($response);
 
 ?>
 

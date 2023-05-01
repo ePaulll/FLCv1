@@ -31,12 +31,7 @@ margin-top: 100px;
 
 }
 
-
-.square-container {
-  margin: 10px;
-}
-
-.square {
-  height: 200px;
-  background-color: orange;
-}
+/* 
+body.modal-open {
+  overflow: auto !important;
+} */

@@ -21,6 +21,7 @@ display: block;
   padding: 20px;
   justify-content: center; /* Center items horizontally */
   align-items: center; /* Center items vertically */
+  
 }
 
 .card {
@@ -30,3 +31,13 @@ display: block;
   margin-left: 15px;
   margin-right: 15px;
 }
+
+.card-body{
+  max-width: 200px;
+}
+ body.modal-open {
+  overflow: auto !important;
+} 
+
+
+

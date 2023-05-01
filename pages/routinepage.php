@@ -15,11 +15,11 @@ $_SESSION['user_id'] = $user_id;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+ 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -39,7 +39,7 @@ $_SESSION['user_id'] = $user_id;
 
         <h1 class="rtn-h1">Your routines</h1>
         <div class="card-container">
-        <?php
+            <?php
         // Retrieve user's routines from the database
 $routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
 $routines_result = mysqli_query($conn, $routines_query);
@@ -51,11 +51,12 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
         $routine_name = $routine_row['routine_name'];
 ?>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title"><?php echo $routine_name; ?></h5>
-                <ul class="list-group">
-                    <?php
+            <div class="card border-info mb-3">
+                
+                <div class="card-body" style="overflow-y: auto; max-height: 650px; max-width 300px;">
+                    <h5 class="card-title" style="text-align:center;"><?php echo $routine_name; ?></h5>
+                    <ul class="list-group">
+                        <?php
                     // Retrieve exercises for the current routine
                     $exercises_query = "SELECT * FROM tbl_routine_exercises WHERE routine_id = $routine_id";
                     $exercises_result = mysqli_query($conn, $exercises_query);
@@ -75,50 +76,51 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
                             }
                     ?>
 
-                            <li class="list-group-item">
-                                <h6 class="mb-1"><?php echo $exercise_name; ?></h6>
-                                <p class="mb-0">Sets: <?php echo $exercise_sets; ?></p>
-                                <p class="mb-0">Reps: <?php echo $exercise_reps; ?></p>
-                                <p class="mb-0">Weight: <?php echo $exercise_weight; ?></p>
+                        <li class="list-group-item">
+                            <h6 class="mb-1"><?php echo $exercise_name; ?></h6>
+                            <p class="mb-0">Sets: <?php echo $exercise_sets; ?></p>
+                            <p class="mb-0">Reps: <?php echo $exercise_reps; ?></p>
+                            <p class="mb-0">Weight: <?php echo $exercise_weight; ?></p>
 
-                                <button class="btn btn-primary btn-edit"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editModal"
-                                    data-exercise-id="<?php echo $exercise_id; ?>"
-                                    data-routine-id="<?php echo $routine_id; ?>"
-                                    data-exercise-sets="<?php echo $exercise_sets; ?>"
-                                    data-exercise-reps="<?php echo $exercise_reps; ?>"
-                                    data-exercise-weight="<?php echo $exercise_weight; ?>">Edit</button>
+                            <button class="btn btn-dark btn-edit" data-bs-toggle="modal" data-bs-target="#editModal"
+                                data-exercise-id="<?php echo $exercise_id; ?>"
+                                data-routine-id="<?php echo $routine_id; ?>"
+                                data-exercise-sets="<?php echo $exercise_sets; ?>"
+                                data-exercise-reps="<?php echo $exercise_reps; ?>"
+                                data-exercise-weight="<?php echo $exercise_weight; ?>">Edit</button>
 
-                                <button class="btn btn-primary btn-remove">Remove</button>
-                            </li>
-                    <?php
+                            <button class="btn btn-dark btn-remove">Remove</button>
+                        </li>
+                        <?php
                         }
                     } else {
                         echo "<li class='list-group-item'>No exercises found for this routine</li>";
                     }
                     ?>
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-<?php
+       
+            <?php
     }
 }
 
 ?>
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editModalLabel">Edit Exercise</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Populate the modal body with exercise details -->
-                            <form action="../db/functions.php" method="POST" id="updateExerciseForm">
-                                <input type="text" id="exerciseId" name="exerciseId">
-                                <input type="text" id="routineId" name="routineId">
+                            <form id="updateExerciseForm" action="../db/functions.php" method="POST"
+                                name="updateExerciseForm">
+                                <input type="hidden" id="exerciseId" name="exerciseId">
+                                <input type="hidden" id="routineId" name="routineId">
 
                                 <div class="form-group">
                                     <label for="sets">Sets</label>
@@ -133,9 +135,11 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
                                     <input type="number" class="form-control" id="weightUpdate" name="weightUpdate">
                                 </div>
                         </div>
+                 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-success" id="updateExerciseBtn" name="updateExerciseBtn">Update</button>
+                            <button type="submit" class="btn btn-success updateExerciseBtn" id="updateExerciseBtn"
+                                name="updateExerciseBtn">Update</button>
                         </div>
                         </form>
                     </div>
@@ -143,8 +147,7 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
             </div>
         </div>
     </div>
-</div>
-        </div>
+ </div></div>
 
 
     </body>
@@ -152,7 +155,6 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
 <footer>
 
 </footer>
-
 
 
 </body>

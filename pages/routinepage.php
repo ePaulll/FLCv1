@@ -89,7 +89,7 @@ if ($routines_result && mysqli_num_rows($routines_result) > 0) {
                                 data-exercise-reps="<?php echo $exercise_reps; ?>"
                                 data-exercise-weight="<?php echo $exercise_weight; ?>">Edit</button>
 
-                            <button class="btn btn-dark btn-remove">Remove</button>
+                            <button class="btn btn-dark btn-remove" data-routine-id="<?php echo $routine_id; ?>" data-exercise-id="<?php echo $exercise_id; ?>">Remove</button>
                         </li>
                         <?php
                         }

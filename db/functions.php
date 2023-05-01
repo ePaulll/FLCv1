@@ -152,51 +152,6 @@ if (isset($_POST['routine-select'], $_POST['exercise-id'],$_POST['sets-input'], 
 //updating exercise sa routinepage
 
 
-
-
-
-    
-
-//   if (isset($_POST['updateExerciseForm'])) {
-//     // Get the exercise details from the form submission
-//     $routineId = $_POST['routineId'];
-//     $exerciseId = $_POST['exerciseId'];
-//     $setsUpdate = $_POST['setsUpdate'];
-//     $repsUpdate = $_POST['repsUpdate'];
-//     $weightUpdate = $_POST['weightUpdate'];
-  
-//     // Escape the values to prevent SQL injection
-//     $routineId = mysqli_real_escape_string($conn, $routineId);
-//     $exerciseId = mysqli_real_escape_string($conn, $exerciseId);
-//     $setsUpdate = mysqli_real_escape_string($conn, $setsUpdate);
-//     $repsUpdate = mysqli_real_escape_string($conn, $repsUpdate);
-//     $weightUpdate = mysqli_real_escape_string($conn, $weightUpdate);
-  
-//     $routineIdQuery = "SELECT routine_id FROM tbl_routine_exercises WHERE exercise_id = $exerciseId";
-//     $routineIdResult = mysqli_query($conn, $routineIdQuery);
-  
-//     if ($routineIdResult && mysqli_num_rows($routineIdResult) > 0) {
-//       $routineIdRow = mysqli_fetch_assoc($routineIdResult);
-//       $routineId = $routineIdRow['routine_id'];
-  
-//       $updateQuery = "UPDATE tbl_routine_exercises SET exercise_sets = '$setsUpdate', exercise_reps = '$repsUpdate', exercise_weight = '$weightUpdate'
-//       WHERE routine_id = $routineId AND exercise_id = $exerciseId";
-  
-//       $result = mysqli_query($conn, $updateQuery);
-  
-//       if ($result) {
-//         $response = array("success" => true, "updatedSets" => $setsUpdate, "updatedReps" => $repsUpdate, "updatedWeight" => $weightUpdate);
-//       } else {
-//         $response = array("success" => false, "error" => mysqli_error($conn));
-//       }
-  
-//       echo json_encode($response);
-//     }
-// }
-
-
-
-
 if (isset($_POST['updateExerciseForm'])) {
   // Get the exercise details from the form submission
   $routineId = $_POST['routineId'];
@@ -233,6 +188,35 @@ if (isset($_POST['updateExerciseForm'])) {
       }
   }
 }
+
+
+
+
+if (isset($_POST['exerciseId']) && isset($_POST['routineId'])) {
+  $exerciseId = $_POST['exerciseId'];
+  $routineId = $_POST['routineId'];
+
+  // Remove exercise from routine
+  $remove_exercise_query = "DELETE FROM tbl_routine_exercises WHERE exercise_id = $exerciseId AND routine_id = $routineId";
+  $remove_exercise_result = mysqli_query($conn, $remove_exercise_query);
+
+  if ($remove_exercise_result) {
+      // Exercise removed successfully
+      $response['success'] = true;
+      $response['message'] = 'Exercise removed successfully';
+  } else {
+      // Error removing exercise
+      $response['success'] = false;
+      $response['message'] = 'Error removing exercise';
+  }
+} else {
+  // Invalid exerciseId or routineId
+  $response['success'] = false;
+  $response['message'] = 'Invalid exerciseId or routineId';
+}
+
+// Return the JSON response
+echo json_encode($response);
 
 ?>
 

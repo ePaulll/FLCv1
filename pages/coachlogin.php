@@ -1,5 +1,5 @@
 <?php
-require('../db/functions.php');
+require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
 // ini_set('display_errors', 0);
 
@@ -20,7 +20,7 @@ include_once '../db/dbconn.php';
     <link rel="stylesheet" href="../css/login.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<script src="scripts.js"></script>
+<script src="coachscripts.js"></script>
 </head>
 <body>
   <header>
@@ -44,16 +44,16 @@ include_once '../db/dbconn.php';
       <div class="row">
         <div class="col-md-6 mx-auto">
           <!-- Login column -->
-          <form action="../db/functions.php" method="POST">
-            <h2>Login</h2>
+          <form action="../db/coachfunctions.php" method="POST">
+            <h2>Login as Coach</h2>
             <div class="form-group text-center">
-              <input type="text" class="form-control" id="usermail" name="usrEmail" placeholder="Enter Email">
+              <input type="text" class="form-control" id="coachEmail" name="coachEmail" placeholder="Enter Email">
             </div>
             <div class="form-group text-center">
-              <input type="password" class="form-control" id="userpassword" name="usrPassword1" placeholder="Enter password">
+              <input type="password" class="form-control" id="coachPassword" name="coachPassword1" placeholder="Enter password">
             </div>
             <div class="d-flex justify-content-end">
-              <button type="submit" id="loginbutton" class="btn btn-success" name="loginusr">Login</button>
+              <button type="submit" id="loginbutton" class="btn btn-success" name="logincoach">Login</button>
             </div> 
             <p class="registerlink" id="registerlnk">Don't have an account? <a href="#" id="register-link">Register here</a></p>
           </form>

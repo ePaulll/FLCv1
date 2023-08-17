@@ -1,9 +1,7 @@
 <?php
-require('../db/functions.php');
+require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
-session_start();
-$_SESSION['user_id'] = $user_id;
-print_r($_SESSION);
+
 
 ?>
 <!doctype html>
@@ -49,7 +47,7 @@ print_r($_SESSION);
                
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="coach_list.php"><i class="bi bi-person-fill"></i>Coaches</a>
+                <a class="nav-link" href="coachingrequests.php"><i class="bi bi-person-fill"></i>Clients</a>
               </li>
             
               <li class="nav-item">
@@ -82,7 +80,6 @@ print_r($_SESSION);
         </div>
     </nav>
   </header>
-
   <main>
  
   
@@ -90,8 +87,7 @@ print_r($_SESSION);
 <div class="main-content" id="main-content"></div>
 </body>
 
-
-  </main>
+</main>
   <footer>
     
   </footer>
@@ -109,3 +105,48 @@ print_r($_SESSION);
 </html>
 
 
+
+<!-- 
+table.blueTable {
+  border: 2px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.blueTable td, table.blueTable th {
+  border: 2px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.blueTable tbody td {
+  font-size: 13px;
+}
+table.blueTable tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.blueTable thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.blueTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+}
+table.blueTable tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 1px solid #444444;
+}
+table.blueTable tfoot td {
+  font-size: 14px;
+} --> for the table 

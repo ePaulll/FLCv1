@@ -15,6 +15,7 @@ $(function() {
     });
   }); //click here is clicked = go to register page
 
+  
 // lipat page sa navbar
   $(document).ready(function() {
     $('a[href="routinepage.php"]').click(function(event) {
@@ -50,6 +51,26 @@ $(function() {
 });
 
 
+$(document).ready(function() {
+  $('a[href="coach_list.php"]').click(function(event) {
+      event.preventDefault();
+      $.ajax({
+          url: 'coach_list.php',
+          type: 'GET',
+          success: function(data) {
+              $('#main-content').html(data);
+          },
+          error: function() {
+              alert('Error loading coach_list.php');
+          }
+      });
+  });
+});
+
+
+
+
+
 
 $(document).ready(function() {
   $('a[href="exerciselist.php"]').click(function(event) {
@@ -66,6 +87,9 @@ $(document).ready(function() {
       });
   });
 });
+
+
+
 
 
   
@@ -326,6 +350,8 @@ $(document).ready(function() {
     }
   });
 });
+
+
 
 
 

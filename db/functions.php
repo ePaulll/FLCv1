@@ -3,12 +3,44 @@
 
 include_once 'dbconn.php';
 session_start();
-$user_id = $_SESSION['user_id'];// retrieve the user_id from the session variable
-$_SESSION['user_id'] = $user_id;  // store the user_id in the session variable
+$user_id = $_SESSION['user_id'];
+$_SESSION['user_id'] = $user_id;  
  
 
 
 //register ng user
+
+// if (isset($_POST['registerusr'])) {
+//   $user_email = $_POST['usrEmail'];
+//   $user_name = $_POST['usrName'];
+//   $userPassword1 = $_POST['usrPassword1'];
+//   $userPassword2 = $_POST['usrPassword2'];
+//   $user_gender = $_POST['usrGender'];
+//   $user_age = $_POST['usrAge'];
+//   $user_bodyweight = $_POST['usrBodyweight'];
+//   $user_height = $_POST['usrHeight'];
+
+//   if ($userPassword1 !== $userPassword2) {
+//     echo "Passwords do not match.";
+//   } else {
+//     $hashedPassword = password_hash($userPassword1, PASSWORD_DEFAULT);
+//     $sql = "INSERT INTO tbl_users (user_email, user_name, user_password,  user_bodyweight, user_height, user_age, user_gender) 
+//         VALUES ('$user_email', '$user_name', '$hashedPassword', '$user_bodyweight', '$user_height', '$user_age', '$user_gender')";
+
+
+//     if (mysqli_query($conn, $sql)) {
+//       echo "Registration successful. Redirecting to login page...";
+//       header("Location: ../pages/login.php"); 
+//       exit();
+//     } else {
+//       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+//     }
+//   }
+
+//   mysqli_close($conn);
+// }
+
+
 
 if (isset($_POST['registerusr'])) {
   $user_email = $_POST['usrEmail'];
@@ -20,20 +52,32 @@ if (isset($_POST['registerusr'])) {
   $user_bodyweight = $_POST['usrBodyweight'];
   $user_height = $_POST['usrHeight'];
 
+  // Validate ng email
+  if (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: ../pages/register.php?error=invalidemail");
+    exit();
+  }
+
+  // Validate ng password
+  if (!preg_match('/^(?=.*[A-Z])(?=.*\d).{8,}$/', $userPassword1)) {
+    header("Location: ../pages/register.php?error=invalidpassword");
+    exit();
+  }
+
   if ($userPassword1 !== $userPassword2) {
-    echo "Passwords do not match.";
+    header("Location: ../pages/register.php?error=passwordmismatch");
+    exit();
   } else {
     $hashedPassword = password_hash($userPassword1, PASSWORD_DEFAULT);
     $sql = "INSERT INTO tbl_users (user_email, user_name, user_password,  user_bodyweight, user_height, user_age, user_gender) 
         VALUES ('$user_email', '$user_name', '$hashedPassword', '$user_bodyweight', '$user_height', '$user_age', '$user_gender')";
 
-
     if (mysqli_query($conn, $sql)) {
-      echo "Registration successful. Redirecting to login page...";
-      header("Location: ../pages/login.php"); 
+      header("Location: ../pages/login.php");
       exit();
     } else {
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+      header("Location: ../pages/register.php?error=databaseerror");
+      exit();
     }
   }
 
@@ -41,21 +85,26 @@ if (isset($_POST['registerusr'])) {
 }
 
 
+
+
+
+
+
 //login ng user
 if(isset($_POST['loginusr'])) {
   $user_email = $_POST['usrEmail'];
   $userPassword1 = $_POST['usrPassword1'];
 
-  // filter ng input iwas vulne
+  
   $user_email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
   $userPassword1 = htmlspecialchars($userPassword1);
 
-  // Check for required fields
+  // form validation
   if(empty($user_email) || empty($userPassword1)) {
       $error = "Please enter both your email and password.";
   }
 
-  // check kung tama email format
+  
   if(!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
       $error = "Please enter a valid email address.";
   }
@@ -69,18 +118,38 @@ if(isset($_POST['loginusr'])) {
   // str8 to dashboard if satisfied ang needs above
   if(!isset($error)) {
       $_SESSION['user_id'] = $user['user_id']; // Store the user ID in the session
+      insertAuditLog($user['user_id'], 'login');
       echo "User ID set in session: " . $_SESSION['user_id'];
       header('Location: ../pages/dashboard.php');
       // Debugging code
       exit;
   }
 
-  // display error
+  
   echo $error;
 }
 
+// 
+function insertAuditLog($user_id, $action) {
+  $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
+ 
+  $stmt = $conn->prepare("INSERT INTO tbl_audit (user_id, audit_action, audit_timestamp) VALUES (?, ?, NOW())");
+
+
+  $stmt->bind_param("is", $user_id, $action);
+
+
+  $stmt->execute();
+
+  $stmt->close();
+  $conn->close();
+}
+
+
+
+
 function getUserByEmail($user_email) {
-  // Connect to the database
+
   $db = new PDO('mysql:host=localhost;dbname=fitlife_db', 'root', '');
 
   // Prepare and execute the query to retrieve the user by email
@@ -216,7 +285,40 @@ if (isset($_POST['exerciseId']) && isset($_POST['routineId'])) {
 }
 
 // Return the JSON response
+// echo json_encode($response);
+
+
+
+// sa pag accept or reject ng coach
+if (isset($_SESSION['user_id']) && isset($_POST['coachId'])) {
+    $user_id = $_POST['user_id']; // Use the provided user_id
+    $coach_id = $_POST['coachId'];
+
+    $status = "pending";
+
+    $sql = "INSERT INTO tbl_coaching_requests (user_id, coach_id, status) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iis", $user_id, $coach_id, $status);
+
+    if ($stmt->execute()) {
+        echo "Hiring request sent successfully.";
+    } else {
+        echo "Error sending hiring request.";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
+
+
+
+
+
 
 ?>
+
+
 
 

@@ -79,7 +79,11 @@ if (isset($_POST['routineName'])) {
                         </li>
 
                     </ul>
-                  
+                    <form class="form-inline my-2 my-lg-0" action="/search" method="GET">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search Exercise"
+                            aria-label="Search" name="q">
+                        <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+                    </form>
                     <button type="button" id="modalButton" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#viewModal">
                         Create Routine

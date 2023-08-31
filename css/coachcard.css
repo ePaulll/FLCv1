@@ -1,16 +1,21 @@
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-  }
-
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  
+}
   .card {
     width: 20em;
+    margin-top: 20px;
  
   }
+.mb-3 {
+  margin-top: 100px;
+}
 
+ 
       /* Use calc() to subtract the gap between the cards from the width */
 
 

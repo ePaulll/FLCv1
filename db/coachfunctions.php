@@ -7,7 +7,7 @@ $coach_id = $_SESSION['coach_id'];
 $_SESSION['coach_id'] = $coach_id;  
 echo $coach_id;
 
-
+//register ng coach
 if (isset($_POST['registercoach'])) {
   $coach_name = $_POST['coachName'];
   $coach_email = $_POST['coachEmail'];
@@ -75,7 +75,7 @@ if (isset($_POST['logincoach'])) {
     $_SESSION['coach_id'] = $coach['coach_id']; 
     insertAuditLog($coach['coach_id'], 'login');
     echo "Coach ID set in session: " . $_SESSION['coach_id'];
-    header('Location: ../pages/coachdashboard.php');
+    header('Location: ../coachpages/coachdashboard.php');
     exit; 
   }
 
@@ -124,39 +124,77 @@ function getCoachByEmail($email) {
 
  
   // gumagana
-  if (isset($_POST['user_id']) && isset($_POST['action'])) {
-      $user_id = $_POST['user_id'];
-      $action = $_POST['action'];
+  // if (isset($_POST['user_id']) && isset($_POST['action'])) {
+  //     $user_id = $_POST['user_id'];
+  //     $action = $_POST['action'];
       
-      if ($action === 'accept') {
-          $updateQuery = "UPDATE tbl_users SET coach_id = ? WHERE user_id = ?";
-          $stmt = $conn->prepare($updateQuery);
-          $coach_id = $_SESSION['coach_id']; // Assuming you have coach_id in the session
-          $stmt->bind_param("ii", $coach_id, $user_id);
+  //     if ($action === 'accept') {
+  //         $updateQuery = "UPDATE tbl_users SET coach_id = ? WHERE user_id = ?";
+  //         $stmt = $conn->prepare($updateQuery);
+  //         $coach_id = $_SESSION['coach_id']; 
+  //         $stmt->bind_param("ii", $coach_id, $user_id);
           
-          if ($stmt->execute()) {
-            header("Location: ../pages/coachingrequests.php");
-          } else {
-              console.log('error');
-          }
-      } elseif ($action === 'reject') {
-          // Perform the logic to reject the coaching request
-          // For example, delete the request from the tbl_coaching_requests table
-          $deleteQuery = "DELETE FROM tbl_coaching_requests WHERE user_id = ?";
-          $stmt = $conn->prepare($deleteQuery);
-          $stmt->bind_param("i", $user_id);
+  //         if ($stmt->execute()) { 
+  //           header("Location: ../coachpages/coachdashboard.php");
+  //         } else {
+  //             console.log('error');
+  //         }
+  //     } elseif ($action === 'reject') {
+        
+  //         $deleteQuery = "DELETE FROM tbl_coaching_requests WHERE user_id = ?";
+  //         $stmt = $conn->prepare($deleteQuery);
+  //         $stmt->bind_param("i", $user_id);
           
-          if ($stmt->execute()) {
-            header("Location: ../pages/coachingrequests.php");
-          } else {
-              // Error message
-          }
-      }
-  }
+  //         if ($stmt->execute()) {
+  //           header("Location: ../coachpages/coachdashboard.php");
+  //         } else {
+             
+  //         }
+  //     }
+  // }
   
-  $conn->close();
+  // $conn->close();
 
 
+
+
+  if (isset($_POST['user_id']) && isset($_POST['action'])) {
+    $user_id = $_POST['user_id'];
+    $action = $_POST['action'];
+    
+    if ($action === 'accept') {
+        $updateQuery = "UPDATE tbl_users SET coach_id = ? WHERE user_id = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $coach_id = $_SESSION['coach_id']; 
+        $stmt->bind_param("ii", $coach_id, $user_id);
+        
+      // Update yung status sa tbl_coaching_requests
+        $updateStatusQuery = "UPDATE tbl_coaching_requests SET status = 'accepted' WHERE user_id = ?";
+        $stmtUpdateStatus = $conn->prepare($updateStatusQuery);
+        $stmtUpdateStatus->bind_param("i", $user_id);
+        
+       
+        if ($stmt->execute() && $stmtUpdateStatus->execute()) {
+            header("Location: ../coachpages/coachdashboard.php");
+        } else {
+           
+        }
+    } elseif ($action === 'reject') {
+      // Update yung status sa tbl_coaching_requests
+      $updateStatusQuery = "UPDATE tbl_coaching_requests SET status = 'rejected' WHERE user_id = ?";
+      $stmtUpdateStatus = $conn->prepare($updateStatusQuery);
+      $stmtUpdateStatus->bind_param("i", $user_id);
+      
+    
+      if ($stmtUpdateStatus->execute()) {
+          header("Location: ../coachpages/coachdashboard.php");
+      } else {
+            
+        }
+    }
+}
+
+$conn->close();
 ?>
 
 

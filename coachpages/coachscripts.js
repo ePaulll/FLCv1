@@ -28,3 +28,21 @@ $(function() {
         });
     });
   });
+
+
+
+  $(document).ready(function() {
+    $('a[href="clientlist.php"]').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'clientlist.php',
+            type: 'GET',
+            success: function(data) {
+                $('#main-content').html(data);
+            },
+            error: function() {
+                alert('Error loading clientlist.php');
+            }
+        });
+    });
+  });

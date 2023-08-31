@@ -19,7 +19,7 @@ include_once '../db/dbconn.php';
     <link rel="stylesheet" href="../css/dashboard.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<script src="scripts.js"></script>
+<script src="coachscripts.js"></script>
 </head>
 
 
@@ -47,11 +47,11 @@ include_once '../db/dbconn.php';
                
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="coachingrequests.php"><i class="bi bi-person-fill"></i>Clients</a>
+                <a class="nav-link" href="coachingrequests.php"><i class="bi bi-person-fill"></i>Coaching Requests</a>
               </li>
             
               <li class="nav-item">
-                <a class="nav-link" href="routinepage.php"><i class="bi bi-card-checklist"></i>Routines</a>
+                <a class="nav-link" href="clientlist.php"><i class="bi bi-card-checklist"></i>Client List</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="exerciselist.php"><i class="bi bi-list-ol"></i>Exercise List</a>
@@ -149,4 +149,4 @@ table.blueTable tfoot {
 }
 table.blueTable tfoot td {
   font-size: 14px;
-} --> for the table 
+} --> 

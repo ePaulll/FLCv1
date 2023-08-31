@@ -289,16 +289,16 @@ if (isset($_POST['exerciseId']) && isset($_POST['routineId'])) {
 
 
 
-// sa pag accept or reject ng coach
+// sa pag send ng request ni user kay coach
 if (isset($_SESSION['user_id']) && isset($_POST['coachId'])) {
     $user_id = $_POST['user_id']; // Use the provided user_id
     $coach_id = $_POST['coachId'];
 
-    $status = "pending";
+    
 
-    $sql = "INSERT INTO tbl_coaching_requests (user_id, coach_id, status) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO tbl_coaching_requests (user_id, coach_id) VALUES (?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iis", $user_id, $coach_id, $status);
+    $stmt->bind_param("ii", $user_id, $coach_id);
 
     if ($stmt->execute()) {
         echo "Hiring request sent successfully.";
@@ -316,8 +316,6 @@ if (isset($_SESSION['user_id']) && isset($_POST['coachId'])) {
 
 
 
-
-?>
 
 
 

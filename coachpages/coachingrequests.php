@@ -56,11 +56,16 @@ include_once '../db/dbconn.php';
                     die("Connection failed: " . $conn->connect_error);
                 }
 
-                // Assuming you have a table named 'tbl_hiring_requests' to store hiring requests
-                $sql = "SELECT u.user_id, u.user_name, u.user_gender, u.user_age
-                        FROM tbl_coaching_requests AS r
-                        JOIN tbl_users AS u ON r.user_id = u.user_id";
+               
+               // $sql = "SELECT u.user_id, u.user_name, u.user_gender, u.user_age
+                       // FROM tbl_coaching_requests AS r
+                        //JOIN tbl_users AS u ON r.user_id = u.user_id";
                 
+                        $sql = "SELECT u.user_id, u.user_name, u.user_gender, u.user_age
+                        FROM tbl_coaching_requests AS r
+                        JOIN tbl_users AS u ON r.user_id = u.user_id
+                        WHERE r.status IS NULL";
+
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -102,6 +107,6 @@ include_once '../db/dbconn.php';
 </footer>
 
 
-</body>
+
 
 </html>

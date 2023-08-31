@@ -60,13 +60,13 @@ $_SESSION['user_id'] = $user_id;
     <div class="container">
     <div class="row">
         <?php
-        // Assuming you have a valid database connection
+
         $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT coach_id, coach_name FROM tbl_coach"; // Retrieve all coach IDs and names
+        $sql = "SELECT coach_id, coach_name FROM tbl_coach"; 
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

@@ -8,40 +8,6 @@ $_SESSION['user_id'] = $user_id;
  
 
 
-//register ng user
-
-// if (isset($_POST['registerusr'])) {
-//   $user_email = $_POST['usrEmail'];
-//   $user_name = $_POST['usrName'];
-//   $userPassword1 = $_POST['usrPassword1'];
-//   $userPassword2 = $_POST['usrPassword2'];
-//   $user_gender = $_POST['usrGender'];
-//   $user_age = $_POST['usrAge'];
-//   $user_bodyweight = $_POST['usrBodyweight'];
-//   $user_height = $_POST['usrHeight'];
-
-//   if ($userPassword1 !== $userPassword2) {
-//     echo "Passwords do not match.";
-//   } else {
-//     $hashedPassword = password_hash($userPassword1, PASSWORD_DEFAULT);
-//     $sql = "INSERT INTO tbl_users (user_email, user_name, user_password,  user_bodyweight, user_height, user_age, user_gender) 
-//         VALUES ('$user_email', '$user_name', '$hashedPassword', '$user_bodyweight', '$user_height', '$user_age', '$user_gender')";
-
-
-//     if (mysqli_query($conn, $sql)) {
-//       echo "Registration successful. Redirecting to login page...";
-//       header("Location: ../pages/login.php"); 
-//       exit();
-//     } else {
-//       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-//     }
-//   }
-
-//   mysqli_close($conn);
-// }
-
-
-
 if (isset($_POST['registerusr'])) {
   $user_email = $_POST['usrEmail'];
   $user_name = $_POST['usrName'];
@@ -89,45 +55,91 @@ if (isset($_POST['registerusr'])) {
 
 
 
-
-//login ng user
 if(isset($_POST['loginusr'])) {
   $user_email = $_POST['usrEmail'];
   $userPassword1 = $_POST['usrPassword1'];
 
-  
   $user_email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
   $userPassword1 = htmlspecialchars($userPassword1);
 
   // form validation
   if(empty($user_email) || empty($userPassword1)) {
-      $error = "Please enter both your email and password.";
+      $response = array(
+          'status' => 'error',
+          'message' => 'Please enter both your email and password.'
+      );
+  } else if (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+      $response = array(
+          'status' => 'error',
+          'message' => 'Please enter a valid email address.'
+      );
+  } else {
+      // Verify the email and password in the database
+      $user = getUserByEmail($user_email); // Retrieve the user from the database
+      if(!$user || !password_verify($userPassword1, $user['user_password'])) {
+        echo 'User not found or password mismatch.';
+        echo 'User provided: ' . $userPassword1;
+        echo 'Hashed password in DB: ' . $user['user_password'];
+        $response = array(
+            'status' => 'error',
+            'message' => 'Invalid email or password. Please try again.'
+        );
+    } else {
+          // Successful login
+          $_SESSION['user_id'] = $user['user_id'];
+          insertAuditLog($user['user_id'], 'login');
+          $response = array(
+              'status' => 'success',
+              'message' => 'Login successful.'
+          );
+      }
   }
 
-  
-  if(!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
-      $error = "Please enter a valid email address.";
-  }
-
-  // Verify the email and password sa db
-  $user = getUserByEmail($user_email); // Retrieve the user from the database
-  if(!$user || !password_verify($userPassword1, $user['user_password'])) {
-      $error = "Invalid email or password. Please try again.";
-  }
-
-  // str8 to dashboard if satisfied ang needs above
-  if(!isset($error)) {
-      $_SESSION['user_id'] = $user['user_id']; // Store the user ID in the session
-      insertAuditLog($user['user_id'], 'login');
-      echo "User ID set in session: " . $_SESSION['user_id'];
-      header('Location: ../pages/dashboard.php');
-      // Debugging code
-      exit;
-  }
-
-  
-  echo $error;
+  // Output JSON response
+  header('Content-Type: application/json');
+  echo json_encode($response);
 }
+
+
+
+//login ng user
+// if(isset($_POST['loginusr'])) {
+//   $user_email = $_POST['usrEmail'];
+//   $userPassword1 = $_POST['usrPassword1'];
+
+  
+//   $user_email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
+//   $userPassword1 = htmlspecialchars($userPassword1);
+
+//   // form validation
+//   if(empty($user_email) || empty($userPassword1)) {
+//       $error = "Please enter both your email and password.";
+//   }
+
+  
+//   if(!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+//       $error = "Please enter a valid email address.";
+//   }
+
+//   // Verify the email and password sa db
+//   $user = getUserByEmail($user_email); // Retrieve the user from the database
+//   if(!$user || !password_verify($userPassword1, $user['user_password'])) {
+//       $error = "Invalid email or password. Please try again.";
+//   }
+
+//   // str8 to dashboard if satisfied ang needs above
+//   if(!isset($error)) {
+//       $_SESSION['user_id'] = $user['user_id']; 
+//       insertAuditLog($user['user_id'], 'login');
+//       echo "User ID set in session: " . $_SESSION['user_id'];
+//       header('Location: ../pages/dashboard.php');
+//       echo 'success';
+//       exit;
+//   }
+
+  
+//   echo $error;
+// }
 
 // 
 function insertAuditLog($user_id, $action) {

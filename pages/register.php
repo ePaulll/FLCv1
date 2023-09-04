@@ -18,6 +18,12 @@ include_once '../db/dbconn.php';
     <link rel="stylesheet" href="../css/register.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+"></script>
+<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
+" rel="stylesheet">
 
     <script src="scripts.js"></script>
 
@@ -29,8 +35,7 @@ include_once '../db/dbconn.php';
         <nav class="navbar">
             <div class="container-fluid d-flex justify-content-center">
                 <a class="navbar-brand" href="#">
-                    <img src="" alt="" width="30" height="30" class="d-inline-block align-text-top">
-                    FitLife
+                <img src="../icons/White logo - no background.png" alt="" width="250" height="50" class="d-inline-block align-text-top">
                 </a>
 
             </div>
@@ -40,12 +45,14 @@ include_once '../db/dbconn.php';
 
         <body>
     <div id="login-page">
-        <div class="container mx-auto">
+         <div class="container">
             <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <!-- Right column -->
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+            <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
                     <form action="../db/functions.php" method="POST" class="needs-validation" novalidate>
-                        <h2>Register</h2>
+                       
 
                         <?php
                         // Retrieve and display error messages, if any
@@ -64,55 +71,62 @@ include_once '../db/dbconn.php';
                         }
                         ?>
 
-                        <div class="form-group">
-                            <label for="emailaddress">Email:</label>
+                        <div class="form-floating mb-3">
+                            
                             <input type="email" class="form-control" id="emailaddress" name="usrEmail"
                                 placeholder="Enter Email" required value="<?php echo isset($_POST['usrEmail']) ? $_POST['usrEmail'] : ''; ?>">
+                                <label for="emailaddress">Email:</label>
                             <div class="invalid-feedback">Please enter a valid email address.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="username">Username:</label>
+                        <div class="form-floating mb-3">
+                            
                             <input type="text" class="form-control" id="username" name="usrName"
                                 placeholder="Enter Username" required value="<?php echo isset($_POST['usrName']) ? $_POST['usrName'] : ''; ?>">
-                            <div class="invalid-feedback">Please enter a username.</div>
+                                <label for="username">Username:</label>
+                                <div class="invalid-feedback">Please enter a username.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password1">Password:</label>
+                        <div class="form-floating mb-3">
+                           
                             <input type="password" class="form-control" id="password1" name="usrPassword1"
                                 placeholder="Enter Password" required value="<?php echo isset($_POST['usrPassword1']) ? $_POST['usrPassword1'] : ''; ?>">
-                            <div class="invalid-feedback">
+                                <label for="password1">Password:</label>
+                                <div class="invalid-feedback">
                                 Password must contain at least 8 characters, 1 uppercase letter, and 1 number.
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password2">Confirm Password:</label>
+                        <div class="form-floating mb-3">
+                            
                             <input type="password" class="form-control" id="password2" name="usrPassword2"
                                 placeholder="Re-type Password" required value="<?php echo isset($_POST['usrPassword2']) ? $_POST['usrPassword2'] : ''; ?>">
-                            <div class="invalid-feedback">Passwords do not match.</div>
+                                <label for="password2">Confirm Password:</label>
+                                <div class="invalid-feedback">Passwords do not match.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="bodyweight">Body Weight (in kg):</label>
+                        <div class="form-floating mb-3">
+                            
                             <input type="number" class="form-control" id="bodyweight" name="usrBodyweight"
                                 placeholder="Enter Body Weight" required value="<?php echo isset($_POST['usrBodyweight']) ? $_POST['usrBodyweight'] : ''; ?>">
-                            <div class="invalid-feedback">Please enter a valid body weight.</div>
+                                <label for="bodyweight">Body Weight (in kg):</label>
+                                <div class="invalid-feedback">Please enter a valid body weight.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="height">Height (in cm):</label>
+                        <div class="form-floating mb-3">
+                            
                             <input type="number" class="form-control" id="height" name="usrHeight"
                                 placeholder="Enter Height" required value="<?php echo isset($_POST['usrHeight']) ? $_POST['usrHeight'] : ''; ?>">
-                            <div class="invalid-feedback">Please enter a valid height.</div>
+                                <label for="height">Height (in cm):</label>
+                                <div class="invalid-feedback">Please enter a valid height.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="age">Age:</label>
+                        <div class="form-floating mb-3">
+                            
                             <input type="number" class="form-control" id="age" name="usrAge" placeholder="Enter Age"
                                 required value="<?php echo isset($_POST['usrAge']) ? $_POST['usrAge'] : ''; ?>">
-                            <div class="invalid-feedback">Please enter a valid age.</div>
+                                <label for="age">Age:</label>
+                                <div class="invalid-feedback">Please enter a valid age.</div>
                         </div>
 
                         <div class="form-group">
@@ -128,7 +142,7 @@ include_once '../db/dbconn.php';
                                 <label class="form-check-label" for="female">Female</label>
                             </div>
                         </div>
-                            <!-- lagyan niyo nalang ng checkbox dito parang ganto -->
+                          
                             <div class="form-group">
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
@@ -145,7 +159,7 @@ include_once '../db/dbconn.php';
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> 
                     <script>
 							(function() {'use strict'; window.addEventListener('load', function() {
 
@@ -167,6 +181,11 @@ include_once '../db/dbconn.php';
             </div>
         </div>
     </div>
+
+
+    <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+
+
 </body>
 
 

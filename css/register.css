@@ -1,6 +1,6 @@
 .navbar {
 
-    background-color: #4FBDBA;
+    background-color: #19A7CE;
 }
 
 .navbar-brand {
@@ -40,39 +40,21 @@ main {
 
 /* registerform*/
 
-.container {
-    background: rgba( 255, 255, 255, 0.25 );
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-backdrop-filter: blur( 4px );
--webkit-backdrop-filter: blur( 4px );
-border-radius: 10px;
-border: 1px solid rgba( 255, 255, 255, 0.18 );
-margin-top: 50px;
-
-
-}
+/* 
 
 h2 {
     text-align: center;
     margin-top: 50px;
-    /* font-family: */
+  
 }
 
 .btn {
   margin-top: 10px;
-  /* margin-right: 40px; */
+ 
   margin-bottom: 50px;
  
 }
-.form-group{
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-      
-      
-    
-}
+
 
 .form-control {
     width: 50%;
@@ -82,4 +64,15 @@ h2 {
 
 label {
     margin-left: 20px;
+} */
+
+.form-floating mb-3{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+      
+      
+    
 }

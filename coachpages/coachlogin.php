@@ -42,10 +42,11 @@ include_once '../db/dbconn.php';
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-6 mx-auto">
-          <!-- Login column -->
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
           <form action="../db/coachfunctions.php" method="POST">
-            <h2>Login as Coach</h2>
             <div class="form-group text-center">
               <input type="text" class="form-control" id="coachEmail" name="coachEmail" placeholder="Enter Email">
             </div>
@@ -60,6 +61,8 @@ include_once '../db/dbconn.php';
         </div>
       </div>  
     </div>
+    </div>
+  </div>
   </body>
 </main>
   <footer>

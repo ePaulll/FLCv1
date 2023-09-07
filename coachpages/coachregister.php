@@ -64,24 +64,27 @@ include_once '../db/dbconn.php';
                         }
                         ?>
 
-                        <div class="form-group">
-                            <label for="coachname">Coach Name:</label>
+                        <div class="form-floating mb-3">
+                    
                             <input type="text" class="form-control" id="coachname" name="coachName"
                                 placeholder="Enter Coach Name" required value="<?php echo isset($_POST['coachName']) ? $_POST['coachName'] : ''; ?>">
-                            <div class="invalid-feedback">Please enter a coach name.</div>
+                                <label for="coachname">Coach Name:</label>
+                                <div class="invalid-feedback">Please enter a coach name.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="coachemail">Coach Email:</label>
+                        <div class="form-floating mb-3">
+                           
                             <input type="email" class="form-control" id="coachemail" name="coachEmail"
                                 placeholder="Enter Coach Email" required value="<?php echo isset($_POST['coachEmail']) ? $_POST['coachEmail'] : ''; ?>">
-                            <div class="invalid-feedback">Please enter a valid coach email.</div>
+                                <label for="coachemail">Coach Email:</label>
+                                <div class="invalid-feedback">Please enter a valid coach email.</div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="coachpassword">Coach Password:</label>
+                        <div class="form-floating mb-3">
+                           
                             <input type="password" class="form-control" id="coachpassword" name="coachPassword"
                                 placeholder="Enter Coach Password" required>
+                                <label for="coachpassword">Coach Password:</label>
                             <div class="invalid-feedback">
                                 Password must contain at least 8 characters, 1 uppercase letter, and 1 number.
                             </div>

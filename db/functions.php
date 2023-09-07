@@ -44,10 +44,11 @@ if (isset($_POST['registerusr'])) {
     } else {
       header("Location: ../pages/register.php?error=databaseerror");
       exit();
+      mysqli_close($conn); 
     }
   }
 
-  mysqli_close($conn);
+
 }
 
 

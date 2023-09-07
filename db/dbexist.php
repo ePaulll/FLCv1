@@ -176,6 +176,21 @@ mysqli_query($conn , $createTableQuery);
 }
 
 
+if (!isDBTableExist($dbname, 'tbl_audit')) {
+    $createTableQuery = "CREATE TABLE tbl_audit (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        user_id INT,
+        action VARCHAR(255),
+        timestamp DATETIME,
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+      );";
+     
+      
+      
+
+mysqli_query($conn , $createTableQuery);
+}
+
 
 
 

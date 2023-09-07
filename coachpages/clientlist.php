@@ -55,23 +55,25 @@ $conn->close();
   
 </head>
 <main>
-
 <body>
 
-<div class="container">
 
+<div class="row">
+            <div class="col-md-6">
+            <div class="container text-center">
 <?php
+
  $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
  if ($conn->connect_error) {
      die("Connection failed: " . $conn->connect_error);
  }
  $sql = "SELECT user_name, user_age, user_gender, user_bodyweight, user_height FROM tbl_users WHERE coach_id = $coach_id";
 
- // Execute the query
+ 
  $result = $conn->query($sql);
 
  if ($result->num_rows > 0) {
-     // Output data of each row
+ 
      while ($row = $result->fetch_assoc()) {
          $user_name = $row["user_name"];
          $user_age = $row["user_age"];
@@ -79,7 +81,7 @@ $conn->close();
          $user_bodyweight = $row["user_bodyweight"];
          $user_height = $row["user_height"];
          
-         // Output the user data
+        
          
          echo '<div class="card" style="width: 18rem;">';
          echo '<div class="card-body">';
@@ -90,57 +92,41 @@ $conn->close();
          echo '<li class="list-group-item">Weight(kg): ' . $user_bodyweight . '</li>';
          echo '<li class="list-group-item">Height(cm): ' . $user_height . '</li>';
          echo '</ul>';
-         echo '<a href="#" class="btn btn-primary">View routines</a>';
+         echo '<a href="#" class="btn btn-primary view-routines-btn">View routines</a>';
          echo '</div>';
          echo '</div>';
+         
         
      }
  } else {
      echo "No users found for this coach.";
  }
 
- // Close the database connection
+
  $conn->close();
 
 
 
 
 ?>
+</div>
+</div> 
+<!-- div sa taas nito dinagdag q -->
 
+<div class="col-md-6">
+                <!-- Right container content -->
+                <div class="container text-center">
+                    <h2 class="h2r">Other Content</h2>
+                    <div id="right-container-content">
+                   <!-- Content will be loaded here -->
+                   </div>
+                </div>
+            </div>
+
+</div>
 </body>
 </main>
 
-<div class="modal fade" id="viewRoutinesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">User Routines</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Add content for your routines here -->
-        <!-- Example: -->
-        <p>Routine 1: ...</p>
-        <p>Routine 2: ...</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-$(document).ready(function() {
-  // Add a click event handler to your "View routines" button
-  $('.btn-primary').on('click', function() {
-    // Show the Bootstrap modal
-    $('#viewRoutinesModal').modal('show');
-  });
-});
-</script>
 
 
 

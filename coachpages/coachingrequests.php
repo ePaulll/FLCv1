@@ -29,7 +29,7 @@ include_once '../db/dbconn.php';
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/coachcard.css">
+    <link rel="stylesheet" href="../css/coachingrequest.css">
     <script src="coachscripts.js"></script>
 
   
@@ -38,8 +38,10 @@ include_once '../db/dbconn.php';
 
 <body>
     <div class="container">
-        <h2>Coach Hiring Requests</h2>
-        <table class="table table-bordered">
+       
+        <h2 class="h2c">Coaching Requests</h2>
+    
+        <table class="table table-bordered table-striped text-center">
             <thead>
                 <tr>
                     <th>User Name</th>

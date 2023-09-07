@@ -46,3 +46,24 @@ $(function() {
         });
     });
   });
+
+
+  $(document).ready(function () {
+    
+    $('.view-routines-btn').click(function (e) {
+        e.preventDefault(); 
+
+     
+        $.ajax({
+            url: '../pages/routinepage.php', 
+            type: 'GET',
+            success: function (data) {
+           
+                $('#right-container-content').html(data);
+            },
+            error: function () {
+                alert('Failed to load routines. Please try again later.');
+            }
+        });
+    });
+});

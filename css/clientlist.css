@@ -1,14 +1,22 @@
  .container {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
-       /* justify-content: center; */
+   
     gap: 20px;
     padding: 20px;
   } 
+/* justify-content: space-between; */
+       /* justify-content: center; */
+
 
   .card {
     width: 20em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .h2l{
+    text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
   }

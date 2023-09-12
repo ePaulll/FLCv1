@@ -55,7 +55,7 @@ $(function() {
 
      
         $.ajax({
-            url: '../pages/routinepage.php', 
+            url: '../pages/coachfunctions.php', 
             type: 'GET',
             success: function (data) {
            
@@ -63,6 +63,28 @@ $(function() {
             },
             error: function () {
                 alert('Failed to load routines. Please try again later.');
+            }
+        });
+    });
+});
+
+//load page to div
+$(document).ready(function() {
+    $("#create-routine-button").click(function(e) {
+        e.preventDefault(); 
+
+   
+        $.ajax({
+            url: 'routinepage.php', 
+            type: 'GET', 
+            dataType: 'html',
+            success: function(response) {
+             
+                $("#right-container-content").html(response);
+            },
+            error: function() {
+                
+                alert('Error loading page');
             }
         });
     });

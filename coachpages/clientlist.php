@@ -92,7 +92,9 @@ $conn->close();
          echo '<li class="list-group-item">Weight(kg): ' . $user_bodyweight . '</li>';
          echo '<li class="list-group-item">Height(cm): ' . $user_height . '</li>';
          echo '</ul>';
-         echo '<a href="#" class="btn btn-primary view-routines-btn">View routines</a>';
+         echo '<a href="#" class="btn btn-primary view-routines-btn ms-2">View routines</a>';
+         echo '<a href="#" class="btn btn-primary create-routine-btn ms-2 mt-2" id="create-routine-button">Create routine</a>';
+        //  echo '<a href="#" class="btn btn-primary create-routine-btn ms-2 mt-2">Create routine</a>';
          echo '</div>';
          echo '</div>';
          
@@ -114,9 +116,9 @@ $conn->close();
 <!-- div sa taas nito dinagdag q -->
 
 <div class="col-md-6">
-                <!-- Right container content -->
+            
                 <div class="container text-center">
-                    <h2 class="h2r">Other Content</h2>
+                    <!-- <h2 class="h2r">Other Content</h2> -->
                     <div id="right-container-content">
                    <!-- Content will be loaded here -->
                    </div>
@@ -127,7 +129,36 @@ $conn->close();
 </body>
 </main>
 
+<script>
+        $(document).ready(function () {
+            // When the button is clicked
+            $('#viewRoutinesBtn').click(function () {
+                $.ajax({
+                    url: '../db/coachfunctions.php', // Replace with the actual path to your PHP script
+                    method: 'POST',
+                    data: { userId: 123 }, // Replace with the user's ID you want to fetch routines for
+                    dataType: 'json',
+                    success: function (response) {
+                        // Clear the routineContainer
+                        $('#routineContainer').empty();
 
+                        // Append the routines to the container
+                        if (response.length > 0) {
+                            $('#routineContainer').append('<h3>User\'s Routines:</h3>');
+                            $.each(response, function (index, routineName) {
+                                $('#routineContainer').append('<p>' + routineName + '</p>');
+                            });
+                        } else {
+                            $('#routineContainer').append('<p>No routines found for this user.</p>');
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to fetch routines. Please try again later.');
+                    }
+                });
+            });
+        });
+    </script>
 
 
 <footer>

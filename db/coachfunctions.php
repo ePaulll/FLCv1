@@ -195,6 +195,29 @@ function getCoachByEmail($email) {
 }
 
 $conn->close();
+
+
+if(isset($_POST['user_id'])) {
+  $user_id = $_POST['user_id'];
+
+  // Use prepared statements to prevent SQL injection
+  $stmt = $conn->prepare("SELECT routine_name FROM tbl_routines WHERE coach_id = ? AND user_id = ?");
+  $stmt->bind_param("ii", $coachId, $userId);
+
+  // Set the coach_id and user_id based on your session and AJAX request
+  $coachId = $_SESSION['coach_id']; // Assuming you store the coach's ID in a session
+
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  // Fetch and return the routines as JSON
+  $routines = array();
+  while ($row = $result->fetch_assoc()) {
+      $routines[] = $row['routine_name'];
+  }
+
+  echo json_encode($routines);
+}
 ?>
 
 

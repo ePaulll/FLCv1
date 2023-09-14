@@ -67,7 +67,7 @@ $conn->close();
  if ($conn->connect_error) {
      die("Connection failed: " . $conn->connect_error);
  }
- $sql = "SELECT user_name, user_age, user_gender, user_bodyweight, user_height FROM tbl_users WHERE coach_id = $coach_id";
+ $sql = "SELECT user_id, user_name, user_age, user_gender, user_bodyweight, user_height FROM tbl_users WHERE coach_id = $coach_id";
 
  
  $result = $conn->query($sql);
@@ -75,12 +75,13 @@ $conn->close();
  if ($result->num_rows > 0) {
  
      while ($row = $result->fetch_assoc()) {
+        
          $user_name = $row["user_name"];
          $user_age = $row["user_age"];
          $user_gender = $row["user_gender"];
          $user_bodyweight = $row["user_bodyweight"];
          $user_height = $row["user_height"];
-         
+         $user_id = $row["user_id"];
         
          
          echo '<div class="card" style="width: 18rem;">';
@@ -92,8 +93,10 @@ $conn->close();
          echo '<li class="list-group-item">Weight(kg): ' . $user_bodyweight . '</li>';
          echo '<li class="list-group-item">Height(cm): ' . $user_height . '</li>';
          echo '</ul>';
+         echo '<input type="hidden" class="user-id" value="' . $user_id . '">';
          echo '<a href="#" class="btn btn-primary view-routines-btn ms-2">View routines</a>';
-         echo '<a href="#" class="btn btn-primary create-routine-btn ms-2 mt-2" id="create-routine-button">Create routine</a>';
+         echo '<a href="#" class="btn btn-primary manage-user-btn ms-2 mt-2" data-user-id="<?php '. $user_id .' ?>">Manage user</a>';
+
         //  echo '<a href="#" class="btn btn-primary create-routine-btn ms-2 mt-2">Create routine</a>';
          echo '</div>';
          echo '</div>';
@@ -101,7 +104,7 @@ $conn->close();
         
      }
  } else {
-     echo "No users found for this coach.";
+     echo "No Clients found for this coach.";
  }
 
 
@@ -119,7 +122,9 @@ $conn->close();
             
                 <div class="container text-center">
                     <!-- <h2 class="h2r">Other Content</h2> -->
+                    <div class="col-md-12">
                     <div id="right-container-content">
+                    </div>
                    <!-- Content will be loaded here -->
                    </div>
                 </div>
@@ -129,35 +134,59 @@ $conn->close();
 </body>
 </main>
 
-<script>
-        $(document).ready(function () {
-            // When the button is clicked
-            $('#viewRoutinesBtn').click(function () {
-                $.ajax({
-                    url: '../db/coachfunctions.php', // Replace with the actual path to your PHP script
-                    method: 'POST',
-                    data: { userId: 123 }, // Replace with the user's ID you want to fetch routines for
-                    dataType: 'json',
-                    success: function (response) {
-                        // Clear the routineContainer
-                        $('#routineContainer').empty();
+    <script>
+        
 
-                        // Append the routines to the container
-                        if (response.length > 0) {
-                            $('#routineContainer').append('<h3>User\'s Routines:</h3>');
-                            $.each(response, function (index, routineName) {
-                                $('#routineContainer').append('<p>' + routineName + '</p>');
-                            });
-                        } else {
-                            $('#routineContainer').append('<p>No routines found for this user.</p>');
-                        }
-                    },
-                    error: function () {
-                        alert('Failed to fetch routines. Please try again later.');
-                    }
-                });
-            });
-        });
+        document.querySelectorAll('.manage-user-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        // Get the user ID from the input field in the same card
+        var userId = this.parentElement.querySelector('.user-id').value;
+
+        // Use userId in your JavaScript logic
+        console.log('User ID: ' + userId);
+    });
+});
+
+
+document.querySelectorAll('.manage-user-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var userId = this.parentElement.querySelector('.user-id').value;
+        
+        // Load the page into the right-container-content div
+        $('#right-container-content').load('addroutine.php?user_id=' + userId);
+    });
+});
+
+// document.querySelectorAll('.manage-user-btn').forEach(function(button) {
+//     button.addEventListener('click', function() {
+//         var userId = this.parentElement.querySelector('.user-id').value;
+//         console.log('User ID: ' + userId);
+//         // Load the page into the right-container-content div
+//         $('#right-container-content').load('addroutine.php?user_id=' + userId);
+//     });
+// });
+
+
+// $(document).ready(function() {
+//   // Get the manage user button
+//   var manageUserButton = $('.manage-user-btn');
+
+//   // When the manage user button is clicked
+//   manageUserButton.on('click', function() {
+//     // Get the user ID from the button
+//     var userId = $(this).data('user-id');
+//     console.log('User ID: ' + userId);
+//     // Send an AJAX request to get the manage user content
+//     $.ajax({
+//       url: 'addroutine.php',
+//       success: function(data) {
+//         // Populate the right container content div with the response data
+//         $('#right-container-content').html(data);
+//       }
+//     });
+//   });
+// });
+
     </script>
 
 

@@ -69,6 +69,56 @@ include_once '../db/dbconn.php';
   </div>
   </body>
 </main>
+
+
+<script>
+      // Function to show SweetAlert2 alert
+      function showAlert(title, text, icon) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+        });
+    }
+
+  
+    document.getElementById('loginbutton').addEventListener('click', function (event) {
+        event.preventDefault();
+
+      
+        const email = document.getElementById('coachEmail').value;
+        const password = document.getElementById('coachPassword').value;
+
+       
+        $.ajax({
+            type: 'POST',
+            url: '../db/coachfunctions.php',
+            data: {
+                usrEmail: email,
+                usrPassword1: password,
+                loginusr: true
+            },
+            dataType: 'json',
+            success: function (response) {
+    console.log('Response:', response);
+    if (response.status === 'success') {
+        console.log('Redirecting to dashboard...');
+        window.location.href = 'coachdashboard.php';
+    } else {
+        showAlert('Login Failed', 'Incorrect email or password.', 'error');
+    }
+},
+            error: function () {
+             
+                showAlert('Error', 'Login Failed', 'Incorrect email or password.', 'error');
+            }
+        });
+    });
+  </script>
+
+
   <footer>
       <!-- <p>About us</p>
       <p>placeholder</p>

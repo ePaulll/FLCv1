@@ -48,7 +48,41 @@ if (isset($_POST['registercoach'])) {
 }
 
 
-// for logging in ng coach
+// for logging in ng coach working pero walang sweetalert
+// if (isset($_POST['logincoach'])) {
+//   $coach_email = $_POST['coachEmail'];
+//   $coach_password = $_POST['coachPassword1'];
+
+//   $coach_email = filter_var($coach_email, FILTER_SANITIZE_EMAIL);
+//   $coach_password = htmlspecialchars($coach_password);
+
+
+//   if (empty($coach_email) || empty($coach_password)) {
+//     $error = "Please enter both your email and password.";
+//   }
+
+//   if (!filter_var($coach_email, FILTER_VALIDATE_EMAIL)) {
+//     $error = "Please enter a valid email address.";
+//   }
+
+//   $coach = getCoachByEmail($coach_email); 
+//   if (!$coach || !password_verify($coach_password, $coach['coach_password'])) {
+//     $error = "Invalid email or password. Please try again.";
+//   }
+
+
+//   if (!isset($error)) {
+//     $_SESSION['coach_id'] = $coach['coach_id']; 
+//     insertAuditLog($coach['coach_id'], 'login');
+//     echo "Coach ID set in session: " . $_SESSION['coach_id'];
+//     header('Location: ../coachpages/coachdashboard.php');
+//     exit; 
+//   }
+
+//   echo $error;
+// }
+
+// not sure if gumagana pero may sweetalert
 if (isset($_POST['logincoach'])) {
   $coach_email = $_POST['coachEmail'];
   $coach_password = $_POST['coachPassword1'];
@@ -56,30 +90,39 @@ if (isset($_POST['logincoach'])) {
   $coach_email = filter_var($coach_email, FILTER_SANITIZE_EMAIL);
   $coach_password = htmlspecialchars($coach_password);
 
+  $response = array();
 
+  // Form validation
   if (empty($coach_email) || empty($coach_password)) {
-    $error = "Please enter both your email and password.";
+      $response = array(
+          'status' => 'error',
+          'message' => 'Please enter both your email and password.'
+      );
+  } elseif (!filter_var($coach_email, FILTER_VALIDATE_EMAIL)) {
+      $response = array(
+          'status' => 'error',
+          'message' => 'Please enter a valid email address.'
+      );
+  } else {
+      $coach = getCoachByEmail($coach_email);
+      if (!$coach || !password_verify($coach_password, $coach['coach_password'])) {
+          $response = array(
+              'status' => 'error',
+              'message' => 'Invalid email or password. Please try again.'
+          );
+      } else {
+          $_SESSION['coach_id'] = $coach['coach_id'];
+          insertAuditLog($coach['coach_id'], 'login');
+          $response = array(
+              'status' => 'success',
+              'message' => 'Login successful.'
+          );
+      }
   }
 
-  if (!filter_var($coach_email, FILTER_VALIDATE_EMAIL)) {
-    $error = "Please enter a valid email address.";
-  }
-
-  $coach = getCoachByEmail($coach_email); 
-  if (!$coach || !password_verify($coach_password, $coach['coach_password'])) {
-    $error = "Invalid email or password. Please try again.";
-  }
-
-
-  if (!isset($error)) {
-    $_SESSION['coach_id'] = $coach['coach_id']; 
-    insertAuditLog($coach['coach_id'], 'login');
-    echo "Coach ID set in session: " . $_SESSION['coach_id'];
-    header('Location: ../coachpages/coachdashboard.php');
-    exit; 
-  }
-
-  echo $error;
+  // Output JSON response
+  header('Content-Type: application/json');
+  echo json_encode($response);
 }
 
 
@@ -250,34 +293,36 @@ if(isset($_POST['user_id'])) {
 
 
 
-if (!isset($_POST['routineName']) || empty($_POST['routineName'])) {
-  $response = array("success" => false, "message" => "Please enter a routine name.");
-  return json_encode($response);
-}
+// if (!isset($_POST['routineName']) || empty($_POST['routineName'])) {
+//   $response = array("success" => false, "message" => "Please enter a routine name.");
+//   return json_encode($response);
+// }
 
-// Prepare the SQL statement
-$sql = "INSERT INTO tbl_routines (user_id, coach_id, routine_name) 
-          VALUES (:user_id, :coach_id, :routine_name)";
-$stmt = $conn->prepare($sql);
+// // Prepare the SQL statement
+// $sql = "INSERT INTO tbl_routines (user_id, coach_id, routine_name) 
+//           VALUES (:user_id, :coach_id, :routine_name)";
+// $stmt = $conn->prepare($sql);
 
-// Bind the parameters
-$stmt->bindParam(':user_id', $user_id);
-$stmt->bindParam(':coach_id', $coach_id);
-$stmt->bindParam(':routine_name', $routineName);
+// // Bind the parameters
+// $stmt->bindParam(':user_id', $user_id);
+// $stmt->bindParam(':coach_id', $coach_id);
+// $stmt->bindParam(':routine_name', $routineName);
 
-// Execute the SQL statement
-$stmt->execute();
+// // Execute the SQL statement
+// $stmt->execute();
 
-// Get the ID of the newly created routine
-$routineId = $conn->lastInsertId();
+// // Get the ID of the newly created routine
+// $routineId = $conn->lastInsertId();
 
-// Close the database connection
-$conn->close();
+// // Close the database connection
+// $conn->close();
 
-// Return a JSON response
-$response = array("success" => true, "message" => "Routine created successfully.", "routine_id" => $routineId);
-header("Content-Type: application/json");
-echo json_encode($response);
+// // Return a JSON response
+// $response = array("success" => true, "message" => "Routine created successfully.", "routine_id" => $routineId);
+// header("Content-Type: application/json");
+// echo json_encode($response);
+
+// di gumagana 
 ?>
 
 

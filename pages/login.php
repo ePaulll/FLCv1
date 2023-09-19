@@ -51,7 +51,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
 
 
 
-<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+
 
 <body>
   <div class="container">
@@ -130,31 +130,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
 </body>
 
 
-
-
-
-
-
-    <!-- luma na to pero gumagana <div class="container">
-      <div class="row">
-        <div class="col-md-6 mx-auto">
-         
-          <form action="../db/functions.php" method="POST">
-            <h2>Login</h2>
-            <div class="form-group text-center">
-              <input type="text" class="form-control" id="usermail" name="usrEmail" placeholder="Enter Email">
-            </div>
-            <div class="form-group text-center">
-              <input type="password" class="form-control" id="userpassword" name="usrPassword1" placeholder="Enter password">
-            </div>
-            <div class="d-flex justify-content-end">
-              <button type="submit" id="loginbutton" class="btn btn-success" name="loginusr">Login</button>
-            </div> 
-            <p class="registerlink" id="registerlnk">Don't have an account? <a href="#" id="register-link">Register here</a></p>
-          </form>
-        </div>
-      </div>  
-    </div> -->
   </body>
 </main>
 

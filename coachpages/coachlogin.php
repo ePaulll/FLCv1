@@ -19,6 +19,12 @@ include_once '../db/dbconn.php';
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/login.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+"></script>
+<link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
+" rel="stylesheet">
 
 <script src="coachscripts.js"></script>
 </head>
@@ -96,9 +102,9 @@ include_once '../db/dbconn.php';
             type: 'POST',
             url: '../db/coachfunctions.php',
             data: {
-                usrEmail: email,
-                usrPassword1: password,
-                loginusr: true
+              coachEmail: email,
+              coachPassword1: password,
+              logincoach: true
             },
             dataType: 'json',
             success: function (response) {

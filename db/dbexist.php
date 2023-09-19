@@ -194,4 +194,21 @@ mysqli_query($conn , $createTableQuery);
 
 
 
+if (!isDBTableExist($dbname, 'tbl_admin')) {
+    $createTableQuery = "CREATE TABLE tbl_admin (
+        admin_id INT AUTO_INCREMENT PRIMARY KEY,
+        admin_name VARCHAR(255) NOT NULL,
+        admin_password VARCHAR(255) NOT NULL,
+        admin_email VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );";
+     
+      
+      
+
+mysqli_query($conn , $createTableQuery);
+}
+
+
+
 ?>

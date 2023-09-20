@@ -2,9 +2,9 @@
 
 
 include_once 'dbconn.php';
-session_start();
-$user_id = $_SESSION['user_id'];
-$_SESSION['user_id'] = $user_id;  
+// session_start();
+// $user_id = $_SESSION['user_id'];
+// $_SESSION['user_id'] = $user_id;  
  
 
 

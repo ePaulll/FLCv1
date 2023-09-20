@@ -59,8 +59,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card border-0 shadow rounded-3 my-5">
           <div class="card-body p-4 p-sm-5">
-            <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
-            <form action="../db/functions.php" method="POST">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Admin</h5>
+            <form action="../db/adminfunctions.php" method="POST">
               <div class="form-floating mb-3">
               <input type="email" class="form-control" id="adminemail" name="adminEmail" placeholder="Enter Email">
                 <label for="adminemail">Email address</label>
@@ -82,50 +82,45 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
     </div>
   </div>
   <script>
-      // Function to show SweetAlert2 alert
-      function showAlert(title, text, icon) {
-        Swal.fire({
-            title: title,
-            text: text,
-            icon: icon,
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
-        });
-    }
+    function showAlert(title, text, icon) {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: icon,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'OK'
+  });
+}
 
-  
-    document.getElementById('loginbutton').addEventListener('click', function (event) {
-        event.preventDefault();
+document.getElementById('loginbutton').addEventListener('click', function (event) {
+  event.preventDefault();
 
-      
-        const email = document.getElementById('usermail').value;
-        const password = document.getElementById('userpassword').value;
+  const email = document.getElementById('adminemail').value;
+  const password = document.getElementById('adminpassword').value;
 
-       
-        $.ajax({
-            type: 'POST',
-            url: '../db/functions.php',
-            data: {
-                usrEmail: email,
-                usrPassword1: password,
-                loginusr: true
-            },
-            dataType: 'json',
-            success: function (response) {
-    console.log('Response:', response);
-    if (response.status === 'success') {
-        console.log('Redirecting to dashboard...');
-        window.location.href = 'dashboard.php';
-    } else {
+  $.ajax({
+    type: 'POST',
+    url: '../db/adminfunctions.php', // Update the URL to your admin login PHP script
+    data: {
+      adminEmail: email, // Update the parameter name to match your PHP script
+      adminPassword1: password, // Update the parameter name to match your PHP script
+      loginadmin: true
+    },
+    dataType: 'json',
+    success: function (response) {
+      console.log('Response:', response);
+      if (response.status === 'success') {
+        console.log('Redirecting to admin dashboard...');
+        window.location.href = 'admindashboard.php'; 
+      } else {
         showAlert('Login Failed', 'Incorrect email or password.', 'error');
+      }
+    },
+    error: function () {
+      showAlert('Error', 'An error occurred while processing your request.', 'error');
     }
-},
-            error: function () {
-             
-                showAlert('Error', 'An error occurred while processing your request.', 'error');
-            }
-        });
-    });
+  });
+});
   </script>
 </body>
 

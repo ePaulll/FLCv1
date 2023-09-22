@@ -1,8 +1,8 @@
 <?php
-require('../db/functions.php');
+require('../db/adminfunctions.php');
 include_once '../db/dbconn.php';
 session_start();
-$_SESSION['admin'] = $admin_id;
+$_SESSION['admin_id'] = $admin_id;
 print_r($_SESSION);
 
 ?>
@@ -19,6 +19,7 @@ print_r($_SESSION);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/dashboard.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="adminscripts.js"></script>
@@ -46,7 +47,7 @@ print_r($_SESSION);
               
                  
               <li class="nav-item">
-                <a class="nav-link" href=""><i class="bi bi-person-fill"></i>Statistics</a>
+                <a class="nav-link" href="statistics.php"><i class="bi bi-person-fill"></i>Statistics</a>
               </li>
               
               <li class="nav-item">

@@ -1,5 +1,7 @@
 <?php
 include_once 'dbconn.php';
+
+
 if (isset($_POST['loginadmin'])) {
     $admin_email = $_POST['adminEmail'];
     $admin_password = $_POST['adminPassword1'];
@@ -100,6 +102,45 @@ if (isset($_POST['registeradmin'])) {
         exit();
     }
 }
+
+
+// sa cards
+$sql = "SELECT COUNT(*) AS user_count FROM tbl_users"; // Replace 'tbl_users' with your actual table name
+
+// Execute the query
+$result = $conn->query($sql);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch the result as an associative array
+    $row = $result->fetch_assoc();
+
+    // Get the count of users
+    $userCount = $row['user_count'];
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+
+
+// sa cards
+$sql = "SELECT COUNT(*) AS coach_count FROM tbl_coach"; // Replace 'tbl_users' with your actual table name
+
+// Execute the query
+$result = $conn->query($sql);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch the result as an associative array
+    $row = $result->fetch_assoc();
+
+    // Get the count of users
+    $coachCount = $row['coach_count'];
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+
 
 
 

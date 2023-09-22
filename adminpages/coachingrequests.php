@@ -52,7 +52,7 @@ include_once '../db/dbconn.php';
             </thead>
             <tbody>
                 <?php
-                // Assuming you have a valid database connection
+                
                 $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);

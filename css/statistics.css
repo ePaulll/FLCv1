@@ -1,0 +1,44 @@
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fdfdfd;
+    background-clip: border-box;
+    border: 1px solid #fcfcfc;
+    border-radius: .35rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+}
+
+
+
+.border-left-primary {
+    border-left: 0.25rem solid #19A7CE!important;
+}
+.pb-2, .py-2 {
+    padding-bottom: 0.5rem!important;
+}
+.pt-2, .py-2 {
+    padding-top: 0.5rem!important;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}

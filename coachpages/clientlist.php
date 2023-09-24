@@ -3,6 +3,16 @@ require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
 
 
+
+
+
+
+
+
+
+
+
+
 $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -53,6 +63,25 @@ $conn->close();
     <script src="coachscripts.js"></script>
     
   
+    <script>
+function loadPage(url,elementId) {
+    if (window.XMLHttpRequest) {
+            xmlhttp=new XMLHttpRequest();
+    } else {
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }   
+    xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            document.getElementById(elementId).innerHTML="";
+            document.getElementById(elementId).innerHTML=xmlhttp.responseText;	
+        }
+    }  
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send();	   
+}
+
+    </script>
+
 </head>
 <main>
 <body>
@@ -93,11 +122,12 @@ $conn->close();
          echo '<li class="list-group-item">Weight(kg): ' . $user_bodyweight . '</li>';
          echo '<li class="list-group-item">Height(cm): ' . $user_height . '</li>';
          echo '</ul>';
-         echo '<input type="hidden" class="user-id" value="' . $user_id . '">';
+         echo '<input type="text" class="user-id" value="' . $user_id . '">';
          echo '<a href="#" class="btn btn-primary view-routines-btn ms-2">View routines</a>';
-         echo '<a href="#" class="btn btn-primary manage-user-btn ms-2 mt-2" data-user-id="<?php '. $user_id .' ?>">Manage user</a>';
+        // echo '<a href="#" class="btn btn-primary manage-user-btn ms-2 mt-2" data-user-id="'.$user_id.'">Manage user</a>';
+        echo '<a href="javascript:void();" class="btn btn-primary manage-user-btn ms-2 mt-2" onclick="loadPage(\'addroutine_v2.php?user_id='.$user_id.'\',\'content\');">Manage user</a>';
 
-        //  echo '<a href="#" class="btn btn-primary create-routine-btn ms-2 mt-2">Create routine</a>';
+        
          echo '</div>';
          echo '</div>';
          
@@ -123,7 +153,8 @@ $conn->close();
                 <div class="container text-center">
                     <!-- <h2 class="h2r">Other Content</h2> -->
                     <div class="col-md-12">
-                    <div id="right-container-content">
+                    <div id="content">
+                    <?php include('addroutine_v2.php');?> 
                     </div>
                    <!-- Content will be loaded here -->
                    </div>
@@ -135,8 +166,6 @@ $conn->close();
 </main>
 
     <script>
-        
-
         document.querySelectorAll('.manage-user-btn').forEach(function(button) {
     button.addEventListener('click', function() {
         // Get the user ID from the input field in the same card
@@ -157,35 +186,7 @@ document.querySelectorAll('.manage-user-btn').forEach(function(button) {
     });
 });
 
-// document.querySelectorAll('.manage-user-btn').forEach(function(button) {
-//     button.addEventListener('click', function() {
-//         var userId = this.parentElement.querySelector('.user-id').value;
-//         console.log('User ID: ' + userId);
-//         // Load the page into the right-container-content div
-//         $('#right-container-content').load('addroutine.php?user_id=' + userId);
-//     });
-// });
 
-
-// $(document).ready(function() {
-//   // Get the manage user button
-//   var manageUserButton = $('.manage-user-btn');
-
-//   // When the manage user button is clicked
-//   manageUserButton.on('click', function() {
-//     // Get the user ID from the button
-//     var userId = $(this).data('user-id');
-//     console.log('User ID: ' + userId);
-//     // Send an AJAX request to get the manage user content
-//     $.ajax({
-//       url: 'addroutine.php',
-//       success: function(data) {
-//         // Populate the right container content div with the response data
-//         $('#right-container-content').html(data);
-//       }
-//     });
-//   });
-// });
 
     </script>
 

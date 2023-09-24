@@ -1,4 +1,10 @@
 
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+"></script>
+
+
+
 $(function() {
     $(document).on('click', '#cancelbutton', function(e) {
       e.preventDefault();
@@ -67,6 +73,29 @@ $(function() {
         });
     });
 });
+
+
+
+//AJAX Darren
+function loadPage(url,elementId) {
+    if (window.XMLHttpRequest) {
+            xmlhttp=new XMLHttpRequest();
+    } else {
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }   
+    xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            document.getElementById(elementId).innerHTML="";
+            document.getElementById(elementId).innerHTML=xmlhttp.responseText;	
+        }
+    }   
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send();	   
+}
+
+
+  
+
 
 //load page to div
 // $(document).ready(function() {

@@ -1,4 +1,6 @@
 <?php 
+  if (file_exists('db/database.php')) { include_once('db/database.php'); }
+  if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
 
 
 include_once 'dbconn.php';
@@ -48,41 +50,68 @@ if (isset($_POST['registercoach'])) {
 }
 
 
-// for logging in ng coach working pero walang sweetalert
-// if (isset($_POST['logincoach'])) {
-//   $coach_email = $_POST['coachEmail'];
-//   $coach_password = $_POST['coachPassword1'];
-
-//   $coach_email = filter_var($coach_email, FILTER_SANITIZE_EMAIL);
-//   $coach_password = htmlspecialchars($coach_password);
 
 
-//   if (empty($coach_email) || empty($coach_password)) {
-//     $error = "Please enter both your email and password.";
-//   }
-
-//   if (!filter_var($coach_email, FILTER_VALIDATE_EMAIL)) {
-//     $error = "Please enter a valid email address.";
-//   }
-
-//   $coach = getCoachByEmail($coach_email); 
-//   if (!$coach || !password_verify($coach_password, $coach['coach_password'])) {
-//     $error = "Invalid email or password. Please try again.";
-//   }
 
 
-//   if (!isset($error)) {
-//     $_SESSION['coach_id'] = $coach['coach_id']; 
-//     insertAuditLog($coach['coach_id'], 'login');
-//     echo "Coach ID set in session: " . $_SESSION['coach_id'];
-//     header('Location: ../coachpages/coachdashboard.php');
-//     exit; 
-//   }
+// sa create routine
 
-//   echo $error;
+// if (isset($_POST['routineName']) && isset($_POST['userId']) && isset($_POST['coach_id'])) {
+//     $routineName = $_POST['routineName'];
+//     $userId = $_POST['userId'];
+//     $coachId = $_POST['coach_id'];
+
+   
+//     $routineName = filter_var($routineName, FILTER_SANITIZE_STRING);
+//     $userId = filter_var($userId, FILTER_VALIDATE_INT);
+//     $coachId = filter_var($coachId, FILTER_VALIDATE_INT);
+
+//     if ($routineName === false || $userId === false || $coachId === false) {
+//         $response = array('status' => 'error', 'message' => 'Invalid input data.');
+//     } else {
+       
+//         $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
+//         if ($conn->connect_error) {
+//             die("Connection failed: " . $conn->connect_error);
+//         }
+
+        
+//         $stmt = $conn->prepare("INSERT INTO tbl_routines (user_id, coach_id, routine_name) VALUES (?, ?, ?)");
+//         $stmt->bind_param("iis", $userId, $coachId, $routineName);
+
+//         if ($stmt->execute()) {
+//             $response = array('status' => 'success', 'message' => 'Routine created successfully.');
+//         } else {
+//             $response = array('status' => 'error', 'message' => 'Failed to create routine.');
+//         }
+
+//         $stmt->close();
+//         $conn->close();
+//     }
+// } else {
+//     $response = array('status' => 'error', 'message' => 'Invalid request.');
 // }
 
-// not sure if gumagana pero may sweetalert
+// // Send the JSON response
+// header('Content-Type: application/json');
+// echo json_encode($response);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// gumagana log in may sw8alert
 if (isset($_POST['logincoach'])) {
   $coach_email = $_POST['coachEmail'];
   $coach_password = $_POST['coachPassword1'];
@@ -92,7 +121,6 @@ if (isset($_POST['logincoach'])) {
 
   $response = array();
 
-  // Form validation
   if (empty($coach_email) || empty($coach_password)) {
       $response = array(
           'status' => 'error',
@@ -120,13 +148,13 @@ if (isset($_POST['logincoach'])) {
       }
   }
 
-  // Output JSON response
+  
   header('Content-Type: application/json');
   echo json_encode($response);
 }
 
 
-// retrieve coach by email from tbl_coaches
+
 function getCoachByEmail($email) {
     
     $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
@@ -240,27 +268,27 @@ function getCoachByEmail($email) {
 $conn->close();
 
 
-if(isset($_POST['user_id'])) {
-  $user_id = $_POST['user_id'];
+// if(isset($_POST['user_id'])) {
+//   $user_id = $_POST['user_id'];
 
-  // Use prepared statements to prevent SQL injection
-  $stmt = $conn->prepare("SELECT routine_name FROM tbl_routines WHERE coach_id = ? AND user_id = ?");
-  $stmt->bind_param("ii", $coachId, $userId);
+//   // Use prepared statements to prevent SQL injection
+//   $stmt = $conn->prepare("SELECT routine_name FROM tbl_routines WHERE coach_id = ? AND user_id = ?");
+//   $stmt->bind_param("ii", $coachId, $userId);
 
-  // Set the coach_id and user_id based on your session and AJAX request
-  $coachId = $_SESSION['coach_id']; // Assuming you store the coach's ID in a session
+//   // Set the coach_id and user_id based on your session and AJAX request
+//   $coachId = $_SESSION['coach_id']; // Assuming you store the coach's ID in a session
 
-  $stmt->execute();
-  $result = $stmt->get_result();
+//   $stmt->execute();
+//   $result = $stmt->get_result();
 
-  // Fetch and return the routines as JSON
-  $routines = array();
-  while ($row = $result->fetch_assoc()) {
-      $routines[] = $row['routine_name'];
-  }
+//   // Fetch and return the routines as JSON
+//   $routines = array();
+//   while ($row = $result->fetch_assoc()) {
+//       $routines[] = $row['routine_name'];
+//   }
 
-  echo json_encode($routines);
-}
+//   echo json_encode($routines);
+// }
 
 
 
@@ -268,7 +296,7 @@ if(isset($_POST['user_id'])) {
 // if (isset($_POST['routineName'])) {
 //   $routineName = $_POST['routineName'];
 
-//   // Insert the routine into the tbl_routines table
+//  
 //   $sql = "INSERT INTO tbl_routines (user_id, coach_id, routine_name) 
 //           VALUES ('$user_id', '$coach_id', '$routineName')";
 

@@ -15,6 +15,6 @@ if (isset($_SESSION['coach_id'])) {
 session_destroy();
 
 
-header('Location: coachlogin.php');
+header('Location: index.php');
 exit;
 ?>

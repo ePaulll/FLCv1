@@ -1,7 +1,7 @@
 <?php
 require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
-
+// session_start();
 
 ?>
 <!doctype html>

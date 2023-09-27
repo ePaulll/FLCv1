@@ -1,4 +1,6 @@
 <?php
+if (file_exists('db/database.php')) { include_once('db/database.php'); }
+if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
 require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
 // ini_set('display_errors', 0);
@@ -113,12 +115,13 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
         console.log('Redirecting to dashboard...');
         window.location.href = 'coachdashboard.php';
     } else {
+      console.log('Not working 1');
         showAlert('Login Failed', 'Incorrect email or password.', 'error');
     }
 },
             error: function () {
-             
-                showAlert('Error', 'Login Failed', 'Incorrect email or password.', 'error');
+              console.log('Not working 2');
+              showAlert('Error', 'An error occurred while processing your request.', 'error');
             }
         });
     });

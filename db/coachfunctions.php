@@ -1,6 +1,6 @@
 <?php 
-  if (file_exists('db/database.php')) { include_once('db/database.php'); }
-  if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
+//   if (file_exists('db/database.php')) { include_once('db/database.php'); }
+//   if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
 
 
 include_once 'dbconn.php';
@@ -180,12 +180,12 @@ function getCoachByEmail($email) {
   }
   
  
-  function insertAuditLog($user_id, $action) {
+  function insertAuditLog($coach_id, $action) {
     $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
   
-    $stmt = $conn->prepare("INSERT INTO tbl_audit (user_id, audit_action, audit_timestamp) VALUES (?, ?, NOW())");
+    $stmt = $conn->prepare("INSERT INTO tbl_audit (coach_id, audit_action, audit_timestamp) VALUES (?, ?, NOW())");
   
-    $stmt->bind_param("is", $user_id, $action);
+    $stmt->bind_param("is", $coach_id, $action);
   
     $stmt->execute();
   
@@ -268,89 +268,7 @@ function getCoachByEmail($email) {
 $conn->close();
 
 
-// if(isset($_POST['user_id'])) {
-//   $user_id = $_POST['user_id'];
 
-//   // Use prepared statements to prevent SQL injection
-//   $stmt = $conn->prepare("SELECT routine_name FROM tbl_routines WHERE coach_id = ? AND user_id = ?");
-//   $stmt->bind_param("ii", $coachId, $userId);
-
-//   // Set the coach_id and user_id based on your session and AJAX request
-//   $coachId = $_SESSION['coach_id']; // Assuming you store the coach's ID in a session
-
-//   $stmt->execute();
-//   $result = $stmt->get_result();
-
-//   // Fetch and return the routines as JSON
-//   $routines = array();
-//   while ($row = $result->fetch_assoc()) {
-//       $routines[] = $row['routine_name'];
-//   }
-
-//   echo json_encode($routines);
-// }
-
-
-
-// Get the routine name from the POST request
-// if (isset($_POST['routineName'])) {
-//   $routineName = $_POST['routineName'];
-
-//  
-//   $sql = "INSERT INTO tbl_routines (user_id, coach_id, routine_name) 
-//           VALUES ('$user_id', '$coach_id', '$routineName')";
-
-//   if ($conn->query($sql) === TRUE) {
-//       // If the SQL query is successful
-//       $response = array("success" => true);
-//   } else {
-//       // If there was an error with the SQL query
-//       $response = array("success" => false);
-//   }
-
-//   // Close the database connection
-//   $conn->close();
-// } else {
-//   // Handle the case where routineName is not set (e.g., form not submitted correctly)
-//   $response = array("success" => false);
-// }
-
-// // Return a JSON response
-// header("Content-Type: application/json");
-// echo json_encode($response);
-
-
-
-// if (!isset($_POST['routineName']) || empty($_POST['routineName'])) {
-//   $response = array("success" => false, "message" => "Please enter a routine name.");
-//   return json_encode($response);
-// }
-
-// // Prepare the SQL statement
-// $sql = "INSERT INTO tbl_routines (user_id, coach_id, routine_name) 
-//           VALUES (:user_id, :coach_id, :routine_name)";
-// $stmt = $conn->prepare($sql);
-
-// // Bind the parameters
-// $stmt->bindParam(':user_id', $user_id);
-// $stmt->bindParam(':coach_id', $coach_id);
-// $stmt->bindParam(':routine_name', $routineName);
-
-// // Execute the SQL statement
-// $stmt->execute();
-
-// // Get the ID of the newly created routine
-// $routineId = $conn->lastInsertId();
-
-// // Close the database connection
-// $conn->close();
-
-// // Return a JSON response
-// $response = array("success" => true, "message" => "Routine created successfully.", "routine_id" => $routineId);
-// header("Content-Type: application/json");
-// echo json_encode($response);
-
-// di gumagana 
 ?>
 
 

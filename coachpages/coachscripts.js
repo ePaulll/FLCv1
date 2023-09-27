@@ -1,7 +1,7 @@
 
-<script src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
-"></script>
+// <script src="
+// https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+// "></script>
 
 
 
@@ -54,25 +54,25 @@ $(function() {
   });
 
 
-  $(document).ready(function () {
+//   $(document).ready(function () {
     
-    $('.view-routines-btn').click(function (e) {
-        e.preventDefault(); 
+//     $('.view-routines-btn').click(function (e) {
+//         e.preventDefault(); 
 
      
-        $.ajax({
-            url: '../pages/coachfunctions.php', 
-            type: 'GET',
-            success: function (data) {
+//         $.ajax({
+//             url: '../pages/coachfunctions.php', 
+//             type: 'GET',
+//             success: function (data) {
            
-                $('#right-container-content').html(data);
-            },
-            error: function () {
-                alert('Failed to load routines. Please try again later.');
-            }
-        });
-    });
-});
+//                 $('#right-container-content').html(data);
+//             },
+//             error: function () {
+//                 alert('Failed to load routines. Please try again later.');
+//             }
+//         });
+//     });
+// });
 
 
 
@@ -93,116 +93,28 @@ function loadPage(url,elementId) {
     xmlhttp.send();	   
 }
 
+function add_routine(user_id) {
+    var routineName = document.getElementById('routineName').value;
 
+    if (routineName !== '') {
+        Swal.fire({
+            title: "User",
+            text: "Are you sure to add this routine?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            dangerMode: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                loadPage('addroutine_v2.php?user_id='+user_id
+                    +'&routineName=' + routineName,'content');
+            }
+        });
+    } else {
+        Swal.fire('No input', 'Please enter a Routine Name', 'error');
+    }
+}
   
-
-
-//load page to div
-// $(document).ready(function() {
-//     $("#create-routine-btn").click(function(e) {
-//         e.preventDefault(); 
-
-   
-//         $.ajax({
-//             url: 'addroutine.php', 
-//             type: 'GET', 
-//             dataType: 'php',
-//             success: function(response) {
-             
-//                 $("#right-container-content").html(response);
-//             },
-//             error: function() {
-                
-//                 alert('Error loading page');
-//             }
-//         });
-//     });
-// });
-
-
-// 1 
-// $(document).ready(function () {
-//     $("#rtn-btn").click(function () {
-//         // Get the routine name from the input field
-//         var routineName = $("#routineName").val();
-
-//         // Validate the routine name (you can add your own validation logic)
-
-//         // Send an Ajax request to create the routine
-//         $.ajax({
-//             type: "POST",
-//             url: "../db/coachfunctions.php", // Replace with your PHP script URL
-//             data: { routine_name: routineName }, // Send routine name to the server
-//             dataType: "json", // Expect JSON response
-//             success: function (response) {
-//                 // Check if the routine creation was successful
-//                 if (response.success) {
-//                     // Show a success message using SweetAlert2
-//                     Swal.fire({
-//                         icon: "success",
-//                         title: "Success",
-//                         text: "Routine created successfully!",
-//                     });
-//                 } else {
-//                     // Show an error message using SweetAlert2
-//                     Swal.fire({
-//                         icon: "error",
-//                         title: "Error",
-//                         text: "Failed to create routine. Please try again.",
-//                     });
-//                 }
-//             },
-//             error: function () {
-//                 // Show an error message if the Ajax request fails
-//                 Swal.fire({
-//                     icon: "error",
-//                     title: "Error",
-//                     text: "Something went wrong. Please try again later.",
-//                 });
-//             },
-//         });
-//     });
-// });
-
-
-
-//2 
-
- // When the "Create Routine" button is clicked
-//  document.getElementById('createRoutineBtn').addEventListener('click', function () {
-//     // Get the routine name from the form
-//     const routineName = document.getElementById('routineName').value;
-
-//     // Send an AJAX request to create the routine
-//     fetch('create_routine.php', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded',
-//         },
-//         body: `routineName=${routineName}`,
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         // Check if the routine was successfully created
-//         if (data.success) {
-//             // Show a success message with SweetAlert2
-//             Swal.fire({
-//                 title: 'Success!',
-//                 text: 'Routine created successfully.',
-//                 icon: 'success',
-//             });
-//         } else {
-//             // Show an error message with SweetAlert2
-//             Swal.fire({
-//                 title: 'Error!',
-//                 text: 'Failed to create routine. Please try again.',
-//                 icon: 'error',
-//             });
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
-// });
 
 

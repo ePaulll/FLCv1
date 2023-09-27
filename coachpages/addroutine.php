@@ -92,45 +92,7 @@ include_once '../db/dbconn.php';
 
 
 </main>
-<script>
 
-// $(document).ready(function () {
-//     $("#rtn-btn").on("click", function () {
- 
-//         var routineName = $("#routineName").val();
-//         var userId = <?php echo $user_id; ?>; 
-
-//         $.ajax({
-//             type: "POST",
-//             url: "../db/coachfunctions.php'", 
-//             data: { routineName: routineName, userId: userId, coachId: coachId }
-//             dataType: "json",
-//             success: function (response) {
-//                 if (response.status === "success") {
-//                     Swal.fire({
-//                         title: "Success",
-//                         text: "Routine created successfully!",
-//                         icon: "success",
-//                     });
-//                 } else {
-//                     Swal.fire({
-//                         title: "Error",
-//                         text: "Failed to create routine.",
-//                         icon: "error",
-//                     });
-//                 }
-//             },
-//             error: function () {
-//                 Swal.fire({
-//                     title: "Error",
-//                     text: "An error occurred while processing your request.",
-//                     icon: "error",
-//                 });
-//             },
-//         });
-//     });
-// });
-</script>
 
 
 

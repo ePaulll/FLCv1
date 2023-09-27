@@ -46,6 +46,26 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
     <link rel="stylesheet" href="../css/routinepage.css">
     <script src="coachscripts.js"></script>
     <script>
+
+function loadPage(url, elementId) {
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById(elementId).innerHTML = "";
+                document.getElementById(elementId).innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+
+
+
+
     function add_routine(user_id) {
         var routineName = document.getElementById('routineName').value;
 
@@ -68,6 +88,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
             Swal.fire('Error on Routine', 'Please Input Routine', 'error');
         }
     }
+
+
+    
     </script>
 
 
@@ -75,10 +98,13 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
 <main>
 
     <body>
+    
         <!-- Right Container -->
         <div class="col-md-12">
 
             <nav class="navbar fixed-top navbar-expand-lg bg-light justify-content-center">
+            <a href="javascript:void(0);" class="btn btn-primary" onclick="loadPage('clientlist.php', 'main-content')"> <i class="bi bi-arrow-left-square"></i> Back</a>
+
                 <ul class="navbar-nav nav-underline">
                     <li class="nav-item active">
                         <a class="nav-link" href="#" id="legs-link"><?=$user_id?></a>

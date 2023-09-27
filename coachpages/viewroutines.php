@@ -8,12 +8,7 @@ require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
 
 
-
-
-
-
-
-
+$coachId = $_SESSION['coach_id'];
 
 ?>
 
@@ -62,27 +57,55 @@ include_once '../db/dbconn.php';
 
     <body>
     
-   
-        <h2>Routine Names</h2>
-        <ul class="list-group">
-            
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Routine 1
-                <span class="badge bg-primary rounded-pill">3 exercises</span>
-            </li>
-       
-        </ul>
+    <a href="javascript:void(0);" class="btn btn-primary" onclick="loadPage('clientlist.php', 'main-content')"> <i class="bi bi-arrow-left-square"></i> Back</a>
+<div class="row col-4">
 
-        <!-- Display Exercises for a Selected Routine -->
-        <div class="mt-4">
-            <h2>Exercises for Selected Routine</h2>
-            <ul class="list-group">
-                <!-- Replace these items with your PHP code to dynamically generate exercises -->
-                <li class="list-group-item">Exercise 1</li>
-            </ul>
-        </div>
-  
+<ul class="list-group">
+    <?php
+    if (isset($_GET['user_id'])) {
+        $userId = $_GET['user_id'];
+    } else {
+        echo 'User ID not provided.';
+        exit; // Exit if user ID is missing
+    }
+    
+    // 4. Query the database to fetch routines for the specified coach and user.
+    $sql = "SELECT routine_id, routine_name FROM tbl_routines 
+            WHERE coach_id = $coachId AND user_id = $userId";
+    
+    $result = mysqli_query($db_connection, $sql);
+    
+    if (!$result) {
+        die('Query failed: ' . mysqli_error($db_connection));
+    }
+    
+    // 5. Display the routine names.
+    echo '<h2>Routines</h2>';
+    echo '<ul class="list-group">';
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        $routineId = $row['routine_id'];
+        $routineName = $row['routine_name'];
+    
+        // Display routine names here
+        echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
+        echo $routineName;
+        
+        // Add a button here
+        echo '<a href="javascript:void(0)" class="btn btn-primary">Edit routine</a>';
+        
+        echo '</li>';
+    }
+    
+    echo '</ul>';
+    
+    // Close the database connection
+    mysqli_close($db_connection);
+    ?>
+</ul>
 
+    
+</div>
 
     </body>
 </main>

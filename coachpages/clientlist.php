@@ -82,6 +82,8 @@ function loadPage(url,elementId) {
 <div class="row">
             <div class="col-md-12">
             <div class="container-fluid text-center" id="content-container">
+                
+            <div class="row">
 <?php
 
  $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
@@ -105,8 +107,10 @@ function loadPage(url,elementId) {
          $user_id = $row["user_id"];
         
          
-         echo '<div class="card" style="width: 18rem;">';
+         echo '<div class="col-md-3">'; // Create a column for each card
+         echo '<div class="card mb-3">';
          echo '<div class="card-body">';
+
          echo '<h5 class="card-title">Name: ' . $user_name . '</h5>';
          echo '<ul class="list-group list-group-flush">';
          echo '<li class="list-group-item">Age: ' . $user_age . '</li>';
@@ -114,13 +118,15 @@ function loadPage(url,elementId) {
          echo '<li class="list-group-item">Weight(kg): ' . $user_bodyweight . '</li>';
          echo '<li class="list-group-item">Height(cm): ' . $user_height . '</li>';
          echo '</ul>';
-         echo '<input type="text" class="user-id" value="' . $user_id . '">';
-         echo '<a href="javascript:void();" class="btn btn-primary view-routines-btn ms-2" onclick="loadPage(\'viewroutines.php?user_id='.$user_id.'\',\'content\');">View routines</a>';
-         echo '<a href="javascript:void();" class="btn btn-primary manage-user-btn ms-2 mt-2" onclick="loadPage(\'addroutine_v2.php?user_id='.$user_id.'\',\'content\');">Manage user</a>';
+        //  echo '<input type="text" class="user-id" value="' . $user_id . '">';
+         echo '<a href="javascript:void();" class="btn btn-primary view-routines-btn ms-2" onclick="loadPage(\'viewroutines.php?user_id='.$user_id.'\',\'content-container\');">View routines</a>';
+         echo '<a href="javascript:void();" class="btn btn-primary manage-user-btn ms-2" onclick="loadPage(\'addroutine_v2.php?user_id='.$user_id.'\',\'content-container\');">Manage user</a>';
 
         
          echo '</div>';
          echo '</div>';
+         echo '</div>';
+         
          
         
      }
@@ -138,23 +144,15 @@ function loadPage(url,elementId) {
 </div>
 </div> 
 
+
+
 </div>
 <!-- div sa taas nito dinagdag q -->
 
-<div class="col-md-6">
-            
-                <div class="container text-center">
-                   
-                    <div class="col-md-12">
-                    <div id="content">
-                    <?php include('addroutine_v2.php');?> 
-                    </div>
-                   <!-- Content will be loaded here -->
-                   </div>
-                </div>
-            </div>
 
-<!-- </div> -->
+
+</div>
+
 </body>
 </main>
 
@@ -192,3 +190,6 @@ document.querySelectorAll('.manage-user-btn').forEach(function(button) {
 
 
 </html>
+
+
+

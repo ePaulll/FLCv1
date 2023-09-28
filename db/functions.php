@@ -2,9 +2,8 @@
 
 
 include_once 'dbconn.php';
-// session_start();
-// $user_id = $_SESSION['user_id'];
-// $_SESSION['user_id'] = $user_id;  
+
+
  
 
 
@@ -87,6 +86,7 @@ if(isset($_POST['loginusr'])) {
         );
     } else {
           // Successful login
+          session_start();
           $_SESSION['user_id'] = $user['user_id'];
           insertAuditLog($user['user_id'], 'login');
           $response = array(

@@ -1,7 +1,7 @@
 <?php
 require('../db/functions.php');
 include_once '../db/dbconn.php';
-$_SESSION['user_id'] = $user_id;
+
 
 ?>
 
@@ -33,25 +33,13 @@ $_SESSION['user_id'] = $user_id;
     <script src="scripts.js"></script>
 
     <script>
-    $(document).ready(function() {
-  $('.hire-coach').click(function(event) {
-      event.preventDefault();
-      
-      var coachId = $(this).data('coach-id');
-      
-      $.ajax({
-          url: '../db/functions.php',
-          method: 'POST',
-          data: { user_id: <?php echo $_SESSION['user_id']; ?>, coachId: coachId },
-          success: function(response) {
-              alert('Request sent successfully');
-          },
-          error: function() {
-              alert('Error hiring coach.');
-          }
-      });
-  });
-});
+
+
+
+function generateRequest(coach_id, user_id) {
+    alert("cpaoocac" + coach_id);
+    alert("user" + user_id)
+}
 </script>
 </head>
 <main>
@@ -66,20 +54,22 @@ $_SESSION['user_id'] = $user_id;
             die("Connection failed: " . $conn->connect_error);
         }
 
+        
         $sql = "SELECT coach_id, coach_name FROM tbl_coach"; 
         $result = $conn->query($sql);
-
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $coach_id = $row['coach_id'];
                 $coach_name = $row['coach_name'];
+
         ?>
         <div class="col-md-4 mb-3">
             <div class="card">
                 <img src="..." class="card-img-top" alt="Picture dapat dito">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $coach_name; ?></h5>
-                    <a href="#" class="btn btn-primary hire-coach" data-coach-id="<?php echo $coach_id; ?>">Send request</a>
+                
+                    <a href="#" class="btn btn-primary hire-coach" id="<?php echo "sendRequestBtn".$coach_id; ?>" onclick="generateRequest(<?=$coach_id?>)">Send request</a>
 
                 </div>
             </div>

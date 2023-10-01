@@ -2,7 +2,7 @@
 require('../db/adminfunctions.php');
 include_once '../db/dbconn.php';
 session_start();
-$_SESSION['admin_id'] = $admin_id;
+
 print_r($_SESSION);
 
 ?>
@@ -55,7 +55,7 @@ print_r($_SESSION);
               </li>
             
              
-        
+              <?php print_r($_SESSION);?>
         
             </ul>
            

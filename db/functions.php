@@ -1,6 +1,6 @@
 <?php
 
-
+// require 'dbconn.php';
 include_once 'dbconn.php';
 
 
@@ -52,9 +52,6 @@ if (isset($_POST['registerusr'])) {
 
 
 
-
-
-
 if(isset($_POST['loginusr'])) {
   $user_email = $_POST['usrEmail'];
   $userPassword1 = $_POST['usrPassword1'];
@@ -86,7 +83,7 @@ if(isset($_POST['loginusr'])) {
         );
     } else {
           // Successful login
-          session_start();
+          session_start(); // Initiate the session
           $_SESSION['user_id'] = $user['user_id'];
           insertAuditLog($user['user_id'], 'login');
           $response = array(
@@ -103,46 +100,56 @@ if(isset($_POST['loginusr'])) {
 
 
 
-//login ng user
 // if(isset($_POST['loginusr'])) {
 //   $user_email = $_POST['usrEmail'];
 //   $userPassword1 = $_POST['usrPassword1'];
 
-  
 //   $user_email = filter_var($user_email, FILTER_SANITIZE_EMAIL);
 //   $userPassword1 = htmlspecialchars($userPassword1);
 
 //   // form validation
 //   if(empty($user_email) || empty($userPassword1)) {
-//       $error = "Please enter both your email and password.";
+//       $response = array(
+//           'status' => 'error',
+//           'message' => 'Please enter both your email and password.'
+//       );
+//   } else if (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+//       $response = array(
+//           'status' => 'error',
+//           'message' => 'Please enter a valid email address.'
+//       );
+//   } else {
+//       // Verify the email and password in the database
+//       $user = getUserByEmail($user_email); // Retrieve the user from the database
+//       if(!$user || !password_verify($userPassword1, $user['user_password'])) {
+//         echo 'User not found or password mismatch.';
+//         echo 'User provided: ' . $userPassword1;
+//         echo 'Hashed password in DB: ' . $user['user_password'];
+//         $response = array(
+//             'status' => 'error',
+//             'message' => 'Invalid email or password. Please try again.'
+//         );
+//     } else {
+//           // Successful login
+//           session_start();
+//           $_SESSION['user_id'] = $user['user_id'];
+//           insertAuditLog($user['user_id'], 'login');
+//           $response = array(
+//               'status' => 'success',
+//               'message' => 'Login successful.'
+              
+//           );
+//       }
 //   }
 
-  
-//   if(!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
-//       $error = "Please enter a valid email address.";
-//   }
-
-//   // Verify the email and password sa db
-//   $user = getUserByEmail($user_email); // Retrieve the user from the database
-//   if(!$user || !password_verify($userPassword1, $user['user_password'])) {
-//       $error = "Invalid email or password. Please try again.";
-//   }
-
-//   // str8 to dashboard if satisfied ang needs above
-//   if(!isset($error)) {
-//       $_SESSION['user_id'] = $user['user_id']; 
-//       insertAuditLog($user['user_id'], 'login');
-//       echo "User ID set in session: " . $_SESSION['user_id'];
-//       header('Location: ../pages/dashboard.php');
-//       echo 'success';
-//       exit;
-//   }
-
-  
-//   echo $error;
+//   // Output JSON response
+//   header('Content-Type: application/json');
+//   echo json_encode($response);
 // }
 
-// 
+
+
+
 function insertAuditLog($user_id, $action) {
   $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
  
@@ -302,26 +309,37 @@ if (isset($_POST['exerciseId']) && isset($_POST['routineId'])) {
 
 
 
-// sa pag send ng request ni user kay coach
-if (isset($_SESSION['user_id']) && isset($_POST['coachId'])) {
-    $user_id = $_POST['user_id']; // Use the provided user_id
-    $coach_id = $_POST['coachId'];
 
+
+if (isset($_POST['userId']) && isset($_POST['coachId'])) {
+  
+  $user_id = $_POST['userId'];
+  $coach_id = $_POST['coachId'];
+ 
+  $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
+  
+  if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+  }
+ 
+  $sql = "INSERT INTO tbl_coaching_requests (user_id, coach_id, r_status) VALUES (?, ?, 'pending')";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("ii", $user_id, $coach_id);
     
-
-    $sql = "INSERT INTO tbl_coaching_requests (user_id, coach_id) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $user_id, $coach_id);
-
-    if ($stmt->execute()) {
-        echo "Hiring request sent successfully.";
-    } else {
-        echo "Error sending hiring request.";
+     
+ 
+      if ($stmt->execute()) {
+          echo "success"; 
+          
+      } else {
+          echo "error: " . $stmt->error; 
+      }
+ 
+  $stmt->close();
+  $conn->close();
+ 
     }
 
-    $stmt->close();
-    $conn->close();
-}
 ?>
 
 

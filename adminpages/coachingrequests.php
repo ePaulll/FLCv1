@@ -47,6 +47,7 @@ include_once '../db/dbconn.php';
                     <th>User Name</th>
                     <th>Gender</th>
                     <th>Age</th>
+                    <th>Requesting for coach:</th>
                     <th>Actions</th> <!-- Column for accept and reject buttons -->
                 </tr>
             </thead>
@@ -63,39 +64,32 @@ include_once '../db/dbconn.php';
                        // FROM tbl_coaching_requests AS r
                         //JOIN tbl_users AS u ON r.user_id = u.user_id";
                 
-                        $sql = "SELECT u.user_id, u.user_name, u.user_gender, u.user_age
-                        FROM tbl_coaching_requests AS r
-                        JOIN tbl_users AS u ON r.user_id = u.user_id
-                        WHERE r.status IS NULL";
+                   // SQL query to fetch coaching requests along with user and coach details
+                    $sql = "SELECT u.user_name, u.user_gender, u.user_age, c.coach_name
+                    FROM tbl_coaching_requests AS r
+                    JOIN tbl_users AS u ON r.user_id = u.user_id
+                    JOIN tbl_coach AS c ON r.coach_id = c.coach_id
+                    WHERE r.r_status IS NULL";
 
-                $result = $conn->query($sql);
+                    $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
+                    if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $user_id = $row['user_id'];
-                        $user_name = $row['user_name'];
-                        $user_gender = $row['user_gender'];
-                        $user_age = $row['user_age'];
-                        ?>
-                        <tr>
-                            <td><?php echo $user_name; ?></td>
-                            <td><?php echo $user_gender; ?></td>
-                            <td><?php echo $user_age; ?></td>
-                            <td>
-                            <form action="../db/coachfunctions.php" method="post">
-                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                        <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
-                        <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
-                    </form>
-                            </td>
-                        </tr>
-                        <?php
+                     
+                    echo '<tr>';
+                    echo '<td>' . $row['user_name'] . '</td>';
+                    echo '<td>' . $row['user_gender'] . '</td>';
+                    echo '<td>' . $row['user_age'] . '</td>';
+                    echo '<td>' . $row['coach_name'] . '</td>';
+                    echo '<td><button class="btn btn-success" id="<?php echo "acceptReq".$request_id; ?>">Accept</button> <button class="btn btn-danger" id="<?php echo "rejectReq".$request_id; ?>">Reject</button></td>';
+                    echo '</tr>';
                     }
-                } else {
-                    echo "<tr><td colspan='4'>No hiring requests available.</td></tr>";
-                }
+                    } else {
+                    echo '<tr><td colspan="5">No coaching requests found.</td></tr>';
+                    }
 
-                $conn->close();
+                    // Close the database connection
+                    $conn->close();
                 ?>
             </tbody>
         </table>
@@ -104,6 +98,7 @@ include_once '../db/dbconn.php';
  
 </body>
 </main>
+
 <footer>
 
 </footer>

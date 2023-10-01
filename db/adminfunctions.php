@@ -29,8 +29,9 @@ if (isset($_POST['loginadmin'])) {
 
         if ($admin && password_verify($admin_password, $admin['admin_password'])) {
             // Successful login
-            $_SESSION['admin_id'] = $admin['admin_id']; // Store admin ID in session
-            // You can also perform other actions like audit logs here
+            session_start();
+            $_SESSION['admin_id'] = $admin['admin_id']; 
+         
 
             $response = array(
                 'status' => 'success',
@@ -105,8 +106,7 @@ if (isset($_POST['registeradmin'])) {
 
 
 // sa cards
-$sql = "SELECT COUNT(*) AS user_count FROM tbl_users"; // Replace 'tbl_users' with your actual table name
-
+$sql = "SELECT COUNT(*) AS user_count FROM tbl_users"; 
 // Execute the query
 $result = $conn->query($sql);
 
@@ -124,7 +124,7 @@ if ($result) {
 
 
 // sa cards
-$sql = "SELECT COUNT(*) AS coach_count FROM tbl_coach"; // Replace 'tbl_users' with your actual table name
+$sql = "SELECT COUNT(*) AS coach_count FROM tbl_coach"; 
 
 // Execute the query
 $result = $conn->query($sql);
@@ -142,21 +142,106 @@ if ($result) {
 
 
 
+// if (isset($_POST['user_id']) && isset($_POST['action'])) {
+//     $user_id = $_POST['user_id'];
+//     $action = $_POST['action'];
+    
+//     if ($action === 'accept') {
+//         $updateQuery = "UPDATE tbl_users SET coach_id = ? WHERE user_id = ?";
+//         $stmt = $conn->prepare($updateQuery);
+//         $coach_id = $_SESSION['coach_id']; 
+//         $stmt->bind_param("ii", $coach_id, $user_id);
+        
+//       // Update yung status sa tbl_coaching_requests
+//         $updateStatusQuery = "UPDATE tbl_coaching_requests SET status = 'accepted' WHERE user_id = ?";
+//         $stmtUpdateStatus = $conn->prepare($updateStatusQuery);
+//         $stmtUpdateStatus->bind_param("i", $user_id);
+        
+       
+//         if ($stmt->execute() && $stmtUpdateStatus->execute()) {
+//             header("Location: ../coachpages/coachdashboard.php");
+//         } else {
+           
+//         }
+//     } elseif ($action === 'reject') {
+//       // Update yung status sa tbl_coaching_requests
+//       $updateStatusQuery = "UPDATE tbl_coaching_requests SET status = 'rejected' WHERE user_id = ?";
+//       $stmtUpdateStatus = $conn->prepare($updateStatusQuery);
+//       $stmtUpdateStatus->bind_param("i", $user_id);
+      
+    
+//       if ($stmtUpdateStatus->execute()) {
+//           header("Location: ../coachpages/coachdashboard.php");
+//       } else {
+            
+//         }
+//     }
+// }
+
+// $conn->close();
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id']) && isset($_POST['coach_id']) && isset($_POST['request_id']) && isset($_POST['action'])) {
+    $user_id = $_POST['user_id'];
+    $coach_id = $_POST['coach_id'];
+    $request_id = $_POST['request_id'];
+    $action = $_POST['action'];
+
+    if ($action === 'accept') {
+        // Update tbl_coaching_request to set r_status to 'accepted' for the specified request_id
+        $sqlUpdateRequest = "UPDATE tbl_coaching_requests SET r_status = 'accepted' WHERE request_id = ?";
+        $stmtUpdateRequest = $conn->prepare($sqlUpdateRequest);
+        $stmtUpdateRequest->bind_param("i", $request_id);
+
+        if ($stmtUpdateRequest->execute()) {
+            // Update the tbl_coaching_requests record successfully
+            // Now, update the tbl_users to set coach_id
+            $sqlUpdateUser = "UPDATE tbl_users SET coach_id = ? WHERE user_id = ?";
+            $stmtUpdateUser = $conn->prepare($sqlUpdateUser);
+            $stmtUpdateUser->bind_param("ii", $coach_id, $user_id);
+
+            if ($stmtUpdateUser->execute()) {
+                echo "success"; // Success message
+            } else {
+                echo "error: " . $stmtUpdateUser->error; // Error message for tbl_users update
+            }
+        } else {
+            echo "error: " . $stmtUpdateRequest->error; // Error message for tbl_coaching_requests update
+        }
+
+        $stmtUpdateRequest->close();
+        $stmtUpdateUser->close();
+    } else {
+        echo "error: Invalid action"; // Handle other actions if needed
+    }
+} else {
+    echo "error: Invalid request parameters"; // Handle invalid or missing parameters
+}
 
 
 
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id']) && isset($_POST['coach_id']) && isset($_POST['request_id']) && isset($_POST['action'])) {
+    $user_id = $_POST['user_id'];
+    $coach_id = $_POST['coach_id'];
+    $request_id = $_POST['request_id'];
+    $action = $_POST['action'];
 
+    if ($action === 'rejected') {
+        $sqlUpdateRequest = "UPDATE tbl_coaching_requests SET r_status = 'rejected' WHERE request_id = ?";
+        $stmtUpdateRequest = $conn->prepare($sqlUpdateRequest);
+        $stmtUpdateRequest->bind_param("i", $request_id);
 
+        if ($stmtUpdateRequest->execute()) {
+            echo "success"; // Success message for rejection
+        } else {
+            echo "error: " . $stmtUpdateRequest->error; 
+        }
 
-
-
-
-
-
-
-
+        $stmtUpdateRequest->close();
+    }
+}
 
 
 

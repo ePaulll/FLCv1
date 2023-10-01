@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('../db/functions.php');
 include_once '../db/dbconn.php';
 

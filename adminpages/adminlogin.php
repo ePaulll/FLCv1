@@ -100,10 +100,10 @@ document.getElementById('loginbutton').addEventListener('click', function (event
 
   $.ajax({
     type: 'POST',
-    url: '../db/adminfunctions.php', // Update the URL to your admin login PHP script
+    url: '../db/adminfunctions.php', 
     data: {
-      adminEmail: email, // Update the parameter name to match your PHP script
-      adminPassword1: password, // Update the parameter name to match your PHP script
+      adminEmail: email, 
+      adminPassword1: password, 
       loginadmin: true
     },
     dataType: 'json',

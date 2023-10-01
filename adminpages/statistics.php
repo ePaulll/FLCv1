@@ -22,8 +22,67 @@ session_start();
     <link href="../css/statistics.css" rel="stylesheet">
 <!-- <link href="../css/sb-admin-2.min.css" rel="stylesheet"> -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="adminscripts.js"></script>
 </head>
+
+<script>
+function acceptRequest(user_id, coach_id, request_id) {
+    
+    console.log('Accepting request for User ID: ' + user_id + ', Coach ID: ' + coach_id + ', Request ID: ' + request_id);
+    $.ajax({
+     type: "POST",
+     url: "../db/adminfunctions.php",
+     data: {  user_id: user_id, coach_id: coach_id, request_id: request_id, action: 'accept' },
+     success: function (response) {
+         Swal.fire({
+                 title: "Success",
+                 text: "Request accepted",
+                 icon: "success",
+             });
+             $('#acceptReq' + request_id).closest('tr').remove();
+     },
+     error: function () {
+         console.log(response);
+         Swal.fire({
+             title: "Error",
+             text: "An error occurred while processing your request.",
+             icon: "error",
+         });
+     }
+ });
+}
+
+function rejectRequest(user_id, coach_id, request_id) {
+    
+    console.log('Rejecting request for User ID: ' + user_id + ', Coach ID: ' + coach_id + ', Request ID: ' + request_id);
+    
+    $.ajax({
+     type: "POST",
+     url: "../db/adminfunctions.php",
+     data: {  user_id: user_id, coach_id: coach_id, request_id: request_id, action: 'rejected'},
+     success: function (response) {
+        console.log(response);
+         Swal.fire({
+                 title: "Rejected",
+                 text: "Request Rejected",
+                 icon: "success",
+             });
+              $('#rejectReq' + request_id).closest('tr').remove();
+     },
+     error: function () {
+         console.log(response);
+         Swal.fire({
+             title: "Error",
+             text: "An error occurred while processing your request.",
+             icon: "error",
+         });
+     }
+ });
+}
+
+</script>
 
 
   
@@ -68,77 +127,60 @@ session_start();
     
 </div> 
 
-
-
-
-
-
-
-
-    
 </div> 
 
 
 
 <div class="container">
        
-       <h2 class="h2c">Coaching Requests</h2>
-   
-       <table class="table table-bordered table-striped text-center">
-           <thead>
-               <tr>
-                   <th>User Name</th>
-                   <th>Gender</th>
-                   <th>Age</th>
-                   <th>Actions</th> <!-- Column for accept and reject buttons -->
-               </tr>
-           </thead>
-           <tbody>
-               <?php
-               
-               $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
-               if ($conn->connect_error) {
-                   die("Connection failed: " . $conn->connect_error);
-               }
+<h2 class="h2c">Coaching Requests</h2>
+    
+    <table class="table table-bordered table-striped text-center">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Requesting for coach:</th>
+                <th>Actions</th> <!-- Column for accept and reject buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            
+            $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
 
-              
-              // $sql = "SELECT u.user_id, u.user_name, u.user_gender, u.user_age
-                      // FROM tbl_coaching_requests AS r
-                       //JOIN tbl_users AS u ON r.user_id = u.user_id";
-               
-                       $sql = "SELECT u.user_id, u.user_name, u.user_gender, u.user_age
-                       FROM tbl_coaching_requests AS r
-                       JOIN tbl_users AS u ON r.user_id = u.user_id
-                       WHERE r.status IS NULL";
+           
+        
+                    $sql = "SELECT r.request_id, r.coach_id, r.user_id, u.user_name, u.user_gender, u.user_age, c.coach_name
+                    FROM tbl_coaching_requests AS r
+                    JOIN tbl_users AS u ON r.user_id = u.user_id
+                    JOIN tbl_coach AS c ON r.coach_id = c.coach_id
+                    WHERE r.r_status IS NULL OR r.r_status = 'pending'";
 
-               $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-               if ($result->num_rows > 0) {
-                   while ($row = $result->fetch_assoc()) {
-                       $user_id = $row['user_id'];
-                       $user_name = $row['user_name'];
-                       $user_gender = $row['user_gender'];
-                       $user_age = $row['user_age'];
-                       ?>
-                       <tr>
-                           <td><?php echo $user_name; ?></td>
-                           <td><?php echo $user_gender; ?></td>
-                           <td><?php echo $user_age; ?></td>
-                           <td>
-                           <form action="../db/coachfunctions.php" method="post">
-                       <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                       <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
-                       <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
-                   </form>
-                           </td>
-                       </tr>
-                       <?php
-                   }
-               } else {
-                   echo "<tr><td colspan='4'>No hiring requests available.</td></tr>";
-               }
+                if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td>' . $row['user_name'] . '</td>';
+                echo '<td>' . $row['user_gender'] . '</td>';
+                echo '<td>' . $row['user_age'] . '</td>';
+                echo '<td>' . $row['coach_name'] . '</td>';
+                echo '<td><button class="btn btn-success" id="acceptReq' . $row['request_id'] . '" onclick="acceptRequest(' . $row['user_id'] . ', ' . $row['coach_id'] . ', ' . $row['request_id'] . ')">Accept</button> 
+                <button class="btn btn-danger" id="rejectReq' . $row['request_id'] . '" onclick="rejectRequest(' . $row['user_id'] . ', ' . $row['coach_id'] . ' , ' . $row['request_id'] . ')">Reject</button></td>';
 
-               $conn->close();
+                echo '</tr>';
+                }
+                } else {
+                echo '<tr><td colspan="5">No coaching requests found.</td></tr>';
+                }
+
+            
+                $conn->close();
                ?>
            </tbody>
        </table>

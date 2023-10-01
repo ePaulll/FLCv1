@@ -13,4 +13,20 @@ $(document).ready(function() {
         });
     });
   });
+
+  $(document).ready(function() {
+    $('a[href="coachingrequests.php"]').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'coachingrequests.php',
+            type: 'GET',
+            success: function(data) {
+                $('#main-content').html(data);
+            },
+            error: function() {
+                alert('Error loading statistics.php');
+            }
+        });
+    });
+  });
   

@@ -91,6 +91,53 @@ $(document).ready(function() {
 
 
 
+function loadPage(url, elementId) {
+  if (window.XMLHttpRequest) {
+      xmlhttp = new XMLHttpRequest();
+  } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById(elementId).innerHTML = "";
+          document.getElementById(elementId).innerHTML = xmlhttp.responseText;
+      }
+  }
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+}
+
+
+
+function generateRequest(coach_id, user_id) {
+  $.ajax({
+      type: "POST",
+      url: "../db/functions.php",
+      data: { coachId: coach_id, user_id: user_id },
+      success: function (response) {
+          if (response === "success") {
+              Swal.fire({
+                  title: "Success",
+                  text: "Hiring request sent successfully.",
+                  icon: "success",
+              });
+          } else {
+              Swal.fire({
+                  title: "Error",
+                  text: "Error sending hiring request.",
+                  icon: "error",
+              });
+          }
+      },
+      error: function () {
+          Swal.fire({
+              title: "Error",
+              text: "An error occurred while processing your request.",
+              icon: "error",
+          });
+      }
+  });
+}
 
   
 // lipat ng page sa exercise list

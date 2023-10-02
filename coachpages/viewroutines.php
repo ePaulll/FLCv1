@@ -92,7 +92,7 @@ $coachId = $_SESSION['coach_id'];
         echo $routineName;
         
         // Add a button here
-        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editRoutine('. $row['routine_id'] .')">Edit routine</a>';
+        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editRoutine('. $routineId .')">Edit routine</a>';
         
         echo '</li>';
     }

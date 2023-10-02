@@ -32,9 +32,9 @@ function acceptRequest(user_id, coach_id, request_id) {
     
     console.log('Accepting request for User ID: ' + user_id + ', Coach ID: ' + coach_id + ', Request ID: ' + request_id);
     $.ajax({
-     type: "POST",
-     url: "../db/adminfunctions.php",
-     data: {  user_id: user_id, coach_id: coach_id, request_id: request_id, action: 'accept' },
+     type: "POST", //post pag mag su submit ng data
+     url: "../db/adminfunctions.php", // dito kung saan nya ipapasa yung data
+     data: {  user_id: user_id, coach_id: coach_id, request_id: request_id, action: 'accept' }, // eto yung pinapasa na data
      success: function (response) {
          Swal.fire({
                  title: "Success",

@@ -99,7 +99,6 @@ function loadPage(url, elementId) {
 
     <body>
     
-        <!-- Right Container -->
         <div class="col-md-12">
 
             <nav class="navbar fixed-top navbar-expand-lg bg-light justify-content-center">
@@ -110,7 +109,8 @@ function loadPage(url, elementId) {
                         <a class="nav-link" href="#" id="legs-link"><?=$user_id?></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" id="legs-link">Legs</a>
+                        <!-- <a class="nav-link" href="#" id="legs-link">Legs</a> -->
+                        <a class="nav-link" href="javascript:void(0);" id="legs-link" onclick="loadPage('../coachpages/cards/legexercisecards.php', 'card-container')">Legs</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="#" id="core-link">Core</a>
@@ -141,7 +141,7 @@ function loadPage(url, elementId) {
                 <button onclick="add_routine(<?=$user_id?>);" class="btn btn-primary"> Create Routine </button>
             </nav>
         </div>
-        <!-- <div class="card-container" id="card-container"></div> -->
+        <div class="card-container" id="card-container"></div>
         </div>
 
     </body>

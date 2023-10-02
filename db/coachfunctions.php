@@ -51,66 +51,6 @@ if (isset($_POST['registercoach'])) {
 
 
 
-
-
-
-// sa create routine
-
-// if (isset($_POST['routineName']) && isset($_POST['userId']) && isset($_POST['coach_id'])) {
-//     $routineName = $_POST['routineName'];
-//     $userId = $_POST['userId'];
-//     $coachId = $_POST['coach_id'];
-
-   
-//     $routineName = filter_var($routineName, FILTER_SANITIZE_STRING);
-//     $userId = filter_var($userId, FILTER_VALIDATE_INT);
-//     $coachId = filter_var($coachId, FILTER_VALIDATE_INT);
-
-//     if ($routineName === false || $userId === false || $coachId === false) {
-//         $response = array('status' => 'error', 'message' => 'Invalid input data.');
-//     } else {
-       
-//         $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
-//         if ($conn->connect_error) {
-//             die("Connection failed: " . $conn->connect_error);
-//         }
-
-        
-//         $stmt = $conn->prepare("INSERT INTO tbl_routines (user_id, coach_id, routine_name) VALUES (?, ?, ?)");
-//         $stmt->bind_param("iis", $userId, $coachId, $routineName);
-
-//         if ($stmt->execute()) {
-//             $response = array('status' => 'success', 'message' => 'Routine created successfully.');
-//         } else {
-//             $response = array('status' => 'error', 'message' => 'Failed to create routine.');
-//         }
-
-//         $stmt->close();
-//         $conn->close();
-//     }
-// } else {
-//     $response = array('status' => 'error', 'message' => 'Invalid request.');
-// }
-
-// // Send the JSON response
-// header('Content-Type: application/json');
-// echo json_encode($response);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // gumagana log in may sw8alert
 if (isset($_POST['logincoach'])) {
   $coach_email = $_POST['coachEmail'];
@@ -193,39 +133,6 @@ function getCoachByEmail($email) {
     $conn->close();
   }
 
- 
-  // gumagana
-  // if (isset($_POST['user_id']) && isset($_POST['action'])) {
-  //     $user_id = $_POST['user_id'];
-  //     $action = $_POST['action'];
-      
-  //     if ($action === 'accept') {
-  //         $updateQuery = "UPDATE tbl_users SET coach_id = ? WHERE user_id = ?";
-  //         $stmt = $conn->prepare($updateQuery);
-  //         $coach_id = $_SESSION['coach_id']; 
-  //         $stmt->bind_param("ii", $coach_id, $user_id);
-          
-  //         if ($stmt->execute()) { 
-  //           header("Location: ../coachpages/coachdashboard.php");
-  //         } else {
-  //             console.log('error');
-  //         }
-  //     } elseif ($action === 'reject') {
-        
-  //         $deleteQuery = "DELETE FROM tbl_coaching_requests WHERE user_id = ?";
-  //         $stmt = $conn->prepare($deleteQuery);
-  //         $stmt->bind_param("i", $user_id);
-          
-  //         if ($stmt->execute()) {
-  //           header("Location: ../coachpages/coachdashboard.php");
-  //         } else {
-             
-  //         }
-  //     }
-  // }
-  
-  // $conn->close();
-
 
 
 
@@ -268,6 +175,14 @@ function getCoachByEmail($email) {
 $conn->close();
 
 
+
+function fetch_exercises_by_body_part($conn, $target_body_part_id) {
+    $sql = "SELECT * FROM tbl_exercises WHERE body_part_id = $target_body_part_id";
+    $result = $conn->query($sql);
+  
+    return $result;
+  }
+  
 
 ?>
 

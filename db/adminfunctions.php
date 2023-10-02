@@ -214,9 +214,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id']) && isset($
     } else {
         echo "error: Invalid action"; // Handle other actions if needed
     }
-} else {
-    echo "error: Invalid request parameters"; // Handle invalid or missing parameters
-}
+// } else {
+//     echo "error: Invalid request parameters"; // Handle invalid or missing parameters
+ }
 
 
 

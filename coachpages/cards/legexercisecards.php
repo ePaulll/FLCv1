@@ -1,6 +1,6 @@
 <?php
-require('../db/functions.php');
-require_once '../db/dbconn.php';
+require('../../db/functions.php');
+require_once '../../db/dbconn.php';
 session_start();
 
 
@@ -34,7 +34,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
     <div class="card-container">
         <?php while($row = $result->fetch_assoc()) { ?>
         <div class="card">
-            <img src="<?php echo $row['exercise_image']; ?>" class="card-img-top" alt="Exercise Image">
+            
             <div class="card-body">
                 <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
@@ -46,8 +46,10 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
     </div>
 
 
+</body>
 
-<div class="modal fade" id="addToRoutineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="addToRoutineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -94,10 +96,6 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
         </div>
     </div>
 </div>
-
-
-</body>
-
 
 
 

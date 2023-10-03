@@ -1,9 +1,14 @@
 <?php
-// session_start();
+session_start();
 if (file_exists('db/database.php')) { include_once('db/database.php'); }
 if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
 
 $user_id = $_GET['user_id'];
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+// var_dump($_GET);
 
 //routine_id, user_id, coach_id, routine_name
 if (isset($_GET['user_id']) && isset($_GET['routineName'])){
@@ -11,6 +16,38 @@ if (isset($_GET['user_id']) && isset($_GET['routineName'])){
                                 VALUES ('".$_GET['user_id']."', '".$_SESSION['coach_id']."', '".$_GET['routineName']."')");
     echo'<span style="color:green;">Successfully Inserted</span>';
 }
+
+
+
+
+
+
+// if (isset($_GET['user_id']) && isset($_GET['routineName'])) {
+//     // Make sure to validate and sanitize user inputs (e.g., use mysqli_real_escape_string)
+//     $user_id = mysqli_real_escape_string($db_connection, $_GET['user_id']);
+//     $routineName = mysqli_real_escape_string($db_connection, $_GET['routineName']);
+
+//     $coach_id = $_SESSION['coach_id'];
+
+//     $sql = "INSERT INTO tbl_routines (user_id, coach_id, routine_name) VALUES (?, ?, ?)";
+//     $stmt = mysqli_prepare($db_connection, $sql);
+
+//     if ($stmt) {
+//         mysqli_stmt_bind_param($stmt, "iis", $user_id, $coach_id, $routineName);
+
+//         if (mysqli_stmt_execute($stmt)) {
+//             echo '<span style="color:green;">Successfully Inserted</span>';
+//         } else {
+//             echo '<span style="color:red;">Error Inserting Data</span>';
+//         }
+
+//         mysqli_stmt_close($stmt);
+//     } else {
+//         echo '<span style="color:red;">Error Preparing Statement</span>';
+//     }
+// } else {
+//     echo '<span style="color:red;">Invalid Parameters</span>';
+// }
 
 ?>
 
@@ -80,6 +117,7 @@ function loadPage(url, elementId) {
                 dangerMode: true,
             }).then((result) => {
                 if (result.isConfirmed) {
+                    console.log('here');
                     loadPage('addroutine_v2.php?user_id=' + user_id +
                         '&routineName=' + routineName, 'content');
                 }
@@ -90,7 +128,61 @@ function loadPage(url, elementId) {
     }
 
 
+
+
+//     function add_routine(user_id) {
+//     var routineName = document.getElementById('routineName').value;
+
+//     if (routineName !== '') {
+//         Swal.fire({
+//             title: "User",
+//             text: "Do you want to add this routine?",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonText: "Yes",
+//             cancelButtonText: "No",
+//             dangerMode: true,
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 // Prepare the data to send to the server
+//                 var data = {
+//                     user_id: user_id,
+//                     routineName: routineName
+//                 };
+
+//                 // Send a POST request to the server
+//                 $.ajax({
+//                     type: "POST",
+//                     url: "addroutine_v2.php", // Update the URL to your server endpoint
+//                     data: data,
+//                     success: function (response) {
+//                         // Handle the server response here, e.g., display a success message
+//                         Swal.fire({
+//                             title: "Success",
+//                             text: "Routine added successfully",
+//                             icon: "success",
+//                         });
+
+//                         // You may also reload or refresh the page to reflect the changes
+//                         // window.location.reload();
+//                     },
+//                     error: function () {
+//                         Swal.fire({
+//                             title: "Error",
+//                             text: "An error occurred while adding the routine.",
+//                             icon: "error",
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     } else {
+//         Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+//     }
+// }
     
+
+
     </script>
 
 
@@ -113,21 +205,25 @@ function loadPage(url, elementId) {
                         <a class="nav-link" href="javascript:void(0);" id="legs-link" onclick="loadPage('../coachpages/cards/legexercisecards.php', 'card-container')">Legs</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" id="core-link">Core</a>
+                        <!-- <a class="nav-link" href="#" id="core-link">Core</a> -->
+                        <a class="nav-link" href="javascript:void(0);" id="core-link" onclick="loadPage('../coachpages/cards/coreexercisecards.php', 'card-container')">Core</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" id="arms-link">Arms</a>
+                        <!-- <a class="nav-link" href="#" id="arms-link">Arms</a> -->
+                        <a class="nav-link" href="javascript:void(0);" id="arms-link" onclick="loadPage('../coachpages/cards/armsexercisecards.php', 'card-container')">Arms</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" id="shoulders-link">Shoulders</a>
+                        <!-- <a class="nav-link" href="#" id="shoulders-link">Shoulders</a> -->
+                        <a class="nav-link" href="javascript:void(0);" id="shoulders-link" onclick="loadPage('../coachpages/cards/shouldersexercisecards.php', 'card-container')">Shoulders</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" id="chest-link">Chest
-
+                        <!-- <a class="nav-link" href="#" id="chest-link">Chest -->
+                        <a class="nav-link" href="javascript:void(0);" id="chest-link" onclick="loadPage('../coachpages/cards/chestexercisecards.php', 'card-container')">Chest</a>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" id="back-link">Back</a>
+                        <!-- <a class="nav-link" href="#" id="back-link">Back</a> -->
+                        <a class="nav-link" href="javascript:void(0);" id="back-link" onclick="loadPage('../coachpages/cards/backexercisecards.php', 'card-container')">Back</a>
                     </li>
 
                 </ul>
@@ -142,8 +238,8 @@ function loadPage(url, elementId) {
             </nav>
         </div>
         <div class="card-container" id="card-container"></div>
-        </div>
-
+        
+<div id="content"> </div>
     </body>
 </main>
 

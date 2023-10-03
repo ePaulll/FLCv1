@@ -1,7 +1,7 @@
 
 <?php
-require('../db/functions.php');
-require_once '../db/dbconn.php';
+require('../../db/functions.php');
+require_once '../../db/dbconn.php';
 session_start();
 
 

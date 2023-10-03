@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
 
@@ -51,7 +52,12 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/clientlist.css">
- 
+    <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
+" rel="stylesheet">
     <script src="coachscripts.js"></script>
     
   
@@ -71,6 +77,81 @@ function loadPage(url,elementId) {
     xmlhttp.open("GET",url,true);
     xmlhttp.send();	   
 }
+
+function add_routine(user_id) {
+        var routineName = document.getElementById('routineName').value;
+
+        if (routineName !== '') {
+            Swal.fire({
+                title: "User",
+                text: "Do you want to add this routine?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('here');
+                    loadPage('addroutine_v2.php?user_id=' + user_id +
+                        '&routineName=' + routineName, 'content');
+                }
+            });
+        } else {
+            Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+        }
+    }
+
+// function add_routine(user_id) {
+//     var routineName = document.getElementById('routineName').value;
+
+//     if (routineName !== '') {
+//         Swal.fire({
+//             title: "User",
+//             text: "Do you want to add this routine?",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonText: "Yes",
+//             cancelButtonText: "No",
+//             dangerMode: true,
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 // Prepare the data to send to the server
+//                 var data = {
+//                     user_id: user_id,
+//                     routineName: routineName
+//                 };
+
+//                 // Send a POST request to the server
+//                 $.ajax({
+//                     type: "POST",
+//                     url: "addroutine_v2.php", // Update the URL to your server endpoint
+//                     data: data,
+//                     success: function (response) {
+//                         // Handle the server response here, e.g., display a success message
+//                         Swal.fire({
+//                             title: "Success",
+//                             text: "Routine added successfully",
+//                             icon: "success",
+//                         });
+
+//                         // You may also reload or refresh the page to reflect the changes
+//                         // window.location.reload();
+//                     },
+//                     error: function () {
+//                         Swal.fire({
+//                             title: "Error",
+//                             text: "An error occurred while adding the routine.",
+//                             icon: "error",
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     } else {
+//         Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+//     }
+// }
 
     </script>
 
@@ -157,25 +238,25 @@ function loadPage(url,elementId) {
 </main>
 
     <script>
-        document.querySelectorAll('.manage-user-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        // Get the user ID from the input field in the same card
-        var userId = this.parentElement.querySelector('.user-id').value;
+//         document.querySelectorAll('.manage-user-btn').forEach(function(button) {
+//     button.addEventListener('click', function() {
+//         // Get the user ID from the input field in the same card
+//         var userId = this.parentElement.querySelector('.user-id').value;
 
-        // Use userId in your JavaScript logic
-        console.log('User ID: ' + userId);
-    });
-});
+//         // Use userId in your JavaScript logic
+//         console.log('User ID: ' + userId);
+//     });
+// });
 
 
-document.querySelectorAll('.manage-user-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var userId = this.parentElement.querySelector('.user-id').value;
+// document.querySelectorAll('.manage-user-btn').forEach(function(button) {
+//     button.addEventListener('click', function() {
+//         var userId = this.parentElement.querySelector('.user-id').value;
         
-        // Load the page into the right-container-content div
-        $('#right-container-content').load('addroutine.php?user_id=' + userId);
-    });
-});
+//         // Load the page into the right-container-content div
+//         $('#right-container-content').load('addroutine.php?user_id=' + userId);
+//     });
+// });
 
 
 

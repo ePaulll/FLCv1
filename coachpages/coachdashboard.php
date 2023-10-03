@@ -1,7 +1,9 @@
 <?php
 require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
-// session_start();
+
+
+session_start();
 
 ?>
 <!doctype html>
@@ -19,7 +21,14 @@ include_once '../db/dbconn.php';
     <link rel="stylesheet" href="../css/dashboard.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
+" rel="stylesheet">
 <script src="coachscripts.js"></script>
+
 </head>
 
 
@@ -47,11 +56,11 @@ include_once '../db/dbconn.php';
                
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="coachingrequests.php"><i class="bi bi-person-fill"></i>Coaching Requests</a>
+                <a class="nav-link" href=""><i class="bi bi-person-fill"></i></a>
               </li>
             
               <li class="nav-item">
-                <a class="nav-link" href="clientlist.php"><i class="bi bi-card-checklist"></i>Client List</a>
+                <a class="nav-link" href="clientlist.php" ><i class="bi bi-card-checklist"></i>Client List</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="exerciselist.php"><i class="bi bi-list-ol"></i>Exercise List</a>

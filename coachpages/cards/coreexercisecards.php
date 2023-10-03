@@ -1,7 +1,7 @@
 
 <?php
-require('../db/functions.php');
-require_once '../db/dbconn.php';
+require('../../db/functions.php');
+require_once '../../db/dbconn.php';
 session_start();
 
 
@@ -55,7 +55,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="add-to-routine-form" action="../db/functions.php" method="POST">
+                <form id="add-to-routine-form" action="../../db/functions.php" method="POST">
                     <div class="mb-3">
                         <label for="routine-select" class="form-label">Select Routine:</label>
                         <select class="form-select" id="routine-select" name="routine-select">

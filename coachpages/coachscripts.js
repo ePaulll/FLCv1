@@ -93,28 +93,28 @@ function loadPage(url,elementId) {
     xmlhttp.send();	   
 }
 
-function add_routine(user_id) {
-    var routineName = document.getElementById('routineName').value;
+// function add_routine(user_id) {
+//     var routineName = document.getElementById('routineName').value;
 
-    if (routineName !== '') {
-        Swal.fire({
-            title: "User",
-            text: "Are you sure to add this routine?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
-            dangerMode: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                loadPage('addroutine_v2.php?user_id='+user_id
-                    +'&routineName=' + routineName,'content');
-            }
-        });
-    } else {
-        Swal.fire('No input', 'Please enter a Routine Name', 'error');
-    }
-}
+//     if (routineName !== '') {
+//         Swal.fire({
+//             title: "User",
+//             text: "Are you sure to add this routine?",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonText: "Yes",
+//             cancelButtonText: "No",
+//             dangerMode: true,
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 loadPage('addroutine_v2.php?user_id='+user_id
+//                     +'&routineName=' + routineName,'content');
+//             }
+//         });
+//     } else {
+//         Swal.fire('No input', 'Please enter a Routine Name', 'error');
+//     }
+// }
   
 
 
@@ -159,3 +159,58 @@ function add_routine(user_id) {
 //       $('#card-container').load('backexercisecards.php');
 //     });
 //   });
+
+
+
+
+
+// function add_routine(user_id) {
+//     var routineName = document.getElementById('routineName').value;
+
+//     if (routineName !== '') {
+//         Swal.fire({
+//             title: "User",
+//             text: "Do you want to add this routine?",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonText: "Yes",
+//             cancelButtonText: "No",
+//             dangerMode: true,
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 // Prepare the data to send to the server
+//                 var data = {
+//                     user_id: user_id,
+//                     routineName: routineName
+//                 };
+
+//                 // Send a POST request to the server
+//                 $.ajax({
+//                     type: "POST",
+//                     url: "addroutine_v2.php", // Update the URL to your server endpoint
+//                     data: data,
+//                     success: function (response) {
+//                         // Handle the server response here, e.g., display a success message
+//                         Swal.fire({
+//                             title: "Success",
+//                             text: "Routine added successfully",
+//                             icon: "success",
+//                         });
+
+//                         // You may also reload or refresh the page to reflect the changes
+//                         // window.location.reload();
+//                     },
+//                     error: function () {
+//                         Swal.fire({
+//                             title: "Error",
+//                             text: "An error occurred while adding the routine.",
+//                             icon: "error",
+//                         });
+//                     }
+//                 });
+//             }
+//         });
+//     } else {
+//         Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+//     }
+// }

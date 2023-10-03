@@ -39,7 +39,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
                 <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
                 <a href="#" class="btn btn-primary card-btn" id="card-btn" data-bs-toggle="modal"
-                    data-bs-target="#addToRoutineModal"  data-exercise-id="<?php echo $row['exercise_id']; ?>"> Add to Routine</a>
+                data-bs-target="#addToRoutineModal" data-bs-backdrop="false" data-exercise-id="<?php echo $row['exercise_id']; ?>"> Add to Routine</a>
             </div>
         </div>
         <?php } ?>
@@ -49,7 +49,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
 </body>
 
 
-<div class="modal fade" id="addToRoutineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="addToRoutineModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

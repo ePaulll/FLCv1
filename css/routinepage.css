@@ -35,9 +35,9 @@ display: block;
 .card-body{
   max-width: 200px;
 }
- body.modal-open {
+ /* body.modal-open {
   overflow: auto !important;
-} 
+}  */
 
 
 

@@ -3,6 +3,7 @@ require('../../db/functions.php');
 require_once '../../db/dbconn.php';
 session_start();
 
+$user_id = $_GET['user_id'];
 
 $target_body_part_id = 1; // Change to bodypart_id na gusto mo ipakita
 $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
@@ -19,8 +20,8 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="../css/cards.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts.js"></script>
@@ -39,7 +40,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
                 <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
                 <a href="#" class="btn btn-primary card-btn" id="card-btn" data-bs-toggle="modal"
-                data-bs-target="#addToRoutineModal" data-bs-backdrop="false" data-exercise-id="<?php echo $row['exercise_id']; ?>"> Add to Routine</a>
+                data-bs-target="#addToRoutineModal" data-exercise-id="<?php echo $row['exercise_id']; ?>"> Add to Routine</a>
             </div>
         </div>
         <?php } ?>
@@ -62,14 +63,38 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
                         <label for="routine-select" class="form-label">Select Routine:</label>
                         <select class="form-select" id="routine-select" name="routine-select">
                             <?php 
-                                // Retrieve user's routines from database
-                                $routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
-                                $routines_result = mysqli_query($conn, $routines_query);
+                             $user_id = $_GET['user_id'];
 
-                                // Generate an option for each routine
-                                while ($routine_row = mysqli_fetch_assoc($routines_result)) {
-                                    echo "<option value='" . $routine_row['routine_id'] . "'>" . $routine_row['routine_name'] . "</option>";
-                                }
+                             // Create a SQL query to retrieve user routines based on user_id
+                             $sql = "SELECT * FROM tbl_routines WHERE user_id = ?";
+                             
+                             // Use prepared statements to avoid SQL injection
+                             $stmt = mysqli_prepare($conn, $sql);
+                             
+                             if ($stmt) {
+                                 // Bind the user_id parameter
+                                 mysqli_stmt_bind_param($stmt, "i", $user_id);
+                             
+                                 // Execute the query
+                                 if (mysqli_stmt_execute($stmt)) {
+                                     $result = mysqli_stmt_get_result($stmt);
+                             
+                                     // Process and display user routines
+                                     while ($row = mysqli_fetch_assoc($result)) {
+                                         // Display routine information here
+                                         echo '<h2>Routine Name: ' . $row['routine_name'] . '</h2>';
+                                         // Add more code to display other routine details if needed
+                                     }
+                             
+                                     mysqli_stmt_close($stmt);
+                                 } else {
+                                     echo '<span style="color:red;">Error executing query</span>';
+                                 }
+                             } else {
+                                 echo '<span style="color:red;">Error preparing statement</span>';
+                             }
+                             
+                             mysqli_close($conn);
                             ?>
                         </select>
                     </div>

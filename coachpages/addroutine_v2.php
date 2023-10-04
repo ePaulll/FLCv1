@@ -117,7 +117,7 @@ function loadPage(url, elementId) {
                 dangerMode: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log('here');
+                    console.log('success');
                     loadPage('addroutine_v2.php?user_id=' + user_id +
                         '&routineName=' + routineName, 'content');
                 }
@@ -161,11 +161,11 @@ function loadPage(url, elementId) {
 //                             title: "Success",
 //                             text: "Routine added successfully",
 //                             icon: "success",
-//                         });
-
+//                         })
+                            
 //                         // You may also reload or refresh the page to reflect the changes
 //                         // window.location.reload();
-//                     },
+//                     },   
 //                     error: function () {
 //                         Swal.fire({
 //                             title: "Error",

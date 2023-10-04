@@ -15,6 +15,6 @@ if (isset($_SESSION['admin_id'])) {
 session_destroy();
 
 
-header('Location: adminlogin.php');
+header('Location: index.php');
 exit;
 ?>

@@ -6,10 +6,6 @@ if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
 $user_id = $_GET['user_id'];
 
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-// var_dump($_GET);
-
 //routine_id, user_id, coach_id, routine_name
 if (isset($_GET['user_id']) && isset($_GET['routineName'])){
     mysqli_query($db_connection,"INSERT INTO tbl_routines (user_id, coach_id, routine_name) 
@@ -128,58 +124,23 @@ function loadPage(url, elementId) {
     }
 
 
+    function loadPageWID(url, elementId, userId) {
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(elementId).innerHTML = "";
+            document.getElementById(elementId).innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", url + '?user_id=' + userId, true);
+    xmlhttp.send();
+}
 
 
-//     function add_routine(user_id) {
-//     var routineName = document.getElementById('routineName').value;
-
-//     if (routineName !== '') {
-//         Swal.fire({
-//             title: "User",
-//             text: "Do you want to add this routine?",
-//             icon: "warning",
-//             showCancelButton: true,
-//             confirmButtonText: "Yes",
-//             cancelButtonText: "No",
-//             dangerMode: true,
-//         }).then((result) => {
-//             if (result.isConfirmed) {
-//                 // Prepare the data to send to the server
-//                 var data = {
-//                     user_id: user_id,
-//                     routineName: routineName
-//                 };
-
-//                 // Send a POST request to the server
-//                 $.ajax({
-//                     type: "POST",
-//                     url: "addroutine_v2.php", // Update the URL to your server endpoint
-//                     data: data,
-//                     success: function (response) {
-//                         // Handle the server response here, e.g., display a success message
-//                         Swal.fire({
-//                             title: "Success",
-//                             text: "Routine added successfully",
-//                             icon: "success",
-//                         })
-                            
-//                         // You may also reload or refresh the page to reflect the changes
-//                         // window.location.reload();
-//                     },   
-//                     error: function () {
-//                         Swal.fire({
-//                             title: "Error",
-//                             text: "An error occurred while adding the routine.",
-//                             icon: "error",
-//                         });
-//                     }
-//                 });
-//             }
-//         });
-//     } else {
-//         Swal.fire('Error on Routine', 'Please Input Routine', 'error');
-//     }
-// }
     
 
 
@@ -202,11 +163,11 @@ function loadPage(url, elementId) {
                     </li>
                     <li class="nav-item active">
                         <!-- <a class="nav-link" href="#" id="legs-link">Legs</a> -->
-                        <a class="nav-link" href="javascript:void(0);" id="legs-link" onclick="loadPage('../coachpages/cards/legexercisecards.php', 'card-container')">Legs</a>
+                        <a class="nav-link" href="javascript:void(0);" id="legs-link" onclick="loadPageWID('../coachpages/cards/legexercisecards.php', 'card-container', <?=$user_id?>)">Legs</a>
                     </li>
                     <li class="nav-item active">
                         <!-- <a class="nav-link" href="#" id="core-link">Core</a> -->
-                        <a class="nav-link" href="javascript:void(0);" id="core-link" onclick="loadPage('../coachpages/cards/coreexercisecards.php', 'card-container')">Core</a>
+                        <a class="nav-link" href="javascript:void(0);" id="core-link" onclick="loadPage('../coachpages/cards/coreexercisecards.php', 'card-container', <?=$user_id?>)">Core</a>
                     </li>
                     <li class="nav-item active">
                         <!-- <a class="nav-link" href="#" id="arms-link">Arms</a> -->

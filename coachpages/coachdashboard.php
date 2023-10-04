@@ -28,7 +28,67 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
 " rel="stylesheet">
 <script src="coachscripts.js"></script>
+<script>
 
+function loadPageWID(url, elementId, userId) {
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(elementId).innerHTML = "";
+            document.getElementById(elementId).innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", url + '?user_id=' + userId, true);
+    xmlhttp.send();
+}
+
+
+function addExtoRoutine() {
+  
+  var routineId = document.getElementById('routine-select').value;
+  var exerciseId = document.getElementById('exercise-id').value;
+  var sets = document.getElementById('sets-input').value;
+  var reps = document.getElementById('reps-input').value;
+  var weight = document.getElementById('weight-input').value;
+   
+
+   // Create an object with the data to send to the server
+   var data = {
+       routineId: routineId,
+       exerciseId: exerciseId,
+       sets: sets,
+       reps: reps,
+       weight: weight
+       
+   };
+   $.ajax({
+       type: 'POST',
+       url: 'coachpages/cards/legexercisecards.php', // Change this to your server endpoint
+       data: data,
+    success: function (response) {
+       console.log('success');
+        Swal.fire({
+                title: "Success",
+                text: "Successfully added to routine",
+                icon: "success",
+            });
+            $('#addToRoutineModal').modal('hide');
+    },
+    error: function () {
+        console.log('fail');
+        Swal.fire({
+            title: "Error",
+            text: "An error occurred while processing your request.",
+            icon: "error",
+        });
+    }
+});
+}
+</script>
 </head>
 
 

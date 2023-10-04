@@ -34,7 +34,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
 <div class="card-container">
         <?php while($row = $result->fetch_assoc()) { ?>
         <div class="card">
-            <img src="<?php echo $row['exercise_image']; ?>" class="card-img-top" alt="Exercise Image">
+            
             <div class="card-body">
                 <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
@@ -60,14 +60,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
                         <label for="routine-select" class="form-label">Select Routine:</label>
                         <select class="form-select" id="routine-select" name="routine-select">
                             <?php 
-                                // Retrieve user's routines from database
-                                $routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
-                                $routines_result = mysqli_query($conn, $routines_query);
-
-                                // Generate an option for each routine
-                                while ($routine_row = mysqli_fetch_assoc($routines_result)) {
-                                    echo "<option value='" . $routine_row['routine_id'] . "'>" . $routine_row['routine_name'] . "</option>";
-                                }
+                         
                             ?>
                         </select>
                     </div>

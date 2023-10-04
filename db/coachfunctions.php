@@ -172,7 +172,7 @@ function getCoachByEmail($email) {
     }
 }
 
-$conn->close();
+
 
 
 
@@ -183,6 +183,38 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
     return $result;
   }
   
+
+
+  function fetchUserRoutines($user_id, $coach_id, $db_connection) {
+    // Sanitize inputs to prevent SQL injection
+    $user_id = mysqli_real_escape_string($db_connection, $user_id);
+    $coach_id = mysqli_real_escape_string($db_connection, $coach_id);
+
+    // Query to fetch user routines
+    $query = "SELECT * FROM tbl_routines WHERE user_id = $user_id AND coach_id = $coach_id";
+
+    // Perform the query
+    $result = mysqli_query($db_connection, $query);
+
+    if (!$result) {
+        die("Query failed: " . mysqli_error($db_connection));
+    }
+
+    // Initialize an empty array to store routines
+    $routines = array();
+
+    // Fetch routines and add them to the array
+    while ($row = mysqli_fetch_assoc($result)) {
+        $routines[] = $row;
+    }
+
+    // Free the result set
+    mysqli_free_result($result);
+
+    // Return the array of routines
+    return $routines;
+}
+
 
 ?>
 

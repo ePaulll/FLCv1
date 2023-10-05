@@ -74,7 +74,55 @@ $(function() {
 //     });
 // });
 
+function add_exercise(x){
+    var set_number = document.getElementById('set_number').value;
+    var routine_id = document.getElementById('routine_id').value;
+        //get data using js 
+        //
+    if (routine_id != 0) {
+        if (set_number != '') {
+        Swal.fire({
+            title: "User",
+            text: "Do you want to add this routine?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            dangerMode: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                
+                loadPage('cards/inputfields.php?x='+x+'&routine_id='+routine_id+'&set_number='+set_number, 'c-body');
+            }
+        });
+        } else {Swal.fire('Error on Routine', 'Please Input Routine', 'error');}
+    } else {Swal.fire('Error on Routine', 'Please Input Routine', 'error');}
+}
+/*
+ function add_routine(user_id) {
+        var routineName = document.getElementById('routineName').value;
 
+        if (routineName !== '') {
+            Swal.fire({
+                title: "User",
+                text: "Do you want to add this routine?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('success');
+                    loadPage('addroutine_v2.php?user_id=' + user_id +
+                        '&routineName=' + routineName, 'content');
+                }
+            });
+        } else {
+            Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+        }
+    }
+*/ 
 
 //AJAX Darren
 function loadPage(url,elementId) {
@@ -111,47 +159,47 @@ function loadPageWID(url, elementId, userId) {
 }
 
 
-function addExtoRoutine() {
+// function addExtoRoutine() {
   
-    var routineId = document.getElementById('routine-select').value;
-    var exerciseId = document.getElementById('exercise-id').value;
-    var sets = document.getElementById('sets-input').value;
-    var reps = document.getElementById('reps-input').value;
-    var weight = document.getElementById('weight-input').value;
+//     var routineId = document.getElementById('routine-select').value;
+//     var exerciseId = document.getElementById('exercise-id').value;
+//     var sets = document.getElementById('sets-input').value;
+//     var reps = document.getElementById('reps-input').value;
+//     var weight = document.getElementById('weight-input').value;
      
  
-     // Create an object with the data to send to the server
-     var data = {
-         routineId: routineId,
-         exerciseId: exerciseId,
-         sets: sets,
-         reps: reps,
-         weight: weight
+//      // Create an object with the data to send to the server
+//      var data = {
+//          routineId: routineId,
+//          exerciseId: exerciseId,
+//          sets: sets,
+//          reps: reps,
+//          weight: weight
          
-     };
-     $.ajax({
-         type: 'POST',
-         url: 'legexercisecards.php', // Change this to your server endpoint
-         data: data,
-      success: function (response) {
-         console.log('success');
-          Swal.fire({
-                  title: "Success",
-                  text: "Successfully added to routine",
-                  icon: "success",
-              });
-              $('#addToRoutineModal').modal('hide');
-      },
-      error: function () {
-          console.log(response);
-          Swal.fire({
-              title: "Error",
-              text: "An error occurred while processing your request.",
-              icon: "error",
-          });
-      }
-  });
- }
+//      };
+//      $.ajax({
+//          type: 'POST',
+//          url: 'legexercisecards.php', // Change this to your server endpoint
+//          data: data,
+//       success: function (response) {
+//          console.log('success');
+//           Swal.fire({
+//                   title: "Success",
+//                   text: "Successfully added to routine",
+//                   icon: "success",
+//               });
+//               $('#addToRoutineModal').modal('hide');
+//       },
+//       error: function () {
+//           console.log(response);
+//           Swal.fire({
+//               title: "Error",
+//               text: "An error occurred while processing your request.",
+//               icon: "error",
+//           });
+//       }
+//   });
+//  }
 // function add_routine(user_id) {
 //     var routineName = document.getElementById('routineName').value;
 

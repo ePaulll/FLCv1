@@ -50,7 +50,6 @@ function loadPageWID(url, elementId, userId) {
 function addExtoRoutine() {
   
   var routineId = document.getElementById('routine-select').value;
-  var exerciseId = document.getElementById('exercise-id').value;
   var sets = document.getElementById('sets-input').value;
   var reps = document.getElementById('reps-input').value;
   var weight = document.getElementById('weight-input').value;
@@ -59,7 +58,7 @@ function addExtoRoutine() {
    // Create an object with the data to send to the server
    var data = {
        routineId: routineId,
-       exerciseId: exerciseId,
+       //exerciseId: globalExerciseId,
        sets: sets,
        reps: reps,
        weight: weight
@@ -67,7 +66,7 @@ function addExtoRoutine() {
    };
    $.ajax({
        type: 'POST',
-       url: 'coachpages/cards/legexercisecards.php', // Change this to your server endpoint
+       url: '../db/coachfunctions.php', 
        data: data,
     success: function (response) {
        console.log('success');
@@ -78,8 +77,8 @@ function addExtoRoutine() {
             });
             $('#addToRoutineModal').modal('hide');
     },
-    error: function () {
-        console.log('fail');
+    error: function (xhr, status, error) {
+        console.log(xhr.responseText);
         Swal.fire({
             title: "Error",
             text: "An error occurred while processing your request.",
@@ -87,6 +86,14 @@ function addExtoRoutine() {
         });
     }
 });
+}
+  
+
+
+
+
+function setExerciseId(exerciseId) {
+    
 }
 </script>
 </head>

@@ -3,6 +3,8 @@ require('../../db/coachfunctions.php');
 require_once '../../db/dbconn.php';
 session_start();
 
+
+$exid;
 $user_id = $_GET['user_id'];
 
 $target_body_part_id = 1; // Change to bodypart_id na gusto mo ipakita
@@ -19,29 +21,7 @@ $result = fetch_exercises_by_body_part($conn, $target_body_part_id);
 // }
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['routineId'], $_POST['exerciseId'], $_POST['sets'], $_POST['reps'], $_POST['weight'])) {
-    $routineId = $_POST['routineId'];
-    $exerciseId = $_POST['exerciseId'];
-    $sets = $_POST['sets'];
-    $reps = $_POST['reps'];
-    $weight = $_POST['weight'];
- 
- 
-    $insert_query = "INSERT INTO tbl_routine_exercises (routine_id, exercise_id, exercise_sets, exercise_reps, exercise_weight) VALUES (?, ?, ?, ?, ?)";
- 
-    $stmt = mysqli_prepare($db_connection, $insert_query);
-    mysqli_stmt_bind_param($stmt, 'iiiii', $routineId, $exerciseId, $sets, $reps, $weight);
-if (mysqli_stmt_execute($stmt)) {
-            $response = array('success' => true);
-        } else {
-            $response = array('success' => false, 'error' => 'Database insert error');
-        }
- 
-        mysqli_stmt_close($stmt);
-    mysqli_close($db_connection);
-    echo json_encode($response);
-    exit;
-}
+
  
 
 ?>
@@ -68,7 +48,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
     <!-- <script src="scripts.js"></script> -->
 <script>
   
-
+    let globalExerciseId;
     function loadPageWID(url, elementId, userId) {
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
@@ -86,10 +66,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
 }
 
 
+
+
+
 function addExtoRoutine() {
   
    var routineId = document.getElementById('routine-select').value;
-   var exerciseId = document.getElementById('exercise-id').value;
    var sets = document.getElementById('sets-input').value;
    var reps = document.getElementById('reps-input').value;
    var weight = document.getElementById('weight-input').value;
@@ -98,7 +80,7 @@ function addExtoRoutine() {
     // Create an object with the data to send to the server
     var data = {
         routineId: routineId,
-        exerciseId: exerciseId,
+        //exerciseId: globalExerciseId,
         sets: sets,
         reps: reps,
         weight: weight
@@ -106,7 +88,7 @@ function addExtoRoutine() {
     };
     $.ajax({
         type: 'POST',
-        url: 'legexercisecards.php', 
+        url: '../../db/coachfunctphp', 
         data: data,
      success: function (response) {
         console.log('success');
@@ -117,8 +99,8 @@ function addExtoRoutine() {
              });
              $('#addToRoutineModal').modal('hide');
      },
-     error: function () {
-         console.log('fail');
+     error: function (xhr, status, error) {
+         console.log(xhr.responseText);
          Swal.fire({
              title: "Error",
              text: "An error occurred while processing your request.",
@@ -129,20 +111,75 @@ function addExtoRoutine() {
 }
    
 
-$(document).ready(function() {
-    // Listen for the modal show event
-    $('#addToRoutineModal').on('show.bs.modal', function(event) {
-        // Get the exercise ID from the clicked button
-        var button = $(event.relatedTarget);
-        var exerciseId = button.data('exercise-id');
-        
-        // Set the exercise ID as the value of the hidden input
-        $('#exercise-id').val(exerciseId);
-    });
+
+
+
+
+
+//     $(document).ready(function(){
+//     // Listen for the click event on the "Add to Routine" button
+//     $(".card-btn").click(function(){
+//         // Get the exercise_id and user_id from the clicked button's data attributes
+//         var exerciseId = $(this).data("exercise-id");
+//         var userId = $(this).data("user-id");
+
+//         // Set the values in the modal's input field
+//         $("#exercise-id").val(exerciseId);
+//     });
+// });
+
+function passExerciseId(button) {
+        var exerciseId = $(button).data('exercise-id'); // Retrieve the data-exercise-id attribute value
+        $('#exercise-id').val(exerciseId); // Set the value of the exercise-id input field in the modal
+    }
+
+
+ // Add a click event listener to the "Add to Routine" button
+document.addEventListener('click', function (e) {
+    // Check if the clicked element has the "card-btn" id
+    if (e.target && e.target.id === 'card-btn') {
+        // Get the value of the data-exercise-id attribute from the clicked button
+        const exerciseId = e.target.getAttribute('data-exercise-id');
+        // Set the value of the exercise-id input field
+        document.getElementById('exercise-id').value = exerciseId;
+    }
 });
+function loadPage(url,elementId) {
+    if (window.XMLHttpRequest) {
+            xmlhttp=new XMLHttpRequest();
+    } else {
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }   
+    xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            document.getElementById(elementId).innerHTML="";
+            document.getElementById(elementId).innerHTML=xmlhttp.responseText;	
+        }
+    }   
+    xmlhttp.open("GET",url,true);
+    xmlhttp.send();	   
+}
+function loadInputs(url, elementId, exerciseId) {
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById(elementId).innerHTML = "";
+            document.getElementById(elementId).innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", url + '?exerciseId=' + exerciseId, true);
+    xmlhttp.send();
+}
+
+
+
 </script>
 </head>
- 
+
 <body>
 
 
@@ -150,14 +187,17 @@ $(document).ready(function() {
         <?php while($row = $result->fetch_assoc()) { ?>
         <div class="card">
             
-            <div class="card-body">
+            <div class="card-body" id="c-body">
                 <h5 class="card-title"><?php echo $row['exercise_name']; ?></h5>
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
-                <a href="#" class="btn btn-primary card-btn" id="card-btn" data-bs-toggle="modal"
-               data-bs-target="#addToRoutineModal" data-exercise-id="<?php echo $row['exercise_id']; ?>"
-               data-user-id="<?php echo $user_id; ?>"> Add to Routine</a>
+                <?php 
+                
+                echo'<a href="javascript:void();" class="btn btn-primary card-btn" id="card-btn"  
+                onclick="loadPage(\'../coachpages/cards/inputfields.php?exercise_id='.$row['exercise_id'].'\', \'c-body\')"> Add to Routine</a>';
 
-               
+              
+
+               ?>
             </div>
         </div>
         <?php } ?>
@@ -191,7 +231,8 @@ $(document).ready(function() {
                             ?>
                         </select>
                     </div>
-                    <input type="hidden" id="exercise-id" name="exercise-id" value="<?php echo $row['exercise_id']; ?>">
+                    <input type="text" id="exercise-id" value="" name="exercise-id">
+
 
                     <div class="mb-3">
                         <label for="sets-input" class="form-label">Sets:</label>

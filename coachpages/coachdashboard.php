@@ -95,6 +95,42 @@ function addExtoRoutine() {
 function setExerciseId(exerciseId) {
     
 }
+
+function object(id) { return document.getElementById(id); }
+
+function savechange(routine_id,exercise_id){
+        var ex_sets = object('ex_sets'+exercise_id).value
+        var ex_reps = object('ex_reps'+exercise_id).value;
+
+  if (ex_sets != 0) {
+            Swal.fire({
+                title: "User",
+                text: "Do you want to add this routine?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('success');
+                    loadPage('editroutine.php?routine_id='+routine_id+
+                        '&ex_sets='+ex_sets+'&ex_reps='+ex_reps
+                        +'&xxx='+exercise_id,'right-con');
+                }
+            });
+        } else {
+            Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+        }
+
+}
+function editroutine(user_id,routine) {
+        //var routine = document.getElementById('routine').value;
+loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con');
+                
+           
+     }
+ 
 </script>
 </head>
 

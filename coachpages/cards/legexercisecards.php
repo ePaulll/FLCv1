@@ -48,7 +48,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
     <!-- <script src="scripts.js"></script> -->
 <script>
   
-    let globalExerciseId;
+   
     function loadPageWID(url, elementId, userId) {
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
@@ -68,65 +68,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
 
 
 
-
-function addExtoRoutine() {
-  
-   var routineId = document.getElementById('routine-select').value;
-   var sets = document.getElementById('sets-input').value;
-   var reps = document.getElementById('reps-input').value;
-   var weight = document.getElementById('weight-input').value;
-    
-
-    // Create an object with the data to send to the server
-    var data = {
-        routineId: routineId,
-        //exerciseId: globalExerciseId,
-        sets: sets,
-        reps: reps,
-        weight: weight
-        
-    };
-    $.ajax({
-        type: 'POST',
-        url: '../../db/coachfunctphp', 
-        data: data,
-     success: function (response) {
-        console.log('success');
-         Swal.fire({
-                 title: "Success",
-                 text: "Successfully added to routine",
-                 icon: "success",
-             });
-             $('#addToRoutineModal').modal('hide');
-     },
-     error: function (xhr, status, error) {
-         console.log(xhr.responseText);
-         Swal.fire({
-             title: "Error",
-             text: "An error occurred while processing your request.",
-             icon: "error",
-         });
-     }
- });
-}
-   
-
-
-
-
-
-
-//     $(document).ready(function(){
-//     // Listen for the click event on the "Add to Routine" button
-//     $(".card-btn").click(function(){
-//         // Get the exercise_id and user_id from the clicked button's data attributes
-//         var exerciseId = $(this).data("exercise-id");
-//         var userId = $(this).data("user-id");
-
-//         // Set the values in the modal's input field
-//         $("#exercise-id").val(exerciseId);
-//     });
-// });
 
 function passExerciseId(button) {
         var exerciseId = $(button).data('exercise-id'); // Retrieve the data-exercise-id attribute value
@@ -159,21 +100,6 @@ function loadPage(url,elementId) {
     xmlhttp.open("GET",url,true);
     xmlhttp.send();	   
 }
-function loadInputs(url, elementId, exerciseId) {
-    if (window.XMLHttpRequest) {
-        xmlhttp = new XMLHttpRequest();
-    } else {
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById(elementId).innerHTML = "";
-            document.getElementById(elementId).innerHTML = xmlhttp.responseText;
-        }
-    }
-    xmlhttp.open("GET", url + '?exerciseId=' + exerciseId, true);
-    xmlhttp.send();
-}
 
 
 
@@ -183,7 +109,7 @@ function loadInputs(url, elementId, exerciseId) {
 <body>
 
 
-    <div class="card-container">
+    <div class="card-container" id="card-container">
         <?php while($row = $result->fetch_assoc()) { ?>
         <div class="card">
             
@@ -192,8 +118,8 @@ function loadInputs(url, elementId, exerciseId) {
                 <p class="card-text"><?php echo $row['exercise_description']; ?></p>
                 <?php 
                 
-                echo'<a href="javascript:void();" class="btn btn-primary card-btn" id="card-btn"  
-                onclick="loadPage(\'../coachpages/cards/inputfields.php?exercise_id='.$row['exercise_id'].'\', \'c-body\')"> Add to Routine</a>';
+                echo'<a href="javascript:void(0);" class="btn btn-primary card-btn" id="card-btn"  
+                onclick="loadPage(\'../coachpages/cards/inputfields.php?exercise_id='.$row['exercise_id'].'&user_id='.$user_id.'\', \'c-body\')"> Add to Routine</a>';
 
               
 

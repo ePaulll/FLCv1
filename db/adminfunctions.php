@@ -139,8 +139,17 @@ if ($result) {
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
+// card 3
+$sql = "SELECT COUNT(*) AS userWC FROM tbl_users WHERE coach_id IS NOT NULL";
 
+$result = $conn->query($sql);
 
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $userWC = $row['userWC'];
+} else {
+    $userWC = 0;
+}
 
 // if (isset($_POST['user_id']) && isset($_POST['action'])) {
 //     $user_id = $_POST['user_id'];

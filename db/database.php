@@ -2,7 +2,7 @@
 
 
 error_reporting(0);
-echo '<p style="color:black;">'.$_SERVER['REQUEST_URI'].'</p>';
+// echo '<p style="color:black;">'.$_SERVER['REQUEST_URI'].'</p>';
 
 $host = "localhost";
 $user = "root";

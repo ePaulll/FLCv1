@@ -213,27 +213,27 @@ if (isset($_POST['routinenamefield'])) {
 // sa pag add ng exercise sa routine
 
 
-if (isset($_POST['routine-select'], $_POST['exercise-id'],$_POST['sets-input'], $_POST['reps-input'], $_POST['weight-input'])) {
-  // Get the submitted form data
-  $routineId = $_POST['routine-select'];
-  $exerciseId = $_POST['exercise-id'];
-  $sets = $_POST['sets-input'];
-  $reps = $_POST['reps-input'];
-  $weight = $_POST['weight-input'];
+// if (isset($_POST['routine-select'], $_POST['exercise-id'],$_POST['sets-input'], $_POST['reps-input'], $_POST['weight-input'])) {
+//   // Get the submitted form data
+//   $routineId = $_POST['routine-select'];
+//   $exerciseId = $_POST['exercise-id'];
+//   $sets = $_POST['sets-input'];
+//   $reps = $_POST['reps-input'];
+//   $weight = $_POST['weight-input'];
  
   
 
-  $sql = "INSERT INTO tbl_routine_exercises (routine_id, exercise_id, exercise_sets, exercise_reps, exercise_weight)
-          VALUES ('$routineId', '$exerciseId', '$sets', '$reps', '$weight')";
+//   $sql = "INSERT INTO tbl_routine_exercises (routine_id, exercise_id, exercise_sets, exercise_reps, exercise_weight)
+//           VALUES ('$routineId', '$exerciseId', '$sets', '$reps', '$weight')";
 
-  if ($conn->query($sql) === TRUE) {
-      echo "Data inserted successfully";
-  } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-  }
+//   if ($conn->query($sql) === TRUE) {
+//       echo "Data inserted successfully";
+//   } else {
+//       echo "Error: " . $sql . "<br>" . $conn->error;
+//   }
 
-  $conn->close();
-}
+//   $conn->close();
+// }
 
 
 

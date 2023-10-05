@@ -43,9 +43,6 @@ $coachId = $_SESSION['coach_id'];
 
 
 
-
-
-
     </script>
 
 
@@ -69,7 +66,7 @@ $coachId = $_SESSION['coach_id'];
         exit; // Exit if user ID is missing
     }
     
-    // 4. Query the database to fetch routines for the specified coach and user.
+    
     $sql = "SELECT routine_id, routine_name FROM tbl_routines 
             WHERE coach_id = $coachId AND user_id = $userId";
     
@@ -92,7 +89,7 @@ $coachId = $_SESSION['coach_id'];
         echo $routineName;
         
         // Add a button here
-        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editRoutine('. $routineId .')">Edit routine</a>';
+        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editroutine('. $routineId .',\''.$routineName.'\')">Edit routine</a>';
         
         echo '</li>';
     }
@@ -106,6 +103,6 @@ $coachId = $_SESSION['coach_id'];
 
     
 </div>
-
+<div id="right-con"></div>
     </body>
 </main>

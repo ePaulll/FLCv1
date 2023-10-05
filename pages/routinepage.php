@@ -1,7 +1,8 @@
 <?php
 require('../db/functions.php');
 include_once '../db/dbconn.php';
-$_SESSION['user_id'] = $user_id;
+session_start();
+$user_id = $_SESSION['user_id'];
 
 ?>
 
@@ -36,127 +37,62 @@ $_SESSION['user_id'] = $user_id;
 <main>
 
     <body>
+<div class="container-fluid">
+    
 
         <h1 class="rtn-h1">Your routines</h1>
-        <div class="card-container">
-            <?php
-        // Retrieve user's routines from the database
-$routines_query = "SELECT * FROM tbl_routines WHERE user_id = $user_id";
-$routines_result = mysqli_query($conn, $routines_query);
-
-// Check if the query was executed successfully
-if ($routines_result && mysqli_num_rows($routines_result) > 0) {
-    while ($routine_row = mysqli_fetch_assoc($routines_result)) {
-        $routine_id = $routine_row['routine_id'];
-        $routine_name = $routine_row['routine_name'];
-?>
-
-            <div class="card border-info mb-3">
-                
-                <div class="card-body" style="overflow-y: auto; max-height: 650px; max-width 300px;">
-                    <h5 class="card-title" style="text-align:center;"><?php echo $routine_name; ?></h5>
-                    <ul class="list-group">
-                        <?php
-                    // Retrieve exercises for the current routine
-                    $exercises_query = "SELECT * FROM tbl_routine_exercises WHERE routine_id = $routine_id";
-                    $exercises_result = mysqli_query($conn, $exercises_query);
-
-                    if ($exercises_result && mysqli_num_rows($exercises_result) > 0) {
-                        while ($exercise_row = mysqli_fetch_assoc($exercises_result)) {
-                            $exercise_id = $exercise_row['exercise_id'];
-                            $exercise_sets = $exercise_row['exercise_sets'];
-                            $exercise_reps = $exercise_row['exercise_reps'];
-                            $exercise_weight = $exercise_row['exercise_weight'];
-                            $exercise_name_query = "SELECT exercise_name FROM tbl_exercises WHERE exercise_id = $exercise_id";
-                            $exercise_name_result = mysqli_query($conn, $exercise_name_query);
-                            $exercise_name = "";
-                            if ($exercise_name_result && mysqli_num_rows($exercise_name_result) > 0) {
-                                $exercise_name_row = mysqli_fetch_assoc($exercise_name_result);
-                                $exercise_name = $exercise_name_row['exercise_name'];
-                            }
-                    ?>
-
-                        <li class="list-group-item">
-                            <h6 class="mb-1"><?php echo $exercise_name; ?></h6>
-                            <p class="mb-0">Sets: <?php echo $exercise_sets; ?></p>
-                            <p class="mb-0">Reps: <?php echo $exercise_reps; ?></p>
-                            <p class="mb-0">Weight: <?php echo $exercise_weight; ?></p>
-
-                            <button class="btn btn-dark btn-edit" data-bs-toggle="modal" data-bs-target="#editModal"
-                                data-exercise-id="<?php echo $exercise_id; ?>"
-                                data-routine-id="<?php echo $routine_id; ?>"
-                                data-exercise-sets="<?php echo $exercise_sets; ?>"
-                                data-exercise-reps="<?php echo $exercise_reps; ?>"
-                                data-exercise-weight="<?php echo $exercise_weight; ?>">Edit</button>
-
-                            <button class="btn btn-dark btn-remove" data-routine-id="<?php echo $routine_id; ?>" data-exercise-id="<?php echo $exercise_id; ?>">Remove</button>
-                        </li>
-                        <?php
-                        }
-                    } else {
-                        echo "<li class='list-group-item'>No exercises found for this routine</li>";
-                    }
-                    ?>
-                    </ul>
-                </div>
-            </div>
        
             <?php
+//         // Retrieve user's routines from the database
+// $routines_query = "SELECT * FROM tbl_routines WHERE user_id=".$user_id;
+// echo $routines_query;
+// echo'<table>';
+// $rs = mysqli_query($conn, $routines_query);
+// while($rw = mysqli_fetch_array($rs)) {
+//    echo' <tr>
+//         <td>'.$rw['routine_name'].'</td></tr>';
+// }
+// echo'</table>';
+
+
+
+ // Replace with the ID of the logged-in user
+
+// SQL query to retrieve routines and related exercises for the logged-in user
+$sql = "SELECT r.routine_name, e.exercise_name, re.exercise_sets, re.exercise_reps, re.exercise_weight
+        FROM tbl_routines r
+        INNER JOIN tbl_routine_exercises re ON r.routine_id = re.routine_id
+        INNER JOIN tbl_exercises e ON re.exercise_id = e.exercise_id
+        WHERE r.user_id = $user_id";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $routineName = $row['routine_name'];
+
+        // Start a list group for each routine
+        echo '<h3> Routine Name: ' . $routineName . '</h3>';
+        echo '<ul class="list-group">';
+        
+        // Display exercise details inside the list group
+        echo '<li class="list-group-item">';
+        echo '<strong>Exercise Name:</strong> ' . $row['exercise_name'] . '<br>';
+        echo '<strong>Sets:</strong> ' . $row['exercise_sets'] . '<br>';
+        echo '<strong>Reps:</strong> ' . $row['exercise_reps'] . '<br>';
+        echo '<strong>Weight:</strong> ' . $row['exercise_weight'] . '<br>';
+        echo '</li>';
+
+        // Close the list group for each routine
+        echo '</ul>';
     }
+} else {
+    echo 'No routines and exercises found for the logged-in user.';
 }
 
 ?>
-            <!-- Edit Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">Edit Exercise</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Populate the modal body with exercise details -->
-                            <form id="updateExerciseForm" action="../db/functions.php" method="POST"
-                                name="updateExerciseForm">
-                                <input type="hidden" id="exerciseId" name="exerciseId">
-                                <input type="hidden" id="routineId" name="routineId">
 
-                                <div class="form-group">
-                                    <label for="sets">Sets</label>
-                                    <input type="number" class="form-control" id="setsUpdate" name="setsupdate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="reps">Reps</label>
-                                    <input type="number" class="form-control" id="repsUpdate" name="repsUpdate">
-                                </div>
-                                <div class="form-group">
-                                    <label for="weight">Weight</label>
-                                    <input type="number" class="form-control" id="weightUpdate" name="weightUpdate">
-                                </div>
-                        </div>
-                 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-success updateExerciseBtn" id="updateExerciseBtn"
-                                name="updateExerciseBtn">Update</button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
- </div></div>
+</div>
 
 
-    </body>
-</main>
-<footer>
 
-</footer>
-
-
-</body>
-
-</html>

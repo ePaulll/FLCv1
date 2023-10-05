@@ -217,30 +217,4 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
 
 
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['routineId'], $_POST['sets'], $_POST['reps'], $_POST['weight'])) {
-    $routineId = $_POST['routineId'];
-    // $exerciseId = $_POST['exerciseId'];
-    $sets = $_POST['sets'];
-    $reps = $_POST['reps'];
-    $weight = $_POST['weight'];
-    $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
-    $insert_query = "INSERT INTO tbl_routine_exercises (routine_id, exercise_sets, exercise_reps, exercise_weight) VALUES (?, ?, ?, ?)";
- 
-    $stmt = $conn->prepare($stmt);
-    $stmt->bind_param('iiii', $routineId, $sets, $reps, $weight);
-   
-    if ($stmt->execute()) {
-        echo "success"; 
-        
-    } else {
-        echo "error: " . $stmt->error; 
-    }
- 
-    $stmt->close();
-    $conn->close();
-   
-
-    
-    }
 ?>

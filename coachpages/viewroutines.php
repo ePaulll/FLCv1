@@ -41,7 +41,10 @@ $coachId = $_SESSION['coach_id'];
 
     <script>
 
-
+function editroutine(user_id,routine) {
+        //var routine = document.getElementById('routine').value;
+loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con');
+}
 
     </script>
 
@@ -99,10 +102,14 @@ $coachId = $_SESSION['coach_id'];
     // Close the database connection
     mysqli_close($db_connection);
     ?>
+
 </ul>
 
     
 </div>
+<div class="col-6">
 <div id="right-con"></div>
+</div>
     </body>
+ 
 </main>

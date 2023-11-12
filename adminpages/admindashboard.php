@@ -53,6 +53,7 @@ print_r($_SESSION);
               <li class="nav-item">
                 <a class="nav-link" href=""><i class="bi bi-person-fill"></i>Coaching contract</a>
               </li>
+
             
              
               <?php print_r($_SESSION);?>

@@ -58,8 +58,8 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
     <body>
     
     <a href="javascript:void(0);" class="btn btn-primary" onclick="loadPage('clientlist.php', 'main-content')"> <i class="bi bi-arrow-left-square"></i> Back</a>
-<div class="row col-4">
-
+<div class="row">
+    <div class="col-4">
 <ul class="list-group">
     <?php
     if (isset($_GET['user_id'])) {
@@ -105,11 +105,14 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
 
 </ul>
 
-    
-</div>
-<div class="col-6">
-<div id="right-con"></div>
+
+    </div>
+<div class="col-8">
+        <div id="right-con">
+            <!-- Content will be loaded here -->
+        </div>
+    </div>
 </div>
     </body>
- 
+
 </main>

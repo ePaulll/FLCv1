@@ -105,7 +105,7 @@ function savechange(routine_id,exercise_id){
   if (ex_sets != 0) {
             Swal.fire({
                 title: "User",
-                text: "Do you want to add this routine?",
+                text: "Do you want to save changes?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Yes",
@@ -131,6 +131,48 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
            
      }
  
+
+
+     function addExerciseToList() {
+        // Get values from the form
+        var exerciseName = $('#exerciseName').val();
+        var exerciseDescription = $('#exerciseDescription').val();
+        var bodyPart = $('#bodyPartSelect').val();
+
+        // Validate the inputs
+        if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
+            Swal.fire('Error', 'Please fill in all the fields', 'error');
+            return;
+        }
+
+        // Prepare the data to be sent
+        var data = {
+            exerciseName: exerciseName,
+            exerciseDescription: exerciseDescription,
+            bodyPart: bodyPart
+        };
+
+        // Use jQuery AJAX to send data to the server
+        $.ajax({
+            type: 'POST',
+            url: 'insertExercise.php',
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                // Handle success
+                if (response.success) {
+                    Swal.fire('Success', 'Exercise added successfully', 'success');
+                } else {
+                    Swal.fire('Error', 'Failed to add exercise', 'error');
+                }
+            },
+            error: function(error) {
+                // Handle error
+                console.error('Error:', error);
+                Swal.fire('Error', 'Failed to communicate with the server', 'error');
+            }
+        });
+    }
 </script>
 </head>
 
@@ -166,7 +208,7 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
                 <a class="nav-link" href="clientlist.php" ><i class="bi bi-card-checklist"></i>Client List</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="exerciselist.php"><i class="bi bi-list-ol"></i>Exercise List</a>
+                <a class="nav-link" href="exercisecrud.php"><i class="bi bi-list-ol"></i>Exercise List</a>
               </li>
             
               <li class="nav-item">

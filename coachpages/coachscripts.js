@@ -53,6 +53,22 @@ $(function() {
     });
   });
 
+  $(document).ready(function() {
+    $('a[href="exercisecrud.php"]').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: 'exercisecrud.php',
+            type: 'GET',
+            success: function(data) {
+                $('#main-content').html(data);
+            },
+            error: function() {
+                alert('Error loading exercisecrud.php');
+            }
+        });
+    });
+  });
+
 
 //   $(document).ready(function () {
     

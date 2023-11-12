@@ -64,10 +64,10 @@ while ($rw = mysqli_fetch_array($rs)){
 </table>
 
 
-<!-- <input type="text" value="<?php echo $user_id; ?>"/>
+<input type="text" value="<?php echo $user_id; ?>"/>
 
 
-<input type="text" value="<?php echo $routine_name; ?>"/> -->
+<input type="text" value="<?php echo $routine_name; ?>"/>
 
 
 <button onclick="update(<?php echo $user_id;?>);">UPDATE</button>

@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POS
     exit;
 }
 ?>
-
+<!-- gumagana insert pero may error sa swal -->
 <!doctype html>
 <html lang="en">
 
@@ -103,21 +103,21 @@ function addExerciseToList() {
             return;
         }
 
-        // Prepare the data to be sent
+       
         var data = {
             exerciseName: exerciseName,
             exerciseDescription: exerciseDescription,
             bodyPart: bodyPart
         };
 
-        // Use jQuery AJAX to send data to the server
+      
         $.ajax({
             type: 'POST',
             url: 'addexercise.php',
             data: data,
             dataType: 'json',
             success: function(response) {
-                // Handle success
+             
                 if (response.success) {
                     Swal.fire('Success', 'Exercise added successfully', 'success');
                 } else {
@@ -125,7 +125,7 @@ function addExerciseToList() {
                 }
             },
             error: function(error) {
-                // Handle error
+               
                 console.error('Error:', error);
                 Swal.fire('Error', 'Failed to communicate with the server', 'error');
             }

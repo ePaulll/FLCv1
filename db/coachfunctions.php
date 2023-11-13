@@ -8,7 +8,7 @@ include_once 'dbconn.php';
 session_start();
 $coach_id = $_SESSION['coach_id'];
 $_SESSION['coach_id'] = $coach_id;  
-// echo $coach_id;
+// echo $coach_id; naneto 4hrs debuggin dahil sau
 
 //register ng coach
 if (isset($_POST['registercoach'])) {

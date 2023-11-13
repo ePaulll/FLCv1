@@ -186,3 +186,46 @@ function loadPageWID(url, elementId, userId) {
 }
 
 
+function addExerciseToList() {
+ 
+    var exerciseName = $('#exerciseName').val();
+    var exerciseDescription = $('#exerciseDescription').val();
+    var bodyPart = $('#bodyPartSelect').val();
+
+    
+    if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
+        Swal.fire('Error', 'Please fill in all the fields', 'error');
+        return;
+    }
+
+   
+    var data = {
+        exerciseName: exerciseName,
+        exerciseDescription: exerciseDescription,
+        bodyPart: bodyPart
+    };
+
+   
+    $.ajax({
+        type: 'POST',
+        url: '../db/coachfunctions.php',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+            if (response && response.success) {
+                Swal.fire('Success', 'Exercise added successfully', 'success');
+                
+            } else {
+                Swal.fire('Error', 'Failed to add exercise', 'error');
+               
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('HTTP status:', jqXHR.status);
+            console.error('textStatus:', textStatus);
+            console.error('errorThrown:', errorThrown);
+            console.error('Response:', jqXHR.responseText);
+            Swal.fire('Error', 'Failed to communicate with the server', 'error');
+        }
+    });
+}

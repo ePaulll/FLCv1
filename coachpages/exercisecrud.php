@@ -69,46 +69,6 @@ function loadPage(url,elementId) {
     xmlhttp.open("GET",url,true);
     xmlhttp.send();	   
 }
-function addExerciseToList() {
-        // Get values from the form
-        var exerciseName = $('#exerciseName').val();
-        var exerciseDescription = $('#exerciseDescription').val();
-        var bodyPart = $('#bodyPartSelect').val();
-
-        // Validate the inputs
-        if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
-            Swal.fire('Error', 'Please fill in all the fields', 'error');
-            return;
-        }
-
-        // Prepare the data to be sent
-        var data = {
-            exerciseName: exerciseName,
-            exerciseDescription: exerciseDescription,
-            bodyPart: bodyPart
-        };
-
-        // Use jQuery AJAX to send data to the server
-        $.ajax({
-            type: 'POST',
-            url: 'addexercise.php',
-            data: data,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success
-                if (response.success) {
-                    Swal.fire('Success', 'Exercise added successfully', 'success');
-                } else {
-                    Swal.fire('Error', 'Failed to add exercise', 'error');
-                }
-            },
-            error: function(error) {
-                // Handle error
-                console.error('Error:', error);
-                Swal.fire('Error', 'Failed to communicate with the server', 'error');
-            }
-        });
-    }
 </script>
   
 </head>
@@ -136,8 +96,10 @@ function addExerciseToList() {
                 echo '<td>' . $row['exercise_description'] . '</td>';
                 echo '<td>' . $row['body_part_name'] . '</td>';
                 echo '<td>
-                        <a href="#" class="btn btn-primary">Edit</a>
-                        <a href="#" class="btn btn-danger">Remove</a>
+                    <div class="btn-group" role="group">
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger ms-2">Remove</a>
+                    </div>
                       </td>';
                 echo '</tr>';
             }
@@ -147,7 +109,7 @@ function addExerciseToList() {
 </div>
 
 
-<div class="container" id="container">
+
 
 
 

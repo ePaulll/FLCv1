@@ -1,52 +1,54 @@
 <?php
-
 if (file_exists('db/database.php')) { include_once('db/database.php'); }
 if (file_exists('../db/database.php')) { include_once('../db/database.php'); }
 
-
+header('Content-Type: application/json');
 require('../db/coachfunctions.php');
 include_once '../db/dbconn.php';
 
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POST['exerciseDescription'], $_POST['bodyPart'])) {
-    $exerciseName = $_POST['exerciseName'];
-    $exerciseDescription = $_POST['exerciseDescription'];
-    $bodyPart = $_POST['bodyPart'];
 
-    if ($conn->connect_error) {
-        $response = array('success' => false, 'error' => 'Database connection error');
-        echo json_encode($response);
-        exit;
-    }
 
-    // Perform any necessary validation and sanitation of input data here
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POST['exerciseDescription'], $_POST['bodyPart'])) {
+//     $exerciseName = $_POST['exerciseName'];
+//     $exerciseDescription = $_POST['exerciseDescription'];
+//     $bodyPart = $_POST['bodyPart'];
+//     $conn = new mysqli('localhost', 'root', '', 'fitlife_db');
+//     if ($conn->connect_error) {
+//         $response = array('success' => false, 'error' => 'Database connection error');
+//         echo json_encode($response);
+//         exit;
+//     }
 
-    $insert_query = "INSERT INTO tbl_exercises (exercise_name, exercise_description, body_part_id) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($insert_query);
+//     // Perform any necessary validation and sanitation of input data here
 
-    if ($stmt) {
-        $stmt->bind_param("ssi", $exerciseName, $exerciseDescription, $bodyPart);
+//     $insert_query = "INSERT INTO tbl_exercises (exercise_name, exercise_description, body_part_id) VALUES (?, ?, ?)";
+//     $stmt = $conn->prepare($insert_query);
 
-        if ($stmt->execute()) {
-            $response = array('success' => true);
-        } else {
-            $response = array('success' => false, 'error' => 'Database insert error');
-        }
+//     if ($stmt) {
+//         $stmt->bind_param("ssi", $exerciseName, $exerciseDescription, $bodyPart);
 
-        $stmt->close();
-    } else {
-        $response = array('success' => false, 'error' => 'Database statement error');
-    }
+//         if ($stmt->execute()) {
+//             $response = array('success' => true);
+//         } else {
+//             $response = array('success' => false, 'error' => 'Database insert error');
+//         }
 
-    $conn->close();
+//         $stmt->close();
+//     } else {
+//         $response = array('success' => false, 'error' => 'Database statement error');
+//     }
 
-    // Send a JSON response
-    echo json_encode($response);
-    exit;
-}
+//     $conn->close();
+
+//     // Send a JSON response
+//     echo json_encode($response);
+//     exit;
+    
+// }
 ?>
-<!-- gumagana insert pero may error sa swal -->
+<!-- gumagana insert pero may error sa swal --> 
 <!doctype html>
 <html lang="en">
 
@@ -71,6 +73,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POS
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.all.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
+" rel="stylesheet">
     <link rel="stylesheet" href="../css/routinepage.css">
     <script src="coachscripts.js"></script>
 <script> 
@@ -90,47 +98,50 @@ function loadPage(url,elementId) {
     xmlhttp.send();	   
 }
 
+// bago
+// function addExerciseToList() {
+//     // Get values from the form
+//     var exerciseName = document.getElementById('exerciseName').value;
+//     var exerciseDescription = document.getElementById('exerciseDescription').value;
+//     var bodyPart = document.getElementById('bodyPartSelect').value;
 
-function addExerciseToList() {
-        // Get values from the form
-        var exerciseName = $('#exerciseName').val();
-        var exerciseDescription = $('#exerciseDescription').val();
-        var bodyPart = $('#bodyPartSelect').val();
+//     // Validate the inputs
+//     if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
+//         Swal.fire('Error', 'Please fill in all the fields', 'error');
+//         return;
+//     }
 
-        // Validate the inputs
-        if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
-            Swal.fire('Error', 'Please fill in all the fields', 'error');
-            return;
-        }
+//     // Prepare the data to be sent
+//     var data = {
+//         exerciseName: exerciseName,
+//         exerciseDescription: exerciseDescription,
+//         bodyPart: bodyPart
+//     };
 
-       
-        var data = {
-            exerciseName: exerciseName,
-            exerciseDescription: exerciseDescription,
-            bodyPart: bodyPart
-        };
+//     // Use AJAX to send data to the server
+//     $.ajax({
+//         type: 'POST',
+//         url: '../db/coachfunctions.php', // Replace with the actual path to your PHP file
+//         data: data,
+//         dataType: 'json',
+//         success: function(response) {
+//             // Handle success
+//             if (response.success) {
+//                 Swal.fire('Success', 'Exercise added successfully', 'success');
+//             } else {
+//                 Swal.fire('Error', 'Failed to add exercise', 'error');
+//             }
+//         },
+//         error: function(error) {
+//             // Handle error
+//             console.error('Error:', error);
+//             Swal.fire('Error', 'Failed to communicate with the server', 'error');
+//         }
+//     });
+// }
 
-      
-        $.ajax({
-            type: 'POST',
-            url: 'addexercise.php',
-            data: data,
-            dataType: 'json',
-            success: function(response) {
-             
-                if (response.success) {
-                    Swal.fire('Success', 'Exercise added successfully', 'success');
-                } else {
-                    Swal.fire('Error', 'Failed to add exercise', 'error');
-                }
-            },
-            error: function(error) {
-               
-                console.error('Error:', error);
-                Swal.fire('Error', 'Failed to communicate with the server', 'error');
-            }
-        });
-    }
+
+
 </script>
   
 </head>

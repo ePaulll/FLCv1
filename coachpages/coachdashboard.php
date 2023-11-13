@@ -132,47 +132,57 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
      }
  
 
+    
+
+
+
 
      function addExerciseToList() {
-        // Get values from the form
-        var exerciseName = $('#exerciseName').val();
-        var exerciseDescription = $('#exerciseDescription').val();
-        var bodyPart = $('#bodyPartSelect').val();
+ 
+ var exerciseName = $('#exerciseName').val();
+ var exerciseDescription = $('#exerciseDescription').val();
+ var bodyPart = $('#bodyPartSelect').val();
 
-        // Validate the inputs
-        if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
-            Swal.fire('Error', 'Please fill in all the fields', 'error');
-            return;
-        }
+ 
+ if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
+     Swal.fire('Error', 'Please fill in all the fields', 'error');
+     return;
+ }
 
-        // Prepare the data to be sent
-        var data = {
-            exerciseName: exerciseName,
-            exerciseDescription: exerciseDescription,
-            bodyPart: bodyPart
-        };
 
-        // Use jQuery AJAX to send data to the server
-        $.ajax({
-            type: 'POST',
-            url: 'insertExercise.php',
-            data: data,
-            dataType: 'json',
-            success: function(response) {
-                // Handle success
-                if (response.success) {
-                    Swal.fire('Success', 'Exercise added successfully', 'success');
-                } else {
-                    Swal.fire('Error', 'Failed to add exercise', 'error');
-                }
-            },
-            error: function(error) {
-                // Handle error
-                console.error('Error:', error);
-                Swal.fire('Error', 'Failed to communicate with the server', 'error');
-            }
-        });
-    }
+ var data = {
+     exerciseName: exerciseName,
+     exerciseDescription: exerciseDescription,
+     bodyPart: bodyPart
+ };
+
+
+ $.ajax({
+     type: 'POST',
+     url: '../db/coachfunctions.php',
+     data: data,
+     dataType: 'json',
+     success: function(response) {
+         console.log(response);
+  
+         if (response && response.success) {
+             Swal.fire('Success', 'Exercise added successfully', 'success');
+             
+         } else {
+             Swal.fire('Error', 'Failed to add exercise', 'error');
+            
+         }
+     },
+     error: function(error) {
+        
+         console.error('Error:', error);
+         Swal.fire('Error', 'Failed to communicate with the server', 'error');
+        
+     }
+ });
+}
+
+
 </script>
 </head>
 

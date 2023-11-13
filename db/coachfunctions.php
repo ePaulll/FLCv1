@@ -4,10 +4,11 @@
 
 
 include_once 'dbconn.php';
+
 session_start();
 $coach_id = $_SESSION['coach_id'];
 $_SESSION['coach_id'] = $coach_id;  
-echo $coach_id;
+// echo $coach_id;
 
 //register ng coach
 if (isset($_POST['registercoach'])) {
@@ -216,5 +217,31 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
 }
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POST['exerciseDescription'], $_POST['bodyPart'])) {
+    ob_start();
+    $exerciseName = $_POST['exerciseName'];
+    $exerciseDescription = $_POST['exerciseDescription'];
+    $bodyPart = $_POST['bodyPart'];
+  
 
-?>
+    $insert_query = "INSERT INTO tbl_exercises (exercise_name, exercise_description, body_part_id) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($insert_query);
+
+        $stmt->bind_param("ssi", $exerciseName, $exerciseDescription, $bodyPart);
+
+        if ($stmt->execute()) {
+            $response = array('success' => true);
+        } else {
+            $response = array('success' => false, 'error' => 'Database insert error');
+        }
+
+    $stmt->close();
+    $conn->close();
+    header('Content-Type: application/json');
+    ob_end_clean();
+    echo json_encode($response);
+    exit;
+    
+}
+
+

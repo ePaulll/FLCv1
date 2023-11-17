@@ -14,7 +14,7 @@ include_once '../db/dbconn.php';
 $query = "SELECT e.exercise_id, e.exercise_name, e.exercise_description, b.body_part_name
           FROM tbl_exercises e
           JOIN tbl_bodyparts b ON e.body_part_id = b.body_part_id
-          WHERE e.archived = 0"; 
+          WHERE e.archived = 1"; 
 
 
 $result = mysqli_query($conn, $query);
@@ -82,9 +82,8 @@ function loadPage(url,elementId) {
     <body>
     <div class="content-container" id="content-container">
     <div class="container mt-5">
-    <h2>Exercise List</h2>
-    <a href="javascript:void(0);" class="btn btn-dark" onclick="loadPage('addexercise.php', 'content-container');"> Add exercise </a>
-    <a href="javascript:void(0);" class="btn btn-dark" onclick="loadPage('archivedexs.php', 'content-container');"> Archived exercises List </a>
+    <h2>Archived Exercise List</h2>
+    <a href="javascript:void(0);" class="btn btn-dark" onclick="loadPage('exercisecrud.php', 'content-container');">Back</a>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -104,8 +103,7 @@ function loadPage(url,elementId) {
                 echo '<td>
                     <div class="btn-group" role="group">
                     <input type="hidden" class="exercise-id" value="' . $row['exercise_id'] . '">
-                    <a href="#" onclick="loadPage(\'editexercise.php?exercise_id=' . $row['exercise_id'] . '\', \'content-container\');" class="btn btn-primary">Edit</a>
-                    <a href="#" class="btn btn-danger ms-2" onclick="archiveExercise(' . $row['exercise_id'] . ')">Archive</a>
+                    <a href="#" class="btn btn-danger ms-2" onclick="UnarchiveExercise(' . $row['exercise_id'] . ', \'unarchive\')">Unarchive</a>
                     </div>
                       </td>';
                 echo '</tr>';

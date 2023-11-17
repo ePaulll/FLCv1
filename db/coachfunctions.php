@@ -8,7 +8,7 @@ include_once 'dbconn.php';
 session_start();
 $coach_id = $_SESSION['coach_id'];
 $_SESSION['coach_id'] = $coach_id;  
-// echo $coach_id; naneto 4hrs debuggin dahil sau
+// echo $coach_id; naneto 4hrs debuggin dahil sau bat nasasama ka ma submit sa ajax
 
 //register ng coach
 if (isset($_POST['registercoach'])) {
@@ -216,7 +216,7 @@ function fetch_exercises_by_body_part($conn, $target_body_part_id) {
     return $routines;
 }
 
-
+// sa pag add ng exercise sa list 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POST['exerciseDescription'], $_POST['bodyPart'])) {
     ob_start();
     $exerciseName = $_POST['exerciseName'];
@@ -244,4 +244,143 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POS
     
 }
 
+//sa edit values ng exercise
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'], $_POST['exerciseName'], $_POST['exerciseDescription'])) {
+  
+    $exerciseId = (int)$_POST['exercise_id'];
+    $exerciseName = $_POST['exerciseName'];
+    $exerciseDescription = $_POST['exerciseDescription'];
 
+
+    $update_query = "UPDATE tbl_exercises SET exercise_name = ?, exercise_description = ? WHERE exercise_id = ?";
+    $stmt = $conn->prepare($update_query);
+
+        $stmt->bind_param('ssi', $exerciseName, $exerciseDescription, $exerciseId);
+
+        if ($stmt->execute()) {
+            $response = array('success' => true);
+            
+        } else {
+            $response = array('success' => false, 'error' => 'Failed to update exercise details');
+        }
+
+        $stmt->close();
+    
+
+    $conn->close();
+
+    header('Content-Type: application/json');
+
+    echo json_encode($response);
+    exit;
+}
+
+
+//sa archive
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'])) {
+
+    $exerciseId = (int)$_POST['exercise_id'];
+
+    
+    $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = 1 WHERE exercise_id = ?");
+    $stmt->bind_param("i", $exerciseId);
+
+    if ($stmt->execute()) {
+        $response = array('success' => true);
+    } else {
+        $response = array('success' => false, 'error' => 'Failed to archive exercise');
+    }
+
+
+    $stmt->close();
+    $conn->close();
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
+
+//unarchive
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_POST['archive_action'])) {
+//     $exerciseId = (int)$_POST['exercise_id'];
+//     $archiveAction = $_POST['archive_action'];
+
+    
+//     if ($archiveAction === 'unarchive') {
+//         $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = 0 WHERE exercise_id = ?");
+//         $stmt->bind_param("i", $exerciseId);
+
+
+//     if ($stmt->execute()) {
+//         $response = array('success' => true);
+//     } else {
+//         $response = array('success' => false, 'error' => 'Failed to Unarchive exercise');
+//     }
+
+
+//     $stmt->close();
+//     $conn->close();
+
+//     header('Content-Type: application/json');
+//     echo json_encode($response);
+//     exit;
+// }
+// }
+
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_POST['archive_action'])) {
+//     $exerciseId = (int)$_POST['exercise_id'];
+//     $archiveAction = $_POST['archive_action'];
+
+//     if ($archiveAction === 'unarchive') {
+//         $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = 0 WHERE exercise_id = ?");
+//         $stmt->bind_param("i", $exerciseId);
+
+//         if ($stmt->execute()) {
+//             $response = array('success' => true);
+//         } else {
+//             $response = array('success' => false, 'error' => 'Failed to unarchive exercise');
+//         }
+
+//         $stmt->close();
+//         $conn->close();
+
+//         header('Content-Type: application/json');
+//         echo json_encode($response);
+//         exit;
+//     }
+// }
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_POST['archive_action'])) {
+    $exerciseId = (int)$_POST['exercise_id'];
+    $archiveAction = $_POST['archive_action'];
+
+    // Prepare the SQL statement based on the archive action
+    if ($archiveAction === 'unarchive') {
+        $archiveValue = 0; 
+        // Update the archived column in the database
+        $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = ? WHERE exercise_id = ?");
+        $stmt->bind_param("ii", $archiveValue, $exerciseId);
+
+        if ($stmt->execute()) {
+            $response = array('success' => true);
+        } else {
+            $response = array('success' => false, 'error' => 'Failed to update archive status');
+        }
+
+        $stmt->close();
+        $conn->close();
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    } else {
+        // Handling for unexpected archive actions
+        $response = array('success' => false, 'error' => 'Invalid archive action');
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+}

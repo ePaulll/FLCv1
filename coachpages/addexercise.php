@@ -98,48 +98,6 @@ function loadPage(url,elementId) {
     xmlhttp.send();	   
 }
 
-// bago
-// function addExerciseToList() {
-//     // Get values from the form
-//     var exerciseName = document.getElementById('exerciseName').value;
-//     var exerciseDescription = document.getElementById('exerciseDescription').value;
-//     var bodyPart = document.getElementById('bodyPartSelect').value;
-
-//     // Validate the inputs
-//     if (!exerciseName || !exerciseDescription || bodyPart === 'Select Body Part') {
-//         Swal.fire('Error', 'Please fill in all the fields', 'error');
-//         return;
-//     }
-
-//     // Prepare the data to be sent
-//     var data = {
-//         exerciseName: exerciseName,
-//         exerciseDescription: exerciseDescription,
-//         bodyPart: bodyPart
-//     };
-
-//     // Use AJAX to send data to the server
-//     $.ajax({
-//         type: 'POST',
-//         url: '../db/coachfunctions.php', // Replace with the actual path to your PHP file
-//         data: data,
-//         dataType: 'json',
-//         success: function(response) {
-//             // Handle success
-//             if (response.success) {
-//                 Swal.fire('Success', 'Exercise added successfully', 'success');
-//             } else {
-//                 Swal.fire('Error', 'Failed to add exercise', 'error');
-//             }
-//         },
-//         error: function(error) {
-//             // Handle error
-//             console.error('Error:', error);
-//             Swal.fire('Error', 'Failed to communicate with the server', 'error');
-//         }
-//     });
-// }
-
 
 
 </script>
@@ -174,8 +132,6 @@ function loadPage(url,elementId) {
     </select>
 
     <button type="submit" class="btn btn-success" onclick="addExerciseToList()">Add</button>
-
-
 
     </body>
 

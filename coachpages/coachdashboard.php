@@ -130,11 +130,6 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
                 
            
      }
- 
-
-    
-
-
 
 
      function addExerciseToList() {
@@ -163,25 +158,166 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
      data: data,
      dataType: 'json',
      success: function(response) {
-         console.log(response);
-  
-         if (response && response.success) {
-             Swal.fire('Success', 'Exercise added successfully', 'success');
-             
+             if (response && response.success) {
+                 Swal.fire({
+                     icon: 'success',
+                     title: 'Exercise added to list successfully',
+                     showConfirmButton: true,
+                     timer: 2000
+                 }).then(function() {
+                    loadPage('exercisecrud.php', 'content-container');
+                 });
          } else {
              Swal.fire('Error', 'Failed to add exercise', 'error');
             
          }
      },
-     error: function(error) {
-        
-         console.error('Error:', error);
+     error: function(jqXHR, textStatus, errorThrown) {
+         console.error('HTTP status:', jqXHR.status);
+         console.error('textStatus:', textStatus);
+         console.error('errorThrown:', errorThrown);
+         console.error('Response:', jqXHR.responseText);
          Swal.fire('Error', 'Failed to communicate with the server', 'error');
-        
      }
  });
 }
 
+
+
+function saveExEdit() {
+
+var exerciseId = parseInt($('#exercise_id').val());
+var exerciseName = $('#exerciseName').val();
+var exerciseDescription = $('#exerciseDescription').val();
+
+if (exerciseName.trim() === '' || exerciseDescription.trim() === '') {
+    alert('Please fill in all fields.');
+    return; // Prevent further execution of the function
+}
+
+console.log('Exercise ID:', exerciseId);
+console.log('Exercise Name:', exerciseName);
+console.log('Exercise Description:', exerciseDescription);
+
+$.ajax({
+    type: 'POST',
+    url: '../db/coachfunctions.php',
+    data: {
+        exercise_id: exerciseId,
+        exerciseName: exerciseName,
+        exerciseDescription: exerciseDescription
+    },
+    success: function(response) {
+        console.log(response);
+        if (response.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Exercise details updated successfully',
+                showConfirmButton: true,
+                timer: 2000
+            }).then(function() {
+               loadPage('exercisecrud.php', 'content-container');
+            });
+        } else {
+            Swal.fire('Error', 'Failed to update exercise details', 'error');
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.error('HTTP status:', jqXHR.status);
+        console.error('textStatus:', textStatus);
+        console.error('errorThrown:', errorThrown);
+        console.error('Response:', jqXHR.responseText);
+        Swal.fire('Error', 'Failed to communicate with the server', 'error');
+    }
+});
+}
+
+
+
+// function UnarchiveExercise(exerciseId, action) {
+//     $.ajax({
+//         type: 'POST',
+//         url: '../db/coachfunctions.php',
+//         data: {
+//             exercise_id: exerciseId,
+//             archive_action: action
+//         },
+//         dataType: 'json',
+//         success: function(response) {
+//             console.log(response);
+//             console.log(exerciseId + action);
+//             if (response.success) {
+//                 Swal.fire({
+//                     icon: 'success',
+//                     title: 'Exercise unarchived successfully',
+//                     showConfirmButton: true,
+//                     timer: 5000
+//                 }).then(function() {
+//                     loadPage('exercisecrud.php', 'content-container');
+//                 });
+//             } else {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Failed to unarchive exercise',
+//                     text: 'Please try again'
+//                 });
+//             }
+//         },
+//         error: function(jqXHR, textStatus, errorThrown) {
+//             console.error('HTTP status:', jqXHR.status);
+//             console.error('textStatus:', textStatus);
+//             console.error('errorThrown:', errorThrown);
+//             console.error('Response:', jqXHR.responseText);
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'Failed to communicate with the server',
+//                 text: 'Please try again'
+//             });
+//         }
+//     });
+// }
+
+
+function UnarchiveExercise(exerciseId) {
+
+$.ajax({
+    type: 'POST',
+    url: '../db/unarchive.php',
+    data: {
+        exercise_id: exerciseId
+    },
+    dataType: 'json',
+    success: function(response) {
+        if (response.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Exercise unarchived successfully',
+                showConfirmButton: true,
+                timer: 1500
+            }).then(function() {
+               loadPage('exercisecrud.php', 'content-container');
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to archive exercise',
+                text: 'Please try again'
+            });
+        }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.error('HTTP status:', jqXHR.status);
+        console.error('textStatus:', textStatus);
+        console.error('errorThrown:', errorThrown);
+        console.error('Response:', jqXHR.responseText);
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed to communicate with the server',
+            text: 'Please try again'
+        });
+    }
+});
+}
 
 </script>
 </head>

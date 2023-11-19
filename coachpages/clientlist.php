@@ -200,9 +200,9 @@ function add_routine(user_id) {
          echo '<li class="list-group-item">Height(cm): ' . $user_height . '</li>';
          echo '</ul>';
         //  echo '<input type="text" class="user-id" value="' . $user_id . '">';
-         echo '<a href="javascript:void(0);" class="btn btn-primary view-routines-btn ms-2" onclick="loadPage(\'viewroutines.php?user_id='.$user_id.'\',\'content-container\');">View routines</a>';
+         echo '<a href="javascript:void(0);" class="btn btn-primary view-routines-btn ms-2" onclick="loadPage(\'viewroutines.php?user_id='.$user_id.'\',\'main-content\');">View routines</a>';
          echo '<a href="javascript:void(0);" class="btn btn-primary manage-user-btn ms-2" onclick="loadPage(\'addroutine_v2.php?user_id='.$user_id.'\',\'content-container\');">Create Routine</a>';
-
+ 
         
          echo '</div>';
          echo '</div>';

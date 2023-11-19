@@ -371,6 +371,89 @@ function UnarchiveExercise(exerciseId) {
     });
 }
 
+// function savechange(routine_id,exercise_id){
+//     var ex_sets = object('ex_sets'+exercise_id).value
+//     var ex_reps = object('ex_reps'+exercise_id).value;
+//     var ex_reps = object('ex_weights'+exercise_id).value;
+
+// if (ex_sets != 0) {
+//         Swal.fire({
+//             title: "User",
+//             text: "Do you want to save changes?",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonText: "Yes",
+//             cancelButtonText: "No",
+//             dangerMode: true,
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 console.log('success');
+//                 loadPage('editroutine.php?routine_id='+routine_id+
+//                     '&ex_sets='+ex_sets+
+//                     '&ex_reps='+ex_reps+
+//                     '&ex_weights='+ex_weights
+//                     +'&xxx='+exercise_id,'right-con');
+//             }
+//         });
+//     } else {
+//         Swal.fire('Error on Routine', 'Please Input Routine', 'error');
+//     }
+
+// }
+
+
+// sa edit ng routine
+function saveChange(routineId, exerciseId) {
+
+
+    var sets = $('#ex_sets' + exerciseId).val();
+    var reps = $('#ex_reps' + exerciseId).val();
+    var weights = $('#ex_weights' + exerciseId).val();
+    $.ajax({
+        
+        type: 'POST',
+        url: '../db/coachfunctions.php',
+        data: {
+            routine_id: routineId,
+            exercise_id: exerciseId,
+            ex_sets: sets,
+            ex_reps: reps,
+            ex_weights: weights
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log(routineId + exerciseId + sets + reps + weights);
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Changes saved successfully',
+                    showConfirmButton: true,
+                    timer: 10000
+                }).then(function() {
+                   loadPage('viewroutines.php', 'content-container');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed to save changes',
+                    text: 'Please try again'
+                });
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('HTTP status:', jqXHR.status);
+            console.error('textStatus:', textStatus);
+            console.error('errorThrown:', errorThrown);
+            console.error('Response:', jqXHR.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to communicate with the server',
+                text: 'Please try again'
+            });
+        }
+    });
+
+}
 
 
 // function UnarchiveExercise(exerciseId, action) {
@@ -415,3 +498,10 @@ function UnarchiveExercise(exerciseId) {
 //         }
 //     });
 // }
+
+function editroutine(user_id, routine_name, routine_id) {
+    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'right-con');
+    console.log("RID :" + routine_id); // Just for logging, remove it if not needed
+    console.log("UID :" + user_id);
+    console.log("RN :" + routine_name);
+}

@@ -244,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exerciseName'], $_POS
     
 }
 
-//sa edit values ng exercise
+//sa edit values/info ng exercise WORKING
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'], $_POST['exerciseName'], $_POST['exerciseDescription'])) {
   
     $exerciseId = (int)$_POST['exercise_id'];
@@ -276,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'], $_POST
 }
 
 
-//sa archive
+//sa archive WORKING
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'])) {
 
     $exerciseId = (int)$_POST['exercise_id'];
@@ -301,46 +301,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'])) {
 }
 
 
-//unarchive
-// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_POST['archive_action'])) {
-//     $exerciseId = (int)$_POST['exercise_id'];
-//     $archiveAction = $_POST['archive_action'];
-
-    
-//     if ($archiveAction === 'unarchive') {
-//         $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = 0 WHERE exercise_id = ?");
-//         $stmt->bind_param("i", $exerciseId);
-
-
-//     if ($stmt->execute()) {
-//         $response = array('success' => true);
-//     } else {
-//         $response = array('success' => false, 'error' => 'Failed to Unarchive exercise');
-//     }
-
-
-//     $stmt->close();
-//     $conn->close();
-
-//     header('Content-Type: application/json');
-//     echo json_encode($response);
-//     exit;
-// }
-// }
-
 
 // if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_POST['archive_action'])) {
 //     $exerciseId = (int)$_POST['exercise_id'];
 //     $archiveAction = $_POST['archive_action'];
 
+//     // Prepare the SQL statement based on the archive action
 //     if ($archiveAction === 'unarchive') {
-//         $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = 0 WHERE exercise_id = ?");
-//         $stmt->bind_param("i", $exerciseId);
+//         $archiveValue = 0; 
+//         // Update the archived column in the database
+//         $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = ? WHERE exercise_id = ?");
+//         $stmt->bind_param("ii", $archiveValue, $exerciseId);
 
 //         if ($stmt->execute()) {
 //             $response = array('success' => true);
 //         } else {
-//             $response = array('success' => false, 'error' => 'Failed to unarchive exercise');
+//             $response = array('success' => false, 'error' => 'Failed to update archive status');
 //         }
 
 //         $stmt->close();
@@ -349,38 +325,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id'])) {
 //         header('Content-Type: application/json');
 //         echo json_encode($response);
 //         exit;
+//     } else {
+//         // Handling for unexpected archive actions
+//         $response = array('success' => false, 'error' => 'Invalid archive action');
+//         header('Content-Type: application/json');
+//         echo json_encode($response);
+//         exit;
 //     }
 // }
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['exercise_id']) && isset($_POST['archive_action'])) {
+
+//not sure if gumagana
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['routine_id']) && isset($_POST['exercise_id'])) {
+    // Get the values sent via GET
+    $routineId = (int)$_POST['routine_id'];
     $exerciseId = (int)$_POST['exercise_id'];
-    $archiveAction = $_POST['archive_action'];
+    $exerciseSets = (int)$_POST['ex_sets'];
+    $exerciseReps = (int)$_POST['ex_reps'];
+    $exerciseWeights = (int)$_POST['ex_weights'];
 
-    // Prepare the SQL statement based on the archive action
-    if ($archiveAction === 'unarchive') {
-        $archiveValue = 0; 
-        // Update the archived column in the database
-        $stmt = $conn->prepare("UPDATE tbl_exercises SET archived = ? WHERE exercise_id = ?");
-        $stmt->bind_param("ii", $archiveValue, $exerciseId);
+    // Prepare and execute the SQL query to update the database
+    $stmt = $conn->prepare("UPDATE tbl_routine_exercises SET exercise_sets = ?, exercise_reps = ?, exercise_weight = ? WHERE routine_id = ? AND exercise_id = ?");
+    $stmt->bind_param("iiiii", $exerciseSets, $exerciseReps, $exerciseWeights, $routineId, $exerciseId);
 
-        if ($stmt->execute()) {
-            $response = array('success' => true);
-        } else {
-            $response = array('success' => false, 'error' => 'Failed to update archive status');
-        }
-
-        $stmt->close();
-        $conn->close();
-
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
+    if ($stmt->execute()) {
+        $response = array('success' => true);
     } else {
-        // Handling for unexpected archive actions
-        $response = array('success' => false, 'error' => 'Invalid archive action');
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
+        $response = array('success' => false, 'error' => 'Failed to update database');
     }
+
+    $stmt->close();
+    $conn->close();
+
+    // Send JSON response back to the AJAX call
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
 }
+

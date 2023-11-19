@@ -41,11 +41,26 @@ $coachId = $_SESSION['coach_id'];
 
     <script>
 
-function editroutine(user_id,routine) {
-        //var routine = document.getElementById('routine').value;
-loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con');
-}
+// function editroutine(user_id,routine,routine_id) {
+//         //var routine = document.getElementById('routine').value;
+// loadPage('editroutine.php?user_id='+user_id+'&routine_name=','main-content');
+// console.log(routine + routineId);
+// }
 
+
+//gumagana pero pag pinindot yung button walng nag lo load
+// function editroutine(user_id, routine, routine_id) {
+//     loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine + '&routine_id=' + routine_id, 'right-con');
+//     console.log(routine_id); // Just for logging, remove it if not needed
+    
+//     }
+
+function editroutine(user_id, routine_name, routine_id) {
+    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'right-con');
+    console.log("RID :" + routine_id); // Just for logging, remove it if not needed
+    console.log("UID :" + user_id);
+    console.log("RN :" + routine_name);
+}
     </script>
 
 
@@ -56,7 +71,7 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
 <main>
 
     <body>
-    
+    <div class="container">
     <a href="javascript:void(0);" class="btn btn-primary" onclick="loadPage('clientlist.php', 'main-content')"> <i class="bi bi-arrow-left-square"></i> Back</a>
 <div class="row">
     <div class="col-4">
@@ -69,7 +84,15 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
         exit; // Exit if user ID is missing
     }
     
+    // if (isset($_GET['routine_id'])) {
+    //     $routineId = $_GET['routine_id'];
+    // } else {
+    //     echo 'Routine id not provided.';
+    //     exit; 
+    // }
     
+
+
     $sql = "SELECT routine_id, routine_name FROM tbl_routines 
             WHERE coach_id = $coachId AND user_id = $userId";
     
@@ -79,7 +102,7 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
         die('Query failed: ' . mysqli_error($db_connection));
     }
     
-    // 5. Display the routine names.
+    
     echo '<h2>Routines</h2>';
     echo '<ul class="list-group">';
     
@@ -87,13 +110,13 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
         $routineId = $row['routine_id'];
         $routineName = $row['routine_name'];
     
-        // Display routine names here
+  
         echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
         echo $routineName;
         
-        // Add a button here
-        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editroutine('. $routineId .',\''.$routineName.'\')">Edit routine</a>';
-        
+       
+        // echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editroutine('. $routineId .',\''.$routineName.'\')" >Edit routine</a>';
+        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editroutine(' . $userId . ', \'' . $routineName . '\', ' . $routineId . ')" >Edit routine</a>';
         echo '</li>';
     }
     
@@ -112,6 +135,7 @@ loadPage('editroutine.php?user_id='+user_id+'&routine_name='+routine,'right-con'
             <!-- Content will be loaded here -->
         </div>
     </div>
+</div>
 </div>
     </body>
 

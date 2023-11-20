@@ -76,8 +76,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.27/dist/sweetalert2.min.css
     </div>
   </div>
   </body>
-</main>
 
+</main>
 
 <script>
       // Function to show SweetAlert2 alert

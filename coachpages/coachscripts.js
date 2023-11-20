@@ -499,9 +499,9 @@ function saveChange(routineId, exerciseId) {
 //     });
 // }
 
-function editroutine(user_id, routine_name, routine_id) {
-    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'right-con');
-    console.log("RID :" + routine_id); // Just for logging, remove it if not needed
-    console.log("UID :" + user_id);
-    console.log("RN :" + routine_name);
-}
+// function editroutine(user_id, routine_name, routine_id) {
+//     loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'main-content');
+//     console.log("RID :" + routine_id); // Just for logging, remove it if not needed
+//     console.log("UID :" + user_id);
+//     console.log("RN :" + routine_name);
+// }

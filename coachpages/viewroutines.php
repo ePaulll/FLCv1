@@ -56,7 +56,7 @@ $coachId = $_SESSION['coach_id'];
 //     }
 
 function editroutine(user_id, routine_name, routine_id) {
-    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'right-con');
+    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'main-content');
     console.log("RID :" + routine_id); // Just for logging, remove it if not needed
     console.log("UID :" + user_id);
     console.log("RN :" + routine_name);
@@ -73,7 +73,7 @@ function editroutine(user_id, routine_name, routine_id) {
     <body>
     <div class="container">
     <a href="javascript:void(0);" class="btn btn-primary" onclick="loadPage('clientlist.php', 'main-content')"> <i class="bi bi-arrow-left-square"></i> Back</a>
-<div class="row">
+<div id="c" class="row">
     <div class="col-4">
 <ul class="list-group">
     <?php
@@ -94,7 +94,7 @@ function editroutine(user_id, routine_name, routine_id) {
 
 
     $sql = "SELECT routine_id, routine_name FROM tbl_routines 
-            WHERE coach_id = $coachId AND user_id = $userId";
+            WHERE is_archive=0 AND coach_id = $coachId AND user_id = $userId";
     
     $result = mysqli_query($db_connection, $sql);
     
@@ -110,13 +110,17 @@ function editroutine(user_id, routine_name, routine_id) {
         $routineId = $row['routine_id'];
         $routineName = $row['routine_name'];
     
+
+		
   
         echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
         echo $routineName;
+		echo'<span id="show_archive'.$routineId.'"><button class="btn btn-sm btn-secondary"
+		onclick="archive_routine('.$routineId.')">Archive</button></span>';
         
        
         // echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editroutine('. $routineId .',\''.$routineName.'\')" >Edit routine</a>';
-        echo '<a href="javascript:void(0)" class="btn btn-primary" onclick="editroutine(' . $userId . ', \'' . $routineName . '\', ' . $routineId . ')" >Edit routine</a>';
+        echo '<a href="javascript:void(0)" id="get'.$routineId.'" class="btn btn-primary" onclick="loadPage(\'editroutine.php?routineId='.$routineId.'\',\'right-con\')">Edit routine</a>';
         echo '</li>';
     }
     

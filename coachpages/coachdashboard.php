@@ -187,7 +187,7 @@ $.ajax({
 // }
 
 function editroutine(user_id, routine_name, routine_id) {
-    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'right-con');
+    loadPage('editroutine.php?user_id=' + user_id + '&routine_name=' + routine_name + '&routine_id=' + routine_id, 'main-content');
     console.log("RID :" + routine_id); // Just for logging, remove it if not needed
     console.log("UID :" + user_id);
     console.log("RN :" + routine_name);
@@ -380,6 +380,77 @@ $.ajax({
 });
 }
 
+
+
+function edit_routine(idnum) {
+	var exercise_sets = document.getElementById('exercise_sets'+idnum).value;
+		Swal.fire({
+			title: "Approve Student",
+			text: "Are you sure to Approve this Student?",
+			icon: "info",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, approve it!",
+			cancelButtonText: "Cancel"
+		}).then((result) => {
+			if (result.value) {
+				Swal.fire(
+					"Approve Student",
+					"Successfully Approved!",
+					"success"
+				);
+				loadPage('editroutine.php?idnum='+idnum+'&exercise_sets='+exercise_sets,'right-con');
+			}
+		});
+}
+
+//del_routine
+function del_routine(idnum) {
+		Swal.fire({
+			title: "Approve Student",
+			text: "Are you sure to Approve this Student?",
+			icon: "info",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, approve it!",
+			cancelButtonText: "Cancel"
+		}).then((result) => {
+			if (result.value) {
+				Swal.fire(
+					"Approve Student",
+					"Successfully Approved!",
+					"success"
+				);
+				loadPage('editroutine.php?delete_me='+idnum,'right-con');
+			}
+		});
+}
+
+//archive_routine
+function archive_routine(routine_id) {
+		Swal.fire({
+			title: "Archive Routine",
+			text: "Do you want to archive this routine?",
+			icon: "info",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, approve it!",
+			cancelButtonText: "Cancel"
+		}).then((result) => {
+			if (result.value) {
+				Swal.fire(
+					"Archive Routine",
+					"Successfully Archived!",
+					"success"
+				);
+				loadPage('get_routine.php?archive_id='+routine_id+'&routine_id='+routine_id,'show_archive'+routine_id);
+				document.getElementById('get'+routine_id).style.display = 'none';
+			}
+		});
+}
 </script>
 </head>
 
